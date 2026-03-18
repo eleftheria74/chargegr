@@ -1,0 +1,23 @@
+Τρία bugs που πρέπει να φτιαχτούν μαζί:
+
+1. MOBILE TOP BAR: Η top bar κόβεται στο mobile - δεν φαίνονται τα κουμπιά Όχημα και Γλώσσα. Φτιάξε:
+- Σε οθόνη <640px: Πρώτη γραμμή μόνο Filter icon + Search bar
+- Τα κουμπιά Όχημα και Γλώσσα (EL/EN) μπαίνουν ΜΕΣΑ στο Filter panel στο mobile
+- Σε desktop (>=640px) μένουν στο top bar κανονικά
+- Δοκίμασε σε 360px πλάτος (Galaxy S8)
+
+2. MOBILE RESPONSIVE: Η εφαρμογή δεν είναι πλήρως responsive:
+- Bottom sheet: 100% πλάτος στο mobile, padding 16px αντί 24px
+- Κουμπιά Πλοήγηση/Share/Link σε μία γραμμή χωρίς overflow
+- Connector cards (CCS2 DC, Type 2 AC) max-w-full, χωράνε στο mobile
+- Badges (Διαθέσιμος, 24ωρο, kW) κάνουν wrap σε νέα γραμμή αν δεν χωράνε
+- Font sizes mobile: τίτλος 18px, υπότιτλος 14px, badges 12px
+
+3. FIREFOX FONTS: Τα κείμενα στα connector χαρακτηριστικά δεν διαβάζονται σε Firefox:
+- System font stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif
+- Font-weight: 400 κανονικό, 600 bold (ΟΧΙ 500 που σε Firefox φαίνεται αχνό)
+- Connector labels (CCS2 DC, Type 2 AC, kW) με color text-gray-700 dark:text-gray-200
+- Μην χρησιμοποιείς text-opacity ή rgba colors για σημαντικό κείμενο
+- Test σε Firefox ότι τα kW, connector type και x2 διαβάζονται καθαρά
+
+Μετά τρέξε npm run build για επαλήθευση.

@@ -1,0 +1,70 @@
+{
+  "app": {
+    "name": "ChargeGR",
+    "tagline": "Find an EV charging station"
+  },
+  "map": {
+    "findMe": "My location",
+    "loading": "Loading map..."
+  },
+  "filters": {
+    "title": "Filters",
+    "connector": "Connector type",
+    "power": "Power",
+    "network": "Network",
+    "options": "Options",
+    "onlyAvailable": "Only available",
+    "freeOnly": "Only free",
+    "24hOnly": "Only 24h",
+    "compatibleOnly": "Only compatible",
+    "clear": "Clear",
+    "stations": "stations",
+    "close": "Close",
+    "powerSlow": "Slow (<7 kW)",
+    "powerFast": "Normal (7-22 kW)",
+    "powerRapid": "Fast (23-99 kW)",
+    "powerUltra": "Ultra (100+ kW)"
+  },
+  "station": {
+    "available": "Available",
+    "unavailable": "Out of service",
+    "free": "FREE",
+    "24h": "24h",
+    "kwMax": "kW max",
+    "noAddress": "No address",
+    "compatible": "Compatible with",
+    "incompatible": "Not compatible with",
+    "chargingTime": "Estimated time",
+    "minutes": "minutes",
+    "connectors": "Connectors",
+    "navigate": "Navigate",
+    "share": "Share",
+    "shareText": "EV charging station:"
+  },
+  "vehicle": {
+    "select": "Vehicle",
+    "search": "Search model...",
+    "notFound": "No model found",
+    "remove": "Remove vehicle",
+    "battery": "Battery",
+    "range": "Range"
+  },
+  "search": {
+    "placeholder": "Search location..."
+  },
+  "common": {
+    "close": "Close",
+    "loading": "Loading...",
+    "error": "Network error",
+    "noStations": "No stations found",
+    "retry": "Try again"
+  },
+  "legend": {
+    "title": "Legend",
+    "slow": "Slow (<7 kW)",
+    "fast": "Normal (7-22 kW)",
+    "rapid": "Fast (23-99 kW)",
+    "ultra": "Ultra (100+ kW)",
+    "offline": "Out of service"
+  }
+}

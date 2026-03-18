@@ -1,0 +1,1344 @@
+[
+  {
+    "id": "audi-q4-etron",
+    "make": "Audi",
+    "model": "Q4 e-tron 45",
+    "year": 2024,
+    "batteryKwh": 77,
+    "maxAcKw": 11,
+    "maxDcKw": 135,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 520
+  },
+  {
+    "id": "audi-q6-etron",
+    "make": "Audi",
+    "model": "Q6 e-tron",
+    "year": 2024,
+    "batteryKwh": 100,
+    "maxAcKw": 11,
+    "maxDcKw": 270,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 625
+  },
+  {
+    "id": "audi-q8-etron",
+    "make": "Audi",
+    "model": "Q8 e-tron 55",
+    "year": 2024,
+    "batteryKwh": 114,
+    "maxAcKw": 22,
+    "maxDcKw": 170,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 582
+  },
+  {
+    "id": "audi-etron-gt",
+    "make": "Audi",
+    "model": "e-tron GT",
+    "year": 2024,
+    "batteryKwh": 93.4,
+    "maxAcKw": 11,
+    "maxDcKw": 270,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 488
+  },
+
+  {
+    "id": "bmw-ix1",
+    "make": "BMW",
+    "model": "iX1 xDrive30",
+    "year": 2024,
+    "batteryKwh": 64.7,
+    "maxAcKw": 11,
+    "maxDcKw": 130,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 440
+  },
+  {
+    "id": "bmw-ix3",
+    "make": "BMW",
+    "model": "iX3",
+    "year": 2023,
+    "batteryKwh": 80,
+    "maxAcKw": 11,
+    "maxDcKw": 150,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 461
+  },
+  {
+    "id": "bmw-ix-xdrive50",
+    "make": "BMW",
+    "model": "iX xDrive50",
+    "year": 2024,
+    "batteryKwh": 111.5,
+    "maxAcKw": 11,
+    "maxDcKw": 195,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 630
+  },
+  {
+    "id": "bmw-i4-edrive40",
+    "make": "BMW",
+    "model": "i4 eDrive40",
+    "year": 2024,
+    "batteryKwh": 83.9,
+    "maxAcKw": 11,
+    "maxDcKw": 205,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 590
+  },
+  {
+    "id": "bmw-i5-edrive40",
+    "make": "BMW",
+    "model": "i5 eDrive40",
+    "year": 2024,
+    "batteryKwh": 83.9,
+    "maxAcKw": 11,
+    "maxDcKw": 205,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 582
+  },
+  {
+    "id": "bmw-i7-edrive50",
+    "make": "BMW",
+    "model": "i7 eDrive50",
+    "year": 2024,
+    "batteryKwh": 105.7,
+    "maxAcKw": 11,
+    "maxDcKw": 195,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 625
+  },
+  {
+    "id": "bmw-inext",
+    "make": "BMW",
+    "model": "iX2 xDrive30",
+    "year": 2024,
+    "batteryKwh": 64.7,
+    "maxAcKw": 11,
+    "maxDcKw": 130,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 417
+  },
+
+  {
+    "id": "byd-atto2",
+    "make": "BYD",
+    "model": "Atto 2",
+    "year": 2025,
+    "batteryKwh": 45.1,
+    "maxAcKw": 7,
+    "maxDcKw": 75,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 312
+  },
+  {
+    "id": "byd-atto3",
+    "make": "BYD",
+    "model": "ATTO 3",
+    "year": 2024,
+    "batteryKwh": 60.48,
+    "maxAcKw": 7,
+    "maxDcKw": 88,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 420
+  },
+  {
+    "id": "byd-dolphin",
+    "make": "BYD",
+    "model": "Dolphin 60.4 kWh",
+    "year": 2024,
+    "batteryKwh": 60.4,
+    "maxAcKw": 11,
+    "maxDcKw": 88,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 427
+  },
+  {
+    "id": "byd-seal",
+    "make": "BYD",
+    "model": "Seal",
+    "year": 2024,
+    "batteryKwh": 82.5,
+    "maxAcKw": 11,
+    "maxDcKw": 150,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 570
+  },
+  {
+    "id": "byd-seal-u",
+    "make": "BYD",
+    "model": "Seal U",
+    "year": 2024,
+    "batteryKwh": 71.8,
+    "maxAcKw": 11,
+    "maxDcKw": 115,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 500
+  },
+  {
+    "id": "byd-tang",
+    "make": "BYD",
+    "model": "Tang EV",
+    "year": 2024,
+    "batteryKwh": 108.8,
+    "maxAcKw": 11,
+    "maxDcKw": 120,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 530
+  },
+  {
+    "id": "byd-han",
+    "make": "BYD",
+    "model": "Han",
+    "year": 2024,
+    "batteryKwh": 85.4,
+    "maxAcKw": 11,
+    "maxDcKw": 120,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 521
+  },
+
+  {
+    "id": "citroen-ec3",
+    "make": "Citroen",
+    "model": "e-C3",
+    "year": 2025,
+    "batteryKwh": 44,
+    "maxAcKw": 7,
+    "maxDcKw": 100,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 320
+  },
+  {
+    "id": "citroen-ec4",
+    "make": "Citroen",
+    "model": "e-C4",
+    "year": 2024,
+    "batteryKwh": 50,
+    "maxAcKw": 11,
+    "maxDcKw": 100,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 354
+  },
+  {
+    "id": "citroen-ec4x",
+    "make": "Citroen",
+    "model": "e-C4 X",
+    "year": 2024,
+    "batteryKwh": 50,
+    "maxAcKw": 11,
+    "maxDcKw": 100,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 360
+  },
+  {
+    "id": "citroen-eberlingo",
+    "make": "Citroen",
+    "model": "e-Berlingo",
+    "year": 2024,
+    "batteryKwh": 50,
+    "maxAcKw": 11,
+    "maxDcKw": 100,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 285
+  },
+
+  {
+    "id": "cupra-born-58",
+    "make": "Cupra",
+    "model": "Born 58 kWh",
+    "year": 2024,
+    "batteryKwh": 58,
+    "maxAcKw": 11,
+    "maxDcKw": 120,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 424
+  },
+  {
+    "id": "cupra-tavascan",
+    "make": "Cupra",
+    "model": "Tavascan",
+    "year": 2024,
+    "batteryKwh": 77,
+    "maxAcKw": 11,
+    "maxDcKw": 135,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 568
+  },
+  {
+    "id": "cupra-raval",
+    "make": "Cupra",
+    "model": "Raval",
+    "year": 2026,
+    "batteryKwh": 52,
+    "maxAcKw": 11,
+    "maxDcKw": 135,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 440
+  },
+
+  {
+    "id": "dacia-spring",
+    "make": "Dacia",
+    "model": "Spring Electric",
+    "year": 2024,
+    "batteryKwh": 26.8,
+    "maxAcKw": 7,
+    "maxDcKw": 30,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 225
+  },
+
+  {
+    "id": "fiat-500e",
+    "make": "Fiat",
+    "model": "500e 42 kWh",
+    "year": 2024,
+    "batteryKwh": 42,
+    "maxAcKw": 11,
+    "maxDcKw": 85,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 321
+  },
+  {
+    "id": "fiat-600e",
+    "make": "Fiat",
+    "model": "600e",
+    "year": 2024,
+    "batteryKwh": 54,
+    "maxAcKw": 11,
+    "maxDcKw": 100,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 409
+  },
+  {
+    "id": "fiat-grande-panda-ev",
+    "make": "Fiat",
+    "model": "Grande Panda EV",
+    "year": 2025,
+    "batteryKwh": 44,
+    "maxAcKw": 7,
+    "maxDcKw": 100,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 320
+  },
+
+  {
+    "id": "ford-mustang-mache-sr",
+    "make": "Ford",
+    "model": "Mustang Mach-E SR",
+    "year": 2024,
+    "batteryKwh": 75.7,
+    "maxAcKw": 11,
+    "maxDcKw": 115,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 440
+  },
+  {
+    "id": "ford-mustang-mache-er",
+    "make": "Ford",
+    "model": "Mustang Mach-E ER",
+    "year": 2024,
+    "batteryKwh": 98.7,
+    "maxAcKw": 11,
+    "maxDcKw": 150,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 610
+  },
+  {
+    "id": "ford-explorer-ev",
+    "make": "Ford",
+    "model": "Explorer EV",
+    "year": 2024,
+    "batteryKwh": 77,
+    "maxAcKw": 11,
+    "maxDcKw": 135,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 602
+  },
+
+  {
+    "id": "honda-eny1",
+    "make": "Honda",
+    "model": "e:Ny1",
+    "year": 2024,
+    "batteryKwh": 68.8,
+    "maxAcKw": 11,
+    "maxDcKw": 78,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 412
+  },
+
+  {
+    "id": "hyundai-inster",
+    "make": "Hyundai",
+    "model": "Inster Long Range",
+    "year": 2025,
+    "batteryKwh": 49,
+    "maxAcKw": 11,
+    "maxDcKw": 85,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 370
+  },
+  {
+    "id": "hyundai-kona-ev",
+    "make": "Hyundai",
+    "model": "Kona Electric 65 kWh",
+    "year": 2024,
+    "batteryKwh": 65.4,
+    "maxAcKw": 11,
+    "maxDcKw": 100,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 454
+  },
+  {
+    "id": "hyundai-ioniq5-lr",
+    "make": "Hyundai",
+    "model": "IONIQ 5 Long Range",
+    "year": 2024,
+    "batteryKwh": 77.4,
+    "maxAcKw": 11,
+    "maxDcKw": 233,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 507
+  },
+  {
+    "id": "hyundai-ioniq5-n",
+    "make": "Hyundai",
+    "model": "IONIQ 5 N",
+    "year": 2024,
+    "batteryKwh": 84,
+    "maxAcKw": 11,
+    "maxDcKw": 350,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 448
+  },
+  {
+    "id": "hyundai-ioniq6-lr",
+    "make": "Hyundai",
+    "model": "IONIQ 6 Long Range",
+    "year": 2024,
+    "batteryKwh": 77.4,
+    "maxAcKw": 11,
+    "maxDcKw": 233,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 614
+  },
+
+  {
+    "id": "jaguar-ipace",
+    "make": "Jaguar",
+    "model": "I-PACE EV400",
+    "year": 2024,
+    "batteryKwh": 90,
+    "maxAcKw": 11,
+    "maxDcKw": 104,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 470
+  },
+
+  {
+    "id": "jeep-avenger-ev",
+    "make": "Jeep",
+    "model": "Avenger EV",
+    "year": 2024,
+    "batteryKwh": 54,
+    "maxAcKw": 11,
+    "maxDcKw": 100,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 404
+  },
+
+  {
+    "id": "kia-niro-ev",
+    "make": "Kia",
+    "model": "Niro EV",
+    "year": 2024,
+    "batteryKwh": 64.8,
+    "maxAcKw": 11,
+    "maxDcKw": 80,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 460
+  },
+  {
+    "id": "kia-ev3",
+    "make": "Kia",
+    "model": "EV3 Long Range",
+    "year": 2025,
+    "batteryKwh": 81.4,
+    "maxAcKw": 11,
+    "maxDcKw": 128,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 600
+  },
+  {
+    "id": "kia-ev5",
+    "make": "Kia",
+    "model": "EV5",
+    "year": 2025,
+    "batteryKwh": 88,
+    "maxAcKw": 11,
+    "maxDcKw": 150,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 620
+  },
+  {
+    "id": "kia-ev6-lr",
+    "make": "Kia",
+    "model": "EV6 Long Range",
+    "year": 2024,
+    "batteryKwh": 77.4,
+    "maxAcKw": 11,
+    "maxDcKw": 233,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 528
+  },
+  {
+    "id": "kia-ev6-gt",
+    "make": "Kia",
+    "model": "EV6 GT",
+    "year": 2024,
+    "batteryKwh": 77.4,
+    "maxAcKw": 11,
+    "maxDcKw": 233,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 424
+  },
+  {
+    "id": "kia-ev9-lr",
+    "make": "Kia",
+    "model": "EV9 Long Range",
+    "year": 2024,
+    "batteryKwh": 99.8,
+    "maxAcKw": 11,
+    "maxDcKw": 233,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 563
+  },
+
+  {
+    "id": "leapmotor-t03",
+    "make": "Leapmotor",
+    "model": "T03",
+    "year": 2024,
+    "batteryKwh": 37.3,
+    "maxAcKw": 6.6,
+    "maxDcKw": 48,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 265
+  },
+  {
+    "id": "leapmotor-c10",
+    "make": "Leapmotor",
+    "model": "C10",
+    "year": 2025,
+    "batteryKwh": 69.9,
+    "maxAcKw": 11,
+    "maxDcKw": 84,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 420
+  },
+
+  {
+    "id": "lexus-ux300e",
+    "make": "Lexus",
+    "model": "UX 300e",
+    "year": 2024,
+    "batteryKwh": 72.8,
+    "maxAcKw": 11,
+    "maxDcKw": 150,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 450
+  },
+  {
+    "id": "lexus-rz450e",
+    "make": "Lexus",
+    "model": "RZ 450e",
+    "year": 2024,
+    "batteryKwh": 71.4,
+    "maxAcKw": 11,
+    "maxDcKw": 150,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 440
+  },
+
+  {
+    "id": "mazda-mx30",
+    "make": "Mazda",
+    "model": "MX-30 EV",
+    "year": 2024,
+    "batteryKwh": 35.5,
+    "maxAcKw": 6.6,
+    "maxDcKw": 50,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 200
+  },
+
+  {
+    "id": "mercedes-eqa250",
+    "make": "Mercedes",
+    "model": "EQA 250+",
+    "year": 2024,
+    "batteryKwh": 70.5,
+    "maxAcKw": 11,
+    "maxDcKw": 100,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 528
+  },
+  {
+    "id": "mercedes-eqb300",
+    "make": "Mercedes",
+    "model": "EQB 300",
+    "year": 2024,
+    "batteryKwh": 66.5,
+    "maxAcKw": 11,
+    "maxDcKw": 100,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 423
+  },
+  {
+    "id": "mercedes-eqc400",
+    "make": "Mercedes",
+    "model": "EQC 400",
+    "year": 2023,
+    "batteryKwh": 80,
+    "maxAcKw": 11,
+    "maxDcKw": 110,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 437
+  },
+  {
+    "id": "mercedes-eqe350",
+    "make": "Mercedes",
+    "model": "EQE 350+",
+    "year": 2024,
+    "batteryKwh": 96,
+    "maxAcKw": 22,
+    "maxDcKw": 170,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 654
+  },
+  {
+    "id": "mercedes-eqs450",
+    "make": "Mercedes",
+    "model": "EQS 450+",
+    "year": 2024,
+    "batteryKwh": 118,
+    "maxAcKw": 22,
+    "maxDcKw": 200,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 782
+  },
+  {
+    "id": "mercedes-eqv",
+    "make": "Mercedes",
+    "model": "EQV 300",
+    "year": 2024,
+    "batteryKwh": 90,
+    "maxAcKw": 11,
+    "maxDcKw": 110,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 366
+  },
+
+  {
+    "id": "mg-mg4-sr",
+    "make": "MG",
+    "model": "MG4 Standard Range",
+    "year": 2024,
+    "batteryKwh": 51,
+    "maxAcKw": 11,
+    "maxDcKw": 117,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 350
+  },
+  {
+    "id": "mg-mg4-lr",
+    "make": "MG",
+    "model": "MG4 Long Range",
+    "year": 2024,
+    "batteryKwh": 64,
+    "maxAcKw": 11,
+    "maxDcKw": 135,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 450
+  },
+  {
+    "id": "mg-mg5-lr",
+    "make": "MG",
+    "model": "MG5 Long Range",
+    "year": 2024,
+    "batteryKwh": 61.1,
+    "maxAcKw": 11,
+    "maxDcKw": 87,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 400
+  },
+  {
+    "id": "mg-zs-ev",
+    "make": "MG",
+    "model": "ZS EV Long Range",
+    "year": 2024,
+    "batteryKwh": 72.6,
+    "maxAcKw": 11,
+    "maxDcKw": 92,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 440
+  },
+  {
+    "id": "mg-marvel-r",
+    "make": "MG",
+    "model": "Marvel R",
+    "year": 2024,
+    "batteryKwh": 70,
+    "maxAcKw": 11,
+    "maxDcKw": 92,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 402
+  },
+
+  {
+    "id": "mini-cooper-se",
+    "make": "Mini",
+    "model": "Cooper SE",
+    "year": 2024,
+    "batteryKwh": 54.2,
+    "maxAcKw": 11,
+    "maxDcKw": 95,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 402
+  },
+  {
+    "id": "mini-countryman-se",
+    "make": "Mini",
+    "model": "Countryman SE ALL4",
+    "year": 2024,
+    "batteryKwh": 66.5,
+    "maxAcKw": 22,
+    "maxDcKw": 130,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 462
+  },
+  {
+    "id": "mini-aceman",
+    "make": "Mini",
+    "model": "Aceman SE",
+    "year": 2025,
+    "batteryKwh": 54.2,
+    "maxAcKw": 11,
+    "maxDcKw": 95,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 406
+  },
+
+  {
+    "id": "nio-el6",
+    "make": "NIO",
+    "model": "EL6 100 kWh",
+    "year": 2024,
+    "batteryKwh": 100,
+    "maxAcKw": 11,
+    "maxDcKw": 130,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 529
+  },
+  {
+    "id": "nio-et5",
+    "make": "NIO",
+    "model": "ET5 100 kWh",
+    "year": 2024,
+    "batteryKwh": 100,
+    "maxAcKw": 11,
+    "maxDcKw": 130,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 560
+  },
+
+  {
+    "id": "nissan-leaf-40",
+    "make": "Nissan",
+    "model": "Leaf 40 kWh",
+    "year": 2023,
+    "batteryKwh": 40,
+    "maxAcKw": 6.6,
+    "maxDcKw": 50,
+    "compatibleConnectors": ["CHAdeMO", "Type2"],
+    "rangeKm": 270
+  },
+  {
+    "id": "nissan-ariya-63",
+    "make": "Nissan",
+    "model": "Ariya 63 kWh",
+    "year": 2024,
+    "batteryKwh": 63,
+    "maxAcKw": 22,
+    "maxDcKw": 130,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 403
+  },
+  {
+    "id": "nissan-ariya-87",
+    "make": "Nissan",
+    "model": "Ariya 87 kWh",
+    "year": 2024,
+    "batteryKwh": 87,
+    "maxAcKw": 22,
+    "maxDcKw": 130,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 533
+  },
+
+  {
+    "id": "opel-corsa-e",
+    "make": "Opel",
+    "model": "Corsa-e",
+    "year": 2024,
+    "batteryKwh": 50,
+    "maxAcKw": 11,
+    "maxDcKw": 100,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 359
+  },
+  {
+    "id": "opel-mokka-e",
+    "make": "Opel",
+    "model": "Mokka-e",
+    "year": 2024,
+    "batteryKwh": 50,
+    "maxAcKw": 11,
+    "maxDcKw": 100,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 338
+  },
+  {
+    "id": "opel-astra-e",
+    "make": "Opel",
+    "model": "Astra-e",
+    "year": 2024,
+    "batteryKwh": 54,
+    "maxAcKw": 11,
+    "maxDcKw": 100,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 418
+  },
+  {
+    "id": "opel-frontera-ev",
+    "make": "Opel",
+    "model": "Frontera Electric",
+    "year": 2025,
+    "batteryKwh": 44,
+    "maxAcKw": 7,
+    "maxDcKw": 100,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 305
+  },
+
+  {
+    "id": "peugeot-e208",
+    "make": "Peugeot",
+    "model": "e-208",
+    "year": 2024,
+    "batteryKwh": 50,
+    "maxAcKw": 11,
+    "maxDcKw": 100,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 362
+  },
+  {
+    "id": "peugeot-e2008",
+    "make": "Peugeot",
+    "model": "e-2008",
+    "year": 2024,
+    "batteryKwh": 50,
+    "maxAcKw": 11,
+    "maxDcKw": 100,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 345
+  },
+  {
+    "id": "peugeot-e308",
+    "make": "Peugeot",
+    "model": "e-308",
+    "year": 2024,
+    "batteryKwh": 54,
+    "maxAcKw": 11,
+    "maxDcKw": 100,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 416
+  },
+  {
+    "id": "peugeot-e3008",
+    "make": "Peugeot",
+    "model": "e-3008",
+    "year": 2024,
+    "batteryKwh": 73,
+    "maxAcKw": 11,
+    "maxDcKw": 160,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 527
+  },
+  {
+    "id": "peugeot-e5008",
+    "make": "Peugeot",
+    "model": "e-5008",
+    "year": 2025,
+    "batteryKwh": 73,
+    "maxAcKw": 11,
+    "maxDcKw": 160,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 502
+  },
+
+  {
+    "id": "polestar-2-lr",
+    "make": "Polestar",
+    "model": "2 Long Range",
+    "year": 2024,
+    "batteryKwh": 78,
+    "maxAcKw": 11,
+    "maxDcKw": 205,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 540
+  },
+  {
+    "id": "polestar-3",
+    "make": "Polestar",
+    "model": "3 Long Range",
+    "year": 2025,
+    "batteryKwh": 111,
+    "maxAcKw": 11,
+    "maxDcKw": 250,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 628
+  },
+  {
+    "id": "polestar-4",
+    "make": "Polestar",
+    "model": "4 Long Range",
+    "year": 2025,
+    "batteryKwh": 100,
+    "maxAcKw": 11,
+    "maxDcKw": 200,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 590
+  },
+
+  {
+    "id": "porsche-taycan",
+    "make": "Porsche",
+    "model": "Taycan Performance Battery Plus",
+    "year": 2024,
+    "batteryKwh": 93.4,
+    "maxAcKw": 22,
+    "maxDcKw": 270,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 507
+  },
+  {
+    "id": "porsche-macan-ev",
+    "make": "Porsche",
+    "model": "Macan Electric",
+    "year": 2024,
+    "batteryKwh": 100,
+    "maxAcKw": 11,
+    "maxDcKw": 270,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 613
+  },
+
+  {
+    "id": "renault-megane-etech",
+    "make": "Renault",
+    "model": "Megane E-Tech EV60",
+    "year": 2024,
+    "batteryKwh": 60,
+    "maxAcKw": 22,
+    "maxDcKw": 130,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 470
+  },
+  {
+    "id": "renault-scenic-etech",
+    "make": "Renault",
+    "model": "Scenic E-Tech 87 kWh",
+    "year": 2024,
+    "batteryKwh": 87,
+    "maxAcKw": 22,
+    "maxDcKw": 150,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 625
+  },
+  {
+    "id": "renault-zoe",
+    "make": "Renault",
+    "model": "Zoe R135",
+    "year": 2023,
+    "batteryKwh": 52,
+    "maxAcKw": 22,
+    "maxDcKw": 50,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 390
+  },
+  {
+    "id": "renault-r5",
+    "make": "Renault",
+    "model": "R5 E-Tech 52 kWh",
+    "year": 2025,
+    "batteryKwh": 52,
+    "maxAcKw": 11,
+    "maxDcKw": 100,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 410
+  },
+  {
+    "id": "renault-r4-etech",
+    "make": "Renault",
+    "model": "R4 E-Tech",
+    "year": 2026,
+    "batteryKwh": 52,
+    "maxAcKw": 11,
+    "maxDcKw": 100,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 400
+  },
+
+  {
+    "id": "skoda-enyaq-iv80",
+    "make": "Skoda",
+    "model": "Enyaq iV 80",
+    "year": 2024,
+    "batteryKwh": 77,
+    "maxAcKw": 11,
+    "maxDcKw": 135,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 536
+  },
+  {
+    "id": "skoda-enyaq-coupe",
+    "make": "Skoda",
+    "model": "Enyaq Coupe iV 80",
+    "year": 2024,
+    "batteryKwh": 77,
+    "maxAcKw": 11,
+    "maxDcKw": 135,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 545
+  },
+  {
+    "id": "skoda-elroq",
+    "make": "Skoda",
+    "model": "Elroq 85",
+    "year": 2025,
+    "batteryKwh": 77,
+    "maxAcKw": 11,
+    "maxDcKw": 175,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 560
+  },
+  {
+    "id": "skoda-epiq",
+    "make": "Skoda",
+    "model": "Epiq",
+    "year": 2026,
+    "batteryKwh": 52,
+    "maxAcKw": 11,
+    "maxDcKw": 135,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 400
+  },
+
+  {
+    "id": "smart-1",
+    "make": "Smart",
+    "model": "#1 Pro+",
+    "year": 2024,
+    "batteryKwh": 66,
+    "maxAcKw": 22,
+    "maxDcKw": 150,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 440
+  },
+  {
+    "id": "smart-3",
+    "make": "Smart",
+    "model": "#3 Pro+",
+    "year": 2024,
+    "batteryKwh": 66,
+    "maxAcKw": 22,
+    "maxDcKw": 150,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 455
+  },
+
+  {
+    "id": "tesla-model3-sr",
+    "make": "Tesla",
+    "model": "Model 3 Standard Range",
+    "year": 2024,
+    "batteryKwh": 57.5,
+    "maxAcKw": 11,
+    "maxDcKw": 170,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 513
+  },
+  {
+    "id": "tesla-model3-lr",
+    "make": "Tesla",
+    "model": "Model 3 Long Range",
+    "year": 2024,
+    "batteryKwh": 75,
+    "maxAcKw": 11,
+    "maxDcKw": 250,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 602
+  },
+  {
+    "id": "tesla-modely-sr",
+    "make": "Tesla",
+    "model": "Model Y Standard Range",
+    "year": 2025,
+    "batteryKwh": 57.5,
+    "maxAcKw": 11,
+    "maxDcKw": 170,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 430
+  },
+  {
+    "id": "tesla-modely-lr",
+    "make": "Tesla",
+    "model": "Model Y Long Range",
+    "year": 2025,
+    "batteryKwh": 75,
+    "maxAcKw": 11,
+    "maxDcKw": 250,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 533
+  },
+  {
+    "id": "tesla-models-plaid",
+    "make": "Tesla",
+    "model": "Model S Plaid",
+    "year": 2024,
+    "batteryKwh": 100,
+    "maxAcKw": 11,
+    "maxDcKw": 250,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 600
+  },
+  {
+    "id": "tesla-modelx-plaid",
+    "make": "Tesla",
+    "model": "Model X Plaid",
+    "year": 2024,
+    "batteryKwh": 100,
+    "maxAcKw": 11,
+    "maxDcKw": 250,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 543
+  },
+  {
+    "id": "tesla-cybertruck",
+    "make": "Tesla",
+    "model": "Cybertruck",
+    "year": 2024,
+    "batteryKwh": 123,
+    "maxAcKw": 11.5,
+    "maxDcKw": 250,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 547
+  },
+
+  {
+    "id": "toyota-bz4x",
+    "make": "Toyota",
+    "model": "bZ4X",
+    "year": 2024,
+    "batteryKwh": 71.4,
+    "maxAcKw": 11,
+    "maxDcKw": 150,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 461
+  },
+
+  {
+    "id": "vw-id2",
+    "make": "Volkswagen",
+    "model": "ID.2",
+    "year": 2026,
+    "batteryKwh": 52,
+    "maxAcKw": 11,
+    "maxDcKw": 135,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 450
+  },
+  {
+    "id": "vw-id3-pro",
+    "make": "Volkswagen",
+    "model": "ID.3 Pro",
+    "year": 2024,
+    "batteryKwh": 58,
+    "maxAcKw": 11,
+    "maxDcKw": 120,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 426
+  },
+  {
+    "id": "vw-id3-pro-s",
+    "make": "Volkswagen",
+    "model": "ID.3 Pro S",
+    "year": 2024,
+    "batteryKwh": 77,
+    "maxAcKw": 11,
+    "maxDcKw": 170,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 558
+  },
+  {
+    "id": "vw-id4-pro",
+    "make": "Volkswagen",
+    "model": "ID.4 Pro",
+    "year": 2024,
+    "batteryKwh": 77,
+    "maxAcKw": 11,
+    "maxDcKw": 135,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 520
+  },
+  {
+    "id": "vw-id5-pro",
+    "make": "Volkswagen",
+    "model": "ID.5 Pro",
+    "year": 2024,
+    "batteryKwh": 77,
+    "maxAcKw": 11,
+    "maxDcKw": 135,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 532
+  },
+  {
+    "id": "vw-id7-pro",
+    "make": "Volkswagen",
+    "model": "ID.7 Pro",
+    "year": 2024,
+    "batteryKwh": 77,
+    "maxAcKw": 11,
+    "maxDcKw": 170,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 621
+  },
+  {
+    "id": "vw-id-buzz-lr",
+    "make": "Volkswagen",
+    "model": "ID.Buzz Long Range",
+    "year": 2024,
+    "batteryKwh": 86,
+    "maxAcKw": 11,
+    "maxDcKw": 185,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 487
+  },
+
+  {
+    "id": "volvo-ex30",
+    "make": "Volvo",
+    "model": "EX30 Single Motor",
+    "year": 2024,
+    "batteryKwh": 51,
+    "maxAcKw": 11,
+    "maxDcKw": 134,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 344
+  },
+  {
+    "id": "volvo-ex30-lr",
+    "make": "Volvo",
+    "model": "EX30 Long Range",
+    "year": 2024,
+    "batteryKwh": 69,
+    "maxAcKw": 11,
+    "maxDcKw": 153,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 480
+  },
+  {
+    "id": "volvo-ex40",
+    "make": "Volvo",
+    "model": "EX40 Recharge",
+    "year": 2024,
+    "batteryKwh": 69,
+    "maxAcKw": 11,
+    "maxDcKw": 150,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 438
+  },
+  {
+    "id": "volvo-ec40",
+    "make": "Volvo",
+    "model": "EC40 Recharge",
+    "year": 2024,
+    "batteryKwh": 69,
+    "maxAcKw": 11,
+    "maxDcKw": 150,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 453
+  },
+  {
+    "id": "volvo-ex90",
+    "make": "Volvo",
+    "model": "EX90 Twin Motor",
+    "year": 2025,
+    "batteryKwh": 111,
+    "maxAcKw": 11,
+    "maxDcKw": 250,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 580
+  },
+
+  {
+    "id": "xiaomi-su7",
+    "make": "Xiaomi",
+    "model": "SU7",
+    "year": 2025,
+    "batteryKwh": 101,
+    "maxAcKw": 11,
+    "maxDcKw": 210,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 700
+  },
+  {
+    "id": "xiaomi-su7-max",
+    "make": "Xiaomi",
+    "model": "SU7 Max",
+    "year": 2025,
+    "batteryKwh": 101,
+    "maxAcKw": 11,
+    "maxDcKw": 210,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 630
+  },
+
+  {
+    "id": "xpeng-g6",
+    "make": "Xpeng",
+    "model": "G6",
+    "year": 2024,
+    "batteryKwh": 87.5,
+    "maxAcKw": 11,
+    "maxDcKw": 280,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 570
+  },
+  {
+    "id": "xpeng-g9",
+    "make": "Xpeng",
+    "model": "G9",
+    "year": 2024,
+    "batteryKwh": 98,
+    "maxAcKw": 11,
+    "maxDcKw": 300,
+    "compatibleConnectors": ["CCS2", "Type2"],
+    "rangeKm": 570
+  }
+]

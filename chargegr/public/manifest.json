@@ -1,0 +1,16 @@
+{
+  "name": "ChargeGR - Σταθμοί Φόρτισης EV",
+  "short_name": "ChargeGR",
+  "description": "Βρες σταθμό φόρτισης ηλεκτρικού αυτοκινήτου στην Ελλάδα",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#1B7B4E",
+  "background_color": "#FFFFFF",
+  "lang": "el",
+  "icons": [
+    { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "/icons/icon-512-maskable.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

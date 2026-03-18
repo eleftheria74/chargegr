@@ -1,0 +1,70 @@
+{
+  "app": {
+    "name": "ChargeGR",
+    "tagline": "Βρες σταθμό φόρτισης EV"
+  },
+  "map": {
+    "findMe": "Η τοποθεσία μου",
+    "loading": "Φόρτωση χάρτη..."
+  },
+  "filters": {
+    "title": "Φίλτρα",
+    "connector": "Τύπος βύσματος",
+    "power": "Ισχύς",
+    "network": "Δίκτυο",
+    "options": "Επιλογές",
+    "onlyAvailable": "Μόνο διαθέσιμοι",
+    "freeOnly": "Μόνο δωρεάν",
+    "24hOnly": "Μόνο 24ωρο",
+    "compatibleOnly": "Μόνο συμβατοί",
+    "clear": "Καθαρισμός",
+    "stations": "σταθμοί",
+    "close": "Κλείσιμο",
+    "powerSlow": "Αργή (<7 kW)",
+    "powerFast": "Κανονική (7-22 kW)",
+    "powerRapid": "Ταχεία (23-99 kW)",
+    "powerUltra": "Ultra (100+ kW)"
+  },
+  "station": {
+    "available": "Διαθέσιμος",
+    "unavailable": "Εκτός λειτουργίας",
+    "free": "ΔΩΡΕΑΝ",
+    "24h": "24ωρο",
+    "kwMax": "kW max",
+    "noAddress": "Χωρίς διεύθυνση",
+    "compatible": "Συμβατός με",
+    "incompatible": "Μη συμβατός με",
+    "chargingTime": "Εκτιμώμενος χρόνος",
+    "minutes": "λεπτά",
+    "connectors": "Βύσματα",
+    "navigate": "Πλοήγηση",
+    "share": "Κοινοποίηση",
+    "shareText": "Σταθμός φόρτισης EV:"
+  },
+  "vehicle": {
+    "select": "Όχημα",
+    "search": "Αναζήτηση μοντέλου...",
+    "notFound": "Δεν βρέθηκε μοντέλο",
+    "remove": "Αφαίρεση οχήματος",
+    "battery": "Μπαταρία",
+    "range": "Αυτονομία"
+  },
+  "search": {
+    "placeholder": "Αναζήτηση τοποθεσίας..."
+  },
+  "common": {
+    "close": "Κλείσιμο",
+    "loading": "Φόρτωση...",
+    "error": "Σφάλμα δικτύου",
+    "noStations": "Δεν βρέθηκαν σταθμοί",
+    "retry": "Δοκιμή ξανά"
+  },
+  "legend": {
+    "title": "Υπόμνημα",
+    "slow": "Αργή (<7 kW)",
+    "fast": "Κανονική (7-22 kW)",
+    "rapid": "Ταχεία (23-99 kW)",
+    "ultra": "Ultra (100+ kW)",
+    "offline": "Εκτός λειτουργίας"
+  }
+}
