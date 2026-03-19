@@ -6,6 +6,10 @@ interface Props {
   connector: Connector;
 }
 
+function formatPower(kw: number): string {
+  return Number.isInteger(kw) ? String(kw) : kw.toFixed(1);
+}
+
 export default function ConnectorInfo({ connector }: Props) {
   const label = CONNECTOR_LABELS[connector.type] || connector.type;
   const isDC = connector.currentType === 'DC';
@@ -24,7 +28,7 @@ export default function ConnectorInfo({ connector }: Props) {
         </div>
       </div>
       <div className="text-right shrink-0 ml-2">
-        <span className="font-bold text-sm text-gray-700">{connector.powerKw} kW</span>
+        <span className="font-bold text-sm text-gray-700">{formatPower(connector.powerKw)} kW</span>
         <span className="ml-1.5 text-xs font-semibold text-gray-700">&times;{connector.quantity}</span>
       </div>
     </div>

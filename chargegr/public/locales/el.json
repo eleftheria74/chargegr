@@ -39,7 +39,10 @@
     "connectors": "Βύσματα",
     "navigate": "Πλοήγηση",
     "share": "Κοινοποίηση",
-    "shareText": "Σταθμός φόρτισης EV:"
+    "shareText": "Σταθμός φόρτισης EV:",
+    "atPower": "στα",
+    "chargerGives": "Ο φορτιστής δίνει",
+    "butVehicleAccepts": "αλλά το όχημά σου δέχεται max"
   },
   "vehicle": {
     "select": "Όχημα",

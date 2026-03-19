@@ -26,6 +26,8 @@ export default function StationCard({ station, userLocation, vehicle }: Props) {
     : null;
 
   let chargingTimeMin: number | null = null;
+  let effectiveKw: number | null = null;
+  let chargerPowerKw: number | null = null;
   if (vehicle && isCompatible) {
     const compatibleConnectors = station.connectors.filter(c =>
       vehicle.compatibleConnectors.includes(c.type)
@@ -35,14 +37,16 @@ export default function StationCard({ station, userLocation, vehicle }: Props) {
     , compatibleConnectors[0]);
 
     if (bestConnector) {
-      const maxVehicleKw = bestConnector.currentType === 'DC'
-        ? vehicle.maxDcKw
-        : vehicle.maxAcKw;
-      chargingTimeMin = estimateChargingTime(
+      chargerPowerKw = bestConnector.powerKw;
+      const result = estimateChargingTime(
         vehicle.batteryKwh,
         bestConnector.powerKw,
-        maxVehicleKw,
+        bestConnector.currentType,
+        vehicle.maxAcKw,
+        vehicle.maxDcKw,
       );
+      chargingTimeMin = result.minutes;
+      effectiveKw = result.effectiveKw;
     }
   }
 
@@ -120,12 +124,21 @@ export default function StationCard({ station, userLocation, vehicle }: Props) {
       )}
 
       {/* Charging time estimate */}
-      {chargingTimeMin !== null && chargingTimeMin > 0 && (
-        <div className="flex items-center gap-2 mt-2 text-sm text-gray-600 px-3 py-2 bg-gray-50 rounded-lg">
-          <Timer size={16} className="text-gray-400 shrink-0" />
-          <span>
-            10% → 80%: <strong className="text-gray-800">~{chargingTimeMin} {t('station.minutes')}</strong>
-          </span>
+      {chargingTimeMin !== null && chargingTimeMin > 0 && effectiveKw !== null && (
+        <div className="mt-2 text-sm text-gray-600 px-3 py-2 bg-gray-50 dark:bg-gray-700 rounded-lg">
+          <div className="flex items-center gap-2">
+            <Timer size={16} className="text-gray-400 shrink-0" />
+            <span>
+              ⚡ 10% → 80%: <strong className="text-gray-800 dark:text-gray-200">~{chargingTimeMin} {t('station.minutes')}</strong>
+              {' '}
+              <span className="text-gray-500 dark:text-gray-400">({t('station.atPower')} {effectiveKw} kW)</span>
+            </span>
+          </div>
+          {chargerPowerKw !== null && effectiveKw < chargerPowerKw && (
+            <p className="text-xs text-amber-600 dark:text-amber-400 mt-1 ml-6">
+              {t('station.chargerGives')} {chargerPowerKw} kW {t('station.butVehicleAccepts')} {effectiveKw} kW
+            </p>
+          )}
         </div>
       )}
 

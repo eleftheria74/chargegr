@@ -125,9 +125,9 @@ export default function MapContainer({ stations, onStationClick, flyTo }: Props)
             'match', ['get', 'powerCategory'],
             'slow', '#9CA3AF',
             'fast', '#22C55E',
-            'rapid', '#F97316',
-            'ultrarapid', '#EF4444',
-            'offline', '#6B7280',
+            'rapid', '#F59E0B',
+            'ultrarapid', '#8B5CF6',
+            'offline', '#EF4444',
             '#22C55E',
           ],
           'circle-radius': [

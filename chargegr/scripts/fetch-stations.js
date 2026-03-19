@@ -121,6 +121,18 @@ const OCPI_CONNECTOR_MAP = {
 
 // === Helpers ===
 
+function normalizePowerKw(rawKw) {
+  const standardPowers = [
+    3.7, 7.4, 11, 22, 43,
+    24, 50, 60, 75, 100, 120,
+    150, 175, 200, 250, 300, 350,
+  ];
+  for (const standard of standardPowers) {
+    if (Math.abs(rawKw - standard) / standard < 0.05) return standard;
+  }
+  return Math.round(rawKw * 10) / 10;
+}
+
 function getPowerCategory(kw) {
   if (kw <= 7.4) return 'slow';
   if (kw <= 22) return 'fast';
@@ -251,7 +263,7 @@ async function fetchOcmStations() {
     maxresults: '10000',
   });
   const resp = await fetch(`${OCM_BASE}?${params}`);
-  if (!resp.ok) { console.warn(`  OCM API HTTP ${resp.status} — skipping enrichment.`); return []; }
+  if (!resp.ok) { console.warn(`  OCM API HTTP ${resp.status} — skipping enrichment.`); return null; }
   const data = await resp.json();
   console.log(`  ${data.length} POIs from OCM.`);
   return data.filter(p => p.AddressInfo?.Latitude && p.AddressInfo?.Longitude);
@@ -264,7 +276,7 @@ function parseConnectors(evses) {
   for (const evse of evses || []) {
     for (const conn of evse.connectors || []) {
       const type = OCPI_CONNECTOR_MAP[conn.standard] || 'Other';
-      const powerKw = conn.max_electric_power ? conn.max_electric_power / 1000 : 0;
+      const powerKw = conn.max_electric_power ? normalizePowerKw(conn.max_electric_power / 1000) : 0;
       const key = `${type}-${powerKw}`;
       if (map.has(key)) map.get(key).quantity += 1;
       else map.set(key, { type, powerKw, quantity: 1, currentType: conn.power_type?.startsWith('DC') ? 'DC' : 'AC' });
@@ -324,7 +336,7 @@ function convertOcm(poi) {
   const addr = poi.AddressInfo || {};
   const connectors = (poi.Connections || []).map(conn => ({
     type: OCM_CONNECTOR_MAP[conn.ConnectionTypeID] || 'Other',
-    powerKw: conn.PowerKW || 0,
+    powerKw: conn.PowerKW ? normalizePowerKw(conn.PowerKW) : 0,
     quantity: conn.Quantity || 1,
     currentType: conn.CurrentTypeID === 30 ? 'DC' : 'AC',
   }));
@@ -430,10 +442,31 @@ async function main() {
 
   // 2. OCM
   const ocmPois = await fetchOcmStations();
+  const ocmFailed = ocmPois === null;
 
   // 3. Merge
   console.log('Merging...');
-  const stations = mergeStations(myfahi, ocmPois);
+  const stations = mergeStations(myfahi, ocmFailed ? [] : ocmPois);
+
+  // If OCM failed, retain OCM-only stations from previous stations.json
+  if (ocmFailed) {
+    try {
+      if (fs.existsSync(OUTPUT_PATH)) {
+        const existing = JSON.parse(fs.readFileSync(OUTPUT_PATH, 'utf-8'));
+        const coordKey = (s) => `${s.lat.toFixed(5)},${s.lng.toFixed(5)}`;
+        const currentCoords = new Set(stations.map(coordKey));
+        const ocmRetained = existing.filter(s =>
+          s.source === 'ocm' && !currentCoords.has(coordKey(s))
+        );
+        if (ocmRetained.length > 0) {
+          stations.push(...ocmRetained);
+          console.log(`  OCM API failed — retained ${ocmRetained.length} OCM-only stations from previous run.`);
+        }
+      }
+    } catch (err) {
+      console.warn('Could not read existing stations.json for OCM fallback:', err.message);
+    }
+  }
 
   // Stats
   const withAddress = stations.filter(s => s.address).length;

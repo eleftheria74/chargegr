@@ -1,38 +1,43 @@
 'use client';
 
-import { useState } from 'react';
-import { Info, X } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Layers, X } from 'lucide-react';
 import { useTranslation } from '@/lib/i18n';
 
 const LEGEND_ITEMS = [
   { color: '#9CA3AF', key: 'legend.slow' },
   { color: '#22C55E', key: 'legend.fast' },
-  { color: '#F97316', key: 'legend.rapid' },
-  { color: '#EF4444', key: 'legend.ultra' },
-  { color: '#6B7280', key: 'legend.offline' },
+  { color: '#F59E0B', key: 'legend.rapid' },
+  { color: '#8B5CF6', key: 'legend.ultra' },
+  { color: '#EF4444', key: 'legend.offline' },
 ];
 
 export default function Legend() {
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
 
+  // Default: open on desktop, closed on mobile
+  useEffect(() => {
+    setOpen(window.innerWidth >= 768);
+  }, []);
+
   if (!open) {
     return (
       <button
         onClick={() => setOpen(true)}
-        className="fixed bottom-4 right-4 z-30 w-10 h-10 flex items-center justify-center
+        className="fixed top-20 left-3 z-30 w-10 h-10 flex items-center justify-center
                    bg-white dark:bg-gray-800 rounded-full shadow-lg
                    border border-gray-200 dark:border-gray-600
                    hover:bg-gray-50 dark:hover:bg-gray-700 active:scale-95 transition-all"
         aria-label={t('legend.title')}
       >
-        <Info size={18} className="text-gray-600 dark:text-gray-300" />
+        <Layers size={18} className="text-gray-600 dark:text-gray-300" />
       </button>
     );
   }
 
   return (
-    <div className="fixed bottom-4 right-4 z-30 bg-white dark:bg-gray-800 rounded-xl shadow-lg
+    <div className="fixed top-20 left-3 z-30 bg-white dark:bg-gray-800 rounded-xl shadow-lg
                     border border-gray-200 dark:border-gray-600 p-3 min-w-[160px]">
       <div className="flex items-center justify-between mb-2">
         <span className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">

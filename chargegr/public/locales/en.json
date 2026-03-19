@@ -39,7 +39,10 @@
     "connectors": "Connectors",
     "navigate": "Navigate",
     "share": "Share",
-    "shareText": "EV charging station:"
+    "shareText": "EV charging station:",
+    "atPower": "at",
+    "chargerGives": "Charger provides",
+    "butVehicleAccepts": "but your vehicle accepts max"
   },
   "vehicle": {
     "select": "Vehicle",
