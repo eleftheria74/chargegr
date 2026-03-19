@@ -55,7 +55,7 @@ export default function SearchBar({ onSelectLocation }: Props) {
       });
       const resp = await fetch(`${NOMINATIM_URL}?${params}`, {
         signal: controller.signal,
-        headers: { 'User-Agent': 'ChargeGR-App' },
+        headers: { 'User-Agent': 'PlugMeNow-App' },
       });
       const data: NominatimResult[] = await resp.json();
       setResults(data);

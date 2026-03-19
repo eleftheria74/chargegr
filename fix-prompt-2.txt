@@ -1,0 +1,81 @@
+Διάβασε τα αρχεία README.md, PHASE-1-MVP.md και PHASE-1-STATUS.md για context.
+Μετά κάνε τις εξής 3 αλλαγές:
+
+## 1. ΧΡΩΜΑΤΑ MARKERS & LEGEND — Δεν ξεχωρίζουν
+
+Τα τρέχοντα χρώματα έχουν πρόβλημα: 2 αποχρώσεις γκρι (Αργή + Εκτός λειτουργίας)
+και 2 αποχρώσεις κόκκινου (Ταχεία + Ultra) είναι δυσδιάκριτα.
+
+Άλλαξε τα χρώματα markers ΚΑΙ legend σε:
+- Αργή (<7 kW): #9CA3AF (γκρι) — μένει ίδιο
+- Κανονική (7-22 kW): #22C55E (πράσινο) — μένει ίδιο
+- Ταχεία (23-99 kW): #F59E0B (κίτρινο/amber) — ΑΛΛΑΓΗ από πορτοκαλί
+- Ultra (100+ kW): #8B5CF6 (μοβ) — ΑΛΛΑΓΗ από κόκκινο
+- Εκτός λειτουργίας: #EF4444 (κόκκινο) — ΑΛΛΑΓΗ από γκρι
+
+Αυτά τα 5 χρώματα είναι εντελώς διακριτά μεταξύ τους.
+Ενημέρωσε ΚΑΙ στο MapContainer.tsx (circle-color paint) ΚΑΙ στο Legend component.
+
+## 2. LEGEND ΕΠΙΚΑΛΥΠΤΕΤΑΙ — Αλλαγή θέσης
+
+Το υπόμνημα (legend) επικαλύπτει markers και MapLibre attribution.
+Αλλαγές:
+- Μετακίνησε το legend πάνω-αριστερά (κάτω από τo search bar) αντί κάτω-δεξιά
+- Ή καλύτερα: κάνε το collapsible με μικρό icon button (π.χ. "i" ή layer icon)
+  που ανοίγει/κλείνει το legend panel
+- Default: κλειστό σε mobile, ανοιχτό σε desktop
+- Σε mobile: όταν ανοίγει, εμφανίζεται ως μικρό floating panel
+  χωρίς να καλύπτει τα map controls (zoom, geolocation)
+- Μην επικαλύπτεται με το MapLibre attribution κάτω-δεξιά
+
+## 3. ΥΠΟΛΟΓΙΣΜΟΣ ΧΡΟΝΟΥ ΦΟΡΤΙΣΗΣ — Λάθος λογική
+
+Ο τρέχων υπολογισμός δεν λαμβάνει υπόψη το max charging speed του οχήματος.
+Παράδειγμα: Hyundai Inster δέχεται max 120kW DC. Αν ο φορτιστής είναι 360kW,
+το αυτοκίνητο ΔΕΝ θα φορτίσει στα 360kW — θα φορτίσει στα 120kW.
+
+Η σωστή λογική στο src/lib/charging.ts (ή όπου γίνεται ο υπολογισμός):
+
+```typescript
+function estimateChargingTime(
+  batteryKwh: number,        // Χωρητικότητα μπαταρίας οχήματος (kWh)
+  vehicleMaxAcKw: number,    // Max AC ταχύτητα οχήματος
+  vehicleMaxDcKw: number,    // Max DC ταχύτητα οχήματος
+  chargerKw: number,         // Ισχύς φορτιστή (kW)
+  chargerType: 'AC' | 'DC',  // Τύπος φορτιστή
+  fromPercent: number = 10,  // Αρχικό % μπαταρίας
+  toPercent: number = 80     // Τελικό % μπαταρίας
+): { minutes: number; effectiveKw: number } {
+
+  // ΚΡΙΣΙΜΟ: Η πραγματική ταχύτητα είναι το ΜΙΚΡΟΤΕΡΟ από:
+  // - Ισχύ φορτιστή
+  // - Max ταχύτητα που δέχεται το αυτοκίνητο
+  const vehicleMax = chargerType === 'AC' ? vehicleMaxAcKw : vehicleMaxDcKw;
+  const effectiveKw = Math.min(chargerKw, vehicleMax);
+
+  // Ενέργεια που χρειάζεται
+  const energyNeeded = batteryKwh * (toPercent - fromPercent) / 100;
+
+  // Η ταχύτητα DC πέφτει μετά το ~60% (tapering)
+  // Απλοποιημένο μοντέλο: μέση ταχύτητα 10-80% ≈ 75% της max
+  const averageEfficiency = chargerType === 'DC' ? 0.75 : 0.90;
+
+  const hours = energyNeeded / (effectiveKw * averageEfficiency);
+  const minutes = Math.round(hours * 60);
+
+  return { minutes, effectiveKw };
+}
+```
+
+Στο StationCard, η εμφάνιση πρέπει να δείχνει:
+- "⚡ 10% → 80%: ~35 λεπτά (στα 120 kW)" αντί μόνο "~35 λεπτά"
+- Αν ο φορτιστής δίνει πολύ παραπάνω από αυτά που δέχεται το αυτοκίνητο,
+  δείξε tooltip/note: "Ο φορτιστής δίνει 360 kW αλλά το όχημά σου
+  δέχεται max 120 kW"
+
+Ενημέρωσε:
+- src/lib/charging.ts (ή όπου είναι η estimateChargingTime)
+- StationCard.tsx (εμφάνιση effective kW)
+- Τα vehicles στο public/data/vehicles.json ΗΔΗ έχουν maxAcKw και maxDcKw
+
+Μετά τρέξε npm run build για επαλήθευση.

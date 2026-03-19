@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-// Generate a simple SVG icon for ChargeGR
+// Generate a simple SVG icon for PlugMeNow
 function createSvg(size, maskable = false) {
   const padding = maskable ? Math.round(size * 0.1) : 0;
   const innerSize = size - padding * 2;

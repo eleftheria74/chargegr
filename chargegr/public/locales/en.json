@@ -1,7 +1,7 @@
 {
   "app": {
-    "name": "ChargeGR",
-    "tagline": "Find an EV charging station"
+    "name": "PlugMeNow",
+    "tagline": "Find a charger, now!"
   },
   "map": {
     "findMe": "My location",

@@ -2,31 +2,31 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "ChargeGR - Σταθμοί Φόρτισης EV",
+  title: "PlugMeNow - Σταθμοί Φόρτισης EV",
   description: "Βρες σταθμό φόρτισης ηλεκτρικού αυτοκινήτου στην Ελλάδα. Χάρτης με όλους τους σταθμούς, φίλτρα, vehicle profiles.",
   manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
-    title: "ChargeGR",
+    title: "PlugMeNow",
   },
   openGraph: {
-    title: "ChargeGR - Σταθμοί Φόρτισης EV",
+    title: "PlugMeNow - Σταθμοί Φόρτισης EV",
     description: "Βρες σταθμό φόρτισης ηλεκτρικού αυτοκινήτου στην Ελλάδα",
-    siteName: "ChargeGR",
+    siteName: "PlugMeNow",
     type: "website",
     locale: "el_GR",
   },
   twitter: {
     card: "summary",
-    title: "ChargeGR - Σταθμοί Φόρτισης EV",
+    title: "PlugMeNow - Σταθμοί Φόρτισης EV",
     description: "Βρες σταθμό φόρτισης ηλεκτρικού αυτοκινήτου στην Ελλάδα",
   },
   robots: {
     index: true,
     follow: true,
   },
-  keywords: ["EV", "charging", "σταθμός φόρτισης", "ηλεκτρικό αυτοκίνητο", "Ελλάδα", "ChargeGR"],
+  keywords: ["EV", "charging", "σταθμός φόρτισης", "ηλεκτρικό αυτοκίνητο", "Ελλάδα", "PlugMeNow"],
 };
 
 export const viewport: Viewport = {

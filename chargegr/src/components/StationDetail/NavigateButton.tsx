@@ -51,7 +51,7 @@ export default function NavigateButton({ lat, lng, stationName }: Props) {
     if (typeof navigator.share === 'function') {
       try {
         await navigator.share({
-          title: 'ChargeGR',
+          title: 'PlugMeNow',
           text: t('station.shareAppText'),
           url: APP_URL,
         });

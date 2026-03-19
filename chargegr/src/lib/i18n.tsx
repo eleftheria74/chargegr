@@ -8,7 +8,7 @@ const STORAGE_KEY = 'chargegr_lang';
 
 const translations: Record<Locale, Record<string, Record<string, string>>> = {
   el: {
-    app: { name: 'ChargeGR', tagline: 'Βρες σταθμό φόρτισης EV' },
+    app: { name: 'PlugMeNow', tagline: 'Βρες φορτιστή, τώρα!' },
     map: { findMe: 'Η τοποθεσία μου', loading: 'Φόρτωση χάρτη...' },
     filters: {
       title: 'Φίλτρα',
@@ -44,7 +44,7 @@ const translations: Record<Locale, Record<string, Record<string, string>>> = {
       share: 'Κοινοποίηση σταθμού',
       shareApp: 'Κοινοποίηση εφαρμογής',
       shareText: 'Σταθμός φόρτισης EV:',
-      shareAppText: 'Βρες σταθμό φόρτισης EV στην Ελλάδα με το ChargeGR!',
+      shareAppText: 'Βρες φορτιστή, τώρα! — PlugMeNow',
       linkCopied: 'Ο σύνδεσμος αντιγράφηκε',
     },
     vehicle: {
@@ -73,7 +73,7 @@ const translations: Record<Locale, Record<string, Record<string, string>>> = {
     },
   },
   en: {
-    app: { name: 'ChargeGR', tagline: 'Find an EV charging station' },
+    app: { name: 'PlugMeNow', tagline: 'Find a charger, now!' },
     map: { findMe: 'My location', loading: 'Loading map...' },
     filters: {
       title: 'Filters',
@@ -109,7 +109,7 @@ const translations: Record<Locale, Record<string, Record<string, string>>> = {
       share: 'Share station',
       shareApp: 'Share app',
       shareText: 'EV charging station:',
-      shareAppText: 'Find EV charging stations in Greece with ChargeGR!',
+      shareAppText: 'Find a charger, now! — PlugMeNow',
       linkCopied: 'Link copied to clipboard',
     },
     vehicle: {

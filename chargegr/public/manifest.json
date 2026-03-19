@@ -1,6 +1,6 @@
 {
-  "name": "ChargeGR - Σταθμοί Φόρτισης EV",
-  "short_name": "ChargeGR",
+  "name": "PlugMeNow - Σταθμοί Φόρτισης EV",
+  "short_name": "PlugMeNow",
   "description": "Βρες σταθμό φόρτισης ηλεκτρικού αυτοκινήτου στην Ελλάδα",
   "start_url": "/",
   "display": "standalone",

@@ -1,0 +1,40 @@
+Διάβασε τα README.md και PHASE-1-STATUS.md για context.
+
+Πρόβλημα: Κάποιοι σταθμοί έχουν ισχύ π.χ. 22.079 kW αντί 22 kW, 
+ή 50.123 αντί 50, ή 7.36 αντί 7.4. Αυτό προκαλεί:
+1. Λάθος κατηγοριοποίηση (22.079 μπορεί να πάει σε "rapid" αντί "fast")
+2. Άσχημη εμφάνιση ("22.079 kW" αντί "22 kW")
+
+Φτιάξε στο fetch-stations.js μια normalization function που εφαρμόζεται 
+σε κάθε connector power value:
+
+```javascript
+function normalizePowerKw(rawKw) {
+  // Standard EV charger power levels
+  const standardPowers = [
+    3.7, 7.4, 11, 22, 43,          // AC standard levels
+    24, 50, 60, 75, 100, 120,       // DC standard levels  
+    150, 175, 200, 250, 300, 350    // Ultra-fast DC levels
+  ];
+  
+  // Αν η τιμή είναι πολύ κοντά σε standard level (±5%), στρογγυλοποίησε
+  for (const standard of standardPowers) {
+    if (Math.abs(rawKw - standard) / standard < 0.05) {
+      return standard;
+    }
+  }
+  
+  // Αλλιώς στρογγυλοποίησε σε 1 δεκαδικό
+  return Math.round(rawKw * 10) / 10;
+}
+```
+
+Εφάρμοσέ τη:
+1. Στο fetch-stations.js κατά τη μετατροπή connector data
+2. Στο maxPowerKw κάθε σταθμού
+3. Ξανατρέξε node scripts/fetch-stations.js
+
+Επίσης στο ConnectorInfo.tsx: εμφάνισε πάντα ακέραιο αν είναι ακέραιος 
+(22 kW όχι 22.0 kW) ή 1 δεκαδικό αν χρειάζεται (7.4 kW).
+
+Μετά τρέξε npm run build.

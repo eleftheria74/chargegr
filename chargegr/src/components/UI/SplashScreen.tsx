@@ -20,9 +20,9 @@ export default function SplashScreen() {
     >
       <div className="flex items-center gap-3 mb-3">
         <Zap size={40} className="text-white" fill="white" />
-        <h1 className="text-4xl font-bold text-white tracking-tight">ChargeGR</h1>
+        <h1 className="text-4xl font-bold text-white tracking-tight">PlugMeNow</h1>
       </div>
-      <p className="text-white/80 text-sm">EV Charging Stations in Greece</p>
+      <p className="text-white/80 text-sm">Βρες φορτιστή, τώρα!</p>
     </div>
   );
 }
