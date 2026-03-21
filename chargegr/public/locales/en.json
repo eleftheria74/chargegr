@@ -50,7 +50,13 @@
     "notFound": "No model found",
     "remove": "Remove vehicle",
     "battery": "Battery",
-    "range": "Range"
+    "range": "Range",
+    "brand": "Brand",
+    "model": "Model",
+    "selectBrand": "Select brand",
+    "selectModel": "Select model",
+    "change": "Change",
+    "searchBrand": "Search brand..."
   },
   "search": {
     "placeholder": "Search location..."
