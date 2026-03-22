@@ -16,13 +16,12 @@ declare global {
   interface Window {
     google?: {
       accounts: {
-        id: {
-          initialize: (config: {
+        oauth2: {
+          initTokenClient: (config: {
             client_id: string;
-            callback: (response: { credential: string }) => void;
-            auto_select?: boolean;
-          }) => void;
-          prompt: () => void;
+            scope: string;
+            callback: (response: { access_token: string; error?: string }) => void;
+          }) => { requestAccessToken: () => void };
         };
       };
     };
@@ -65,13 +64,34 @@ export async function loginWithGoogle(): Promise<{ jwt: string; user: AuthUser }
   }
 
   return new Promise((resolve, reject) => {
-    window.google!.accounts.id.initialize({
+    const tokenClient = window.google!.accounts.oauth2.initTokenClient({
       client_id: clientId,
-      callback: async (response) => {
+      scope: 'email profile',
+      callback: async (tokenResponse) => {
+        if (tokenResponse.error) {
+          reject(new Error(tokenResponse.error));
+          return;
+        }
+
         try {
-          const result = await apiPost<GoogleAuthResponse>('/auth/google', {
-            token: response.credential,
+          // Get user info from Google using access token
+          const userInfoRes = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
+            headers: { Authorization: `Bearer ${tokenResponse.access_token}` },
           });
+          if (!userInfoRes.ok) throw new Error('Failed to get user info');
+          const userInfo = await userInfoRes.json();
+
+          // Send to our API
+          const result = await apiPost<GoogleAuthResponse>('/auth/google', {
+            token: tokenResponse.access_token,
+            userInfo: {
+              email: userInfo.email,
+              name: userInfo.name,
+              picture: userInfo.picture,
+              sub: userInfo.sub,
+            },
+          });
+
           // Save JWT
           try {
             localStorage.setItem('chargegr_jwt', result.jwt);
@@ -83,8 +103,31 @@ export async function loginWithGoogle(): Promise<{ jwt: string; user: AuthUser }
       },
     });
 
-    window.google!.accounts.id.prompt();
+    tokenClient.requestAccessToken();
   });
+}
+
+export async function registerWithEmail(email: string, password: string, displayName: string): Promise<{ jwt: string; user: AuthUser }> {
+  const result = await apiPost<GoogleAuthResponse>('/auth/register', {
+    email,
+    password,
+    displayName,
+  });
+  try {
+    localStorage.setItem('chargegr_jwt', result.jwt);
+  } catch { /* ignore */ }
+  return result;
+}
+
+export async function loginWithEmail(email: string, password: string): Promise<{ jwt: string; user: AuthUser }> {
+  const result = await apiPost<GoogleAuthResponse>('/auth/login', {
+    email,
+    password,
+  });
+  try {
+    localStorage.setItem('chargegr_jwt', result.jwt);
+  } catch { /* ignore */ }
+  return result;
 }
 
 export function logout(): void {
