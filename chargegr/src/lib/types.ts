@@ -87,5 +87,6 @@ export interface FilterState {
   onlyFree: boolean;
   only24h: boolean;
   onlyAvailable: boolean;
+  onlyReliable: boolean;
   vehicleId: string | null;       // Αν έχει επιλεγεί όχημα
 }

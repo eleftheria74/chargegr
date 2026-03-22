@@ -1,0 +1,106 @@
+import { apiPost, apiGet } from './api';
+
+export interface AuthUser {
+  id: string;
+  email: string;
+  displayName: string;
+  avatar: string | null;
+}
+
+interface GoogleAuthResponse {
+  jwt: string;
+  user: AuthUser;
+}
+
+declare global {
+  interface Window {
+    google?: {
+      accounts: {
+        id: {
+          initialize: (config: {
+            client_id: string;
+            callback: (response: { credential: string }) => void;
+            auto_select?: boolean;
+          }) => void;
+          prompt: () => void;
+        };
+      };
+    };
+  }
+}
+
+let scriptLoaded = false;
+
+export function loadGoogleScript(): Promise<void> {
+  if (scriptLoaded && window.google?.accounts) {
+    return Promise.resolve();
+  }
+
+  return new Promise((resolve, reject) => {
+    if (document.querySelector('script[src*="accounts.google.com/gsi/client"]')) {
+      scriptLoaded = true;
+      resolve();
+      return;
+    }
+
+    const script = document.createElement('script');
+    script.src = 'https://accounts.google.com/gsi/client';
+    script.async = true;
+    script.defer = true;
+    script.onload = () => {
+      scriptLoaded = true;
+      resolve();
+    };
+    script.onerror = () => reject(new Error('Failed to load Google Identity Services'));
+    document.head.appendChild(script);
+  });
+}
+
+export async function loginWithGoogle(): Promise<{ jwt: string; user: AuthUser }> {
+  await loadGoogleScript();
+
+  const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
+  if (!clientId) {
+    throw new Error('Google Client ID not configured');
+  }
+
+  return new Promise((resolve, reject) => {
+    window.google!.accounts.id.initialize({
+      client_id: clientId,
+      callback: async (response) => {
+        try {
+          const result = await apiPost<GoogleAuthResponse>('/auth/google', {
+            token: response.credential,
+          });
+          // Save JWT
+          try {
+            localStorage.setItem('chargegr_jwt', result.jwt);
+          } catch { /* ignore */ }
+          resolve(result);
+        } catch (err) {
+          reject(err);
+        }
+      },
+    });
+
+    window.google!.accounts.id.prompt();
+  });
+}
+
+export function logout(): void {
+  try {
+    localStorage.removeItem('chargegr_jwt');
+  } catch { /* ignore */ }
+}
+
+export async function validateSession(): Promise<AuthUser | null> {
+  try {
+    const jwt = localStorage.getItem('chargegr_jwt');
+    if (!jwt) return null;
+    const data = await apiGet<{ user: AuthUser }>('/auth/me');
+    return data.user;
+  } catch {
+    logout();
+    return null;
+  }
+}

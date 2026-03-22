@@ -13,10 +13,19 @@ import SearchBar from '@/components/Search/SearchBar';
 import LoadingSpinner from '@/components/UI/LoadingSpinner';
 import Legend from '@/components/UI/Legend';
 import SplashScreen from '@/components/UI/SplashScreen';
+import LoginButton from '@/components/Auth/LoginButton';
+import UserMenu from '@/components/Auth/UserMenu';
+import FavoritesList from '@/components/Favorites/FavoritesList';
+import { validateSession } from '@/lib/auth';
 
 export default function AppShell() {
   const { t, locale, setLocale } = useTranslation();
 
+  const user = useAppStore(s => s.user);
+  const setUser = useAppStore(s => s.setUser);
+  const favoritesOpen = useAppStore(s => s.favoritesOpen);
+  const setFavoritesOpen = useAppStore(s => s.setFavoritesOpen);
+  const favorites = useAppStore(s => s.favorites);
   const filteredStations = useAppStore(s => s.filteredStations);
   const selectedStation = useAppStore(s => s.selectedStation);
   const selectStation = useAppStore(s => s.selectStation);
@@ -36,13 +45,24 @@ export default function AppShell() {
     fetchStations();
   }, [fetchStations]);
 
+  // Validate session on mount
+  useEffect(() => {
+    validateSession().then(u => {
+      if (u) {
+        const jwt = localStorage.getItem('chargegr_jwt');
+        setUser(u, jwt);
+      }
+    });
+  }, [setUser]);
+
   const hasActiveFilters =
     filters.connectorTypes.length > 0 ||
     filters.powerCategories.length > 0 ||
     filters.networks.length > 0 ||
     filters.onlyFree ||
     filters.only24h ||
-    filters.onlyAvailable;
+    filters.onlyAvailable ||
+    filters.onlyReliable;
 
   const toggleLocale = () => {
     setLocale(locale === 'el' ? 'en' : 'el');
@@ -54,6 +74,7 @@ export default function AppShell() {
 
       <MapContainer
         stations={filteredStations}
+        favoriteIds={favorites}
         onStationClick={selectStation}
         flyTo={flyTo}
       />
@@ -111,7 +132,7 @@ export default function AppShell() {
 
         <SearchBar onSelectLocation={(lat, lng) => setFlyTo({ lat, lng })} />
 
-        {/* Desktop only: Vehicle + Language */}
+        {/* Desktop only: Vehicle + Language + Auth */}
         <div className="hidden sm:flex items-center gap-2">
           <VehicleSelector
             selectedVehicle={selectedVehicle}
@@ -131,6 +152,13 @@ export default function AppShell() {
               {locale === 'el' ? 'EN' : 'EL'}
             </span>
           </button>
+
+          {user ? <UserMenu /> : <LoginButton />}
+        </div>
+
+        {/* Mobile only: Auth button */}
+        <div className="sm:hidden">
+          {user ? <UserMenu /> : <LoginButton />}
         </div>
       </div>
 
@@ -180,6 +208,11 @@ export default function AppShell() {
             </BottomSheet>
           </div>
         </>
+      )}
+
+      {/* Favorites panel */}
+      {favoritesOpen && (
+        <FavoritesList onClose={() => setFavoritesOpen(false)} />
       )}
 
       <Legend />

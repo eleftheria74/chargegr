@@ -1,10 +1,15 @@
-import { MapPin, Clock, CheckCircle, XCircle, Timer } from 'lucide-react';
+import { MapPin, Clock, CheckCircle, XCircle, Timer, Heart } from 'lucide-react';
 import type { ChargingStation, VehicleProfile } from '@/lib/types';
 import { estimateChargingTime } from '@/lib/charging';
 import { formatDistance, haversineDistance } from '@/lib/utils';
 import { useTranslation } from '@/lib/i18n';
+import { useAppStore } from '@/store/appStore';
+import { useFavorites } from '@/hooks/useFavorites';
 import ConnectorInfo from './ConnectorInfo';
 import NavigateButton from './NavigateButton';
+import ReviewsSection from '@/components/Reviews/ReviewsSection';
+import CheckinSection from '@/components/Checkin/CheckinSection';
+import ReliabilityBadge from '@/components/Reliability/ReliabilityBadge';
 
 interface Props {
   station: ChargingStation;
@@ -14,6 +19,9 @@ interface Props {
 
 export default function StationCard({ station, userLocation, vehicle }: Props) {
   const { t } = useTranslation();
+  const user = useAppStore(s => s.user);
+  const { isFavorite, toggleFavorite } = useFavorites();
+  const stationIsFav = isFavorite(station.id);
 
   const distance = userLocation
     ? haversineDistance(userLocation.lat, userLocation.lng, station.lat, station.lng)
@@ -52,12 +60,30 @@ export default function StationCard({ station, userLocation, vehicle }: Props) {
 
   return (
     <div className="max-w-full overflow-hidden">
-      {/* Header: name + operator */}
-      <div className="mt-1">
-        <h2 className="text-lg font-semibold text-gray-900 leading-tight break-words">
-          {station.name}
-        </h2>
-        <p className="text-sm text-gray-500 mt-0.5 break-words">{station.operator}</p>
+      {/* Header: name + operator + favorite */}
+      <div className="mt-1 flex items-start justify-between gap-2">
+        <div className="min-w-0">
+          <h2 className="text-lg font-semibold text-gray-900 leading-tight break-words">
+            {station.name}
+          </h2>
+          <p className="text-sm text-gray-500 mt-0.5 break-words">{station.operator}</p>
+        </div>
+        <button
+          onClick={() => {
+            if (!user && !isFavorite(station.id)) {
+              alert(t('auth.loginToFavorite'));
+              return;
+            }
+            toggleFavorite(station.id);
+          }}
+          className="shrink-0 p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center"
+          aria-label={stationIsFav ? t('favorites.remove') : t('favorites.add')}
+        >
+          <Heart
+            size={20}
+            className={stationIsFav ? 'text-red-500 fill-red-500' : 'text-gray-400'}
+          />
+        </button>
       </div>
 
       {/* Badges row */}
@@ -155,6 +181,15 @@ export default function StationCard({ station, userLocation, vehicle }: Props) {
           </div>
         </div>
       )}
+
+      {/* Reliability badge */}
+      <ReliabilityBadge stationId={station.id} />
+
+      {/* Check-ins */}
+      <CheckinSection stationId={station.id} connectors={station.connectors} />
+
+      {/* Reviews */}
+      <ReviewsSection stationId={station.id} />
 
       {/* Navigate + Share */}
       <NavigateButton

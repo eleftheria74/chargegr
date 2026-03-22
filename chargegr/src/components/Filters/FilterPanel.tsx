@@ -86,6 +86,7 @@ export default function FilterPanel({
       onlyFree: false,
       only24h: false,
       onlyAvailable: false,
+      onlyReliable: false,
       vehicleId: null,
     });
   };
@@ -96,7 +97,8 @@ export default function FilterPanel({
     filters.networks.length > 0 ||
     filters.onlyFree ||
     filters.only24h ||
-    filters.onlyAvailable;
+    filters.onlyAvailable ||
+    filters.onlyReliable;
 
   if (!isOpen) return null;
 
@@ -222,6 +224,11 @@ export default function FilterPanel({
               label={t('filters.24hOnly')}
               checked={filters.only24h}
               onChange={v => update({ only24h: v })}
+            />
+            <Toggle
+              label={t('reliability.onlyReliable')}
+              checked={filters.onlyReliable}
+              onChange={v => update({ onlyReliable: v })}
             />
           </section>
         </div>

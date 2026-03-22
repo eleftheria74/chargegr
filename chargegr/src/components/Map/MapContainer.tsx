@@ -13,9 +13,12 @@ const SOURCE_ID = 'chargers';
 const LAYER_CLUSTERS = 'clusters';
 const LAYER_CLUSTER_COUNT = 'cluster-count';
 const LAYER_POINTS = 'charger-points';
+const SOURCE_FAVORITES = 'favorites';
+const LAYER_FAVORITES = 'favorite-points';
 
 interface Props {
   stations: ChargingStation[];
+  favoriteIds?: string[];
   onStationClick?: (station: ChargingStation) => void;
   flyTo?: { lat: number; lng: number } | null;
 }
@@ -41,7 +44,7 @@ function stationsToGeoJSON(stations: ChargingStation[]): GeoJSON.FeatureCollecti
   };
 }
 
-export default function MapContainer({ stations, onStationClick, flyTo }: Props) {
+export default function MapContainer({ stations, favoriteIds = [], onStationClick, flyTo }: Props) {
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<maplibregl.Map | null>(null);
   const allStationsRef = useRef<ChargingStation[]>([]);
@@ -139,6 +142,36 @@ export default function MapContainer({ stations, onStationClick, flyTo }: Props)
         },
       });
 
+      // Favorites layer (rendered on top)
+      map.addSource(SOURCE_FAVORITES, {
+        type: 'geojson',
+        data: { type: 'FeatureCollection', features: [] },
+      });
+
+      map.addLayer({
+        id: LAYER_FAVORITES,
+        type: 'circle',
+        source: SOURCE_FAVORITES,
+        paint: {
+          'circle-color': '#F59E0B',
+          'circle-radius': [
+            'interpolate', ['linear'], ['zoom'],
+            5, 6, 10, 9, 14, 12,
+          ],
+          'circle-stroke-width': 2,
+          'circle-stroke-color': '#ffffff',
+        },
+      });
+
+      map.on('click', LAYER_FAVORITES, (e) => {
+        const features = map.queryRenderedFeatures(e.point, { layers: [LAYER_FAVORITES] });
+        if (!features.length) return;
+        handleStationClick(features[0].properties!.id as string);
+      });
+
+      map.on('mouseenter', LAYER_FAVORITES, () => { map.getCanvas().style.cursor = 'pointer'; });
+      map.on('mouseleave', LAYER_FAVORITES, () => { map.getCanvas().style.cursor = ''; });
+
       // Click handlers
       map.on('click', LAYER_CLUSTERS, (e) => {
         const features = map.queryRenderedFeatures(e.point, { layers: [LAYER_CLUSTERS] });
@@ -187,6 +220,17 @@ export default function MapContainer({ stations, onStationClick, flyTo }: Props)
       source.setData(stationsToGeoJSON(stations));
     }
   }, [stations]);
+
+  // Update favorites layer
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map) return;
+    const source = map.getSource(SOURCE_FAVORITES) as maplibregl.GeoJSONSource | undefined;
+    if (source) {
+      const favStations = stations.filter(s => favoriteIds.includes(s.id));
+      source.setData(stationsToGeoJSON(favStations));
+    }
+  }, [stations, favoriteIds]);
 
   // Fly to location when flyTo changes
   useEffect(() => {
