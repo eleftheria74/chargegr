@@ -1,0 +1,212 @@
+# PlugMeNow — Phase 3 Sprint 2: Frontend Integration
+# Οδηγίες για Claude Code (νέο session)
+
+## CONTEXT — Διάβασε πρώτα:
+- README.md
+- CLAUDE-CODE-GUIDE.md
+
+## ΚΑΤΑΣΤΑΣΗ PROJECT
+- Phase 1 ✅ — PWA live στο chargegr.viralev.gr
+- Phase 2 ✅ — Android TWA ready
+- Phase 3 Sprint 1 ✅ — API deployed στον Contabo
+- Working directory: /media/eleftheria/DataSSD/Projects/ChargeGr/chargegr
+- Framework: Next.js 14 static export, MapLibre, Zustand, Tailwind
+- 3.810 σταθμοί, 1.321 EV μοντέλα, 74 brands
+
+## BACKEND API (ήδη τρέχει)
+- Base URL: /api (reverse proxy μέσω Plesk → Contabo:3002)
+- Health check: GET /api/health → {"status":"ok"}
+- Auth: Google Sign-In → POST /api/auth/google → JWT token
+- Endpoints:
+  - POST /api/auth/google — body: { token } → { jwt, user }
+  - GET /api/auth/me — header: Authorization: Bearer <jwt>
+  - GET /api/stations/:id/reviews → { reviews, avgRating, count }
+  - POST /api/stations/:id/reviews — body: { rating, comment, wasWorking, waitTimeMinutes }
+  - GET /api/stations/:id/checkins → { checkins }
+  - POST /api/stations/:id/checkins — body: { wasWorking, connectorUsed, chargingSpeedKw, comment }
+  - GET /api/user/favorites → { favorites: [stationId, ...] }
+  - POST /api/user/favorites/:stationId → { isFavorite: true/false }
+  - GET /api/stations/:id/score → { reliabilityPct, totalCheckins, avgRating, totalReviews }
+
+## ΤΙ ΚΑΝΟΥΜΕ — Tasks με σειρά:
+
+### TASK 1: API Client + Auth Store
+
+1. Δημιούργησε src/lib/api.ts:
+   - Base URL: '/api' (σχετικό — δουλεύει μέσω reverse proxy)
+   - Wrapper functions: get(), post(), del() με JWT header
+   - Error handling: 401 → logout, 429 → rate limit message
+
+2. Δημιούργησε auth section στο Zustand store (src/store/appStore.ts):
+   - State: user (null | { id, email, displayName, avatar }), jwt (null | string)
+   - Actions: setUser, logout
+   - Persist: jwt σε localStorage
+   - Κατά το load: αν υπάρχει jwt, κάνε GET /api/auth/me για validate
+
+3. Δημιούργησε src/lib/auth.ts:
+   - loadGoogleScript() — φορτώνει Google Identity Services
+   - loginWithGoogle() — trigger Google popup, στέλνει token στο API
+   - logout() — clear store + localStorage
+
+### TASK 2: Google Sign-In UI
+
+1. Πρόσθεσε Google Identity Services script στο layout:
+   <Script src="https://accounts.google.com/gsi/client" strategy="afterInteractive" />
+
+2. Δημιούργησε LoginButton component:
+   - Αν δεν είναι logged in: κουμπί "Σύνδεση" / "Sign in" με Google icon
+   - Mobile: compact icon-only, Desktop: icon + text
+   - Πάτημα → Google popup → login → refresh UI
+
+3. Δημιούργησε UserMenu component:
+   - Avatar (Google photo ή initials) + dropdown
+   - Menu items: "Τα αγαπημένα μου", "Αποσύνδεση"
+   - i18n σε όλα
+
+4. Πρόσθεσε LoginButton/UserMenu στο header (δίπλα στο language toggle)
+
+5. Google Client ID: διαβάζεται από environment variable
+   NEXT_PUBLIC_GOOGLE_CLIENT_ID (θα μπει στο .env.local)
+   Για τώρα βάλε placeholder — δεν μπλοκάρει τα υπόλοιπα tasks
+
+### TASK 3: Favorites
+
+1. Δημιούργησε useFavorites hook (src/hooks/useFavorites.ts):
+   - fetchFavorites() — GET /api/user/favorites
+   - toggleFavorite(stationId) — POST /api/user/favorites/:stationId
+   - isFavorite(stationId) — check local state
+   - Cache favorites σε Zustand store
+   - Offline fallback: αν δεν είναι logged in, χρησιμοποίησε localStorage
+
+2. Στο StationCard (detail view):
+   - Πρόσθεσε ♡/♥ icon button στο header (δίπλα στο share)
+   - Tap → toggle favorite (optimistic update)
+   - Αν δεν είναι logged in → prompt "Συνδεθείτε για αγαπημένα"
+
+3. Δημιούργησε FavoritesList component:
+   - Accessible από UserMenu → "Τα αγαπημένα μου"
+   - Λίστα με station name, address, tap → navigate to station
+   - Empty state: "Δεν έχετε αγαπημένα ακόμα"
+
+4. Στο χάρτη:
+   - Favorite stations: ξεχωριστό ★ icon (χρυσό/κίτρινο)
+   - Render πάνω από τα κανονικά markers
+
+5. i18n: "Αγαπημένα"/"Favorites", "Προσθήκη"/"Add", "Αφαίρεση"/"Remove"
+
+### TASK 4: Reviews
+
+1. Δημιούργησε useReviews hook (src/hooks/useReviews.ts):
+   - fetchReviews(stationId) — GET /api/stations/:id/reviews
+   - submitReview(stationId, data) — POST /api/stations/:id/reviews
+   - Cache per station σε Zustand
+
+2. Στο StationCard, πρόσθεσε Reviews section:
+   - Header: ★ 4.2 (15 κριτικές) — μέσος όρος + αριθμός
+   - Λίστα reviews: avatar, όνομα, αστέρια, σχόλιο, ημερομηνία
+   - Max 3 visible, "Δες όλες" για expand
+   - Αν δεν υπάρχουν: "Καμία κριτική ακόμα"
+
+3. Δημιούργησε ReviewForm component:
+   - Star rating: 5 αστέρια tap-to-select (★★★★☆)
+   - "Λειτουργούσε;" toggle (ναι/όχι)
+   - Comment textarea (max 500 chars, counter)
+   - "Χρόνος αναμονής" optional dropdown (0, 5, 10, 15, 30+ λεπτά)
+   - Submit button
+   - Μόνο visible αν logged in
+   - Αν ήδη έχει review → εμφάνιση "Ενημέρωσε την κριτική σου"
+
+4. Star display component (reusable):
+   - Δέχεται rating (1-5, δεκαδικά)
+   - Εμφανίζει γεμάτα/μισά/κενά αστέρια
+   - Sizes: small (station list), medium (station card), large (form)
+
+5. i18n: "Κριτικές"/"Reviews", "Γράψε κριτική"/"Write review",
+   "Λειτουργούσε;"/"Was it working?", "Υποβολή"/"Submit"
+
+### TASK 5: Check-ins
+
+1. Δημιούργησε useCheckins hook (src/hooks/useCheckins.ts):
+   - fetchCheckins(stationId) — GET /api/stations/:id/checkins
+   - submitCheckin(stationId, data) — POST /api/stations/:id/checkins
+   - getLastCheckin(stationId) — τελευταίο check-in
+
+2. Στο StationCard, πρόσθεσε Check-in section:
+   - Εμφάνιση τελευταίου check-in:
+     "πριν 2 ώρες — Λειτουργούσε ✓ (CCS2)"
+   - Κουμπί "Φόρτιζα εδώ!" / "I charged here!"
+   - Μόνο enabled αν logged in
+
+3. Δημιούργησε CheckinForm component:
+   - "Λειτουργούσε;" — μεγάλα Yes/No buttons (πράσινο/κόκκινο)
+   - Connector dropdown (Type 2, CCS2, CHAdeMO)
+   - Ταχύτητα φόρτισης (optional, number input σε kW)
+   - Σχόλιο (optional, max 200 chars)
+   - Submit → success animation (confetti ή ✓ checkmark)
+
+4. Relative time display helper:
+   - "πριν 5 λεπτά", "πριν 2 ώρες", "πριν 3 μέρες"
+   - i18n aware
+
+5. i18n: "Φόρτιζα εδώ"/"I charged here", "Λειτουργούσε"/"Working",
+   "Εκτός λειτουργίας"/"Not working"
+
+### TASK 6: Reliability Scores
+
+1. Δημιούργησε useStationScore hook (src/hooks/useStationScore.ts):
+   - fetchScore(stationId) — GET /api/stations/:id/score
+   - Cache σε Zustand (TTL match server: 5 min)
+
+2. Στο StationCard, πρόσθεσε reliability badge:
+   - >80%: πράσινο badge "Αξιόπιστος" / "Reliable"
+   - 50-80%: κίτρινο "Μέτριος" / "Moderate"
+   - <50%: κόκκινο "Προβληματικός" / "Unreliable"
+   - <3 check-ins: γκρι "Χωρίς δεδομένα" / "No data"
+   - Εμφάνιση: reliability % + total check-ins + avg rating
+
+3. Στο FilterPanel:
+   - Νέο φίλτρο: "Μόνο αξιόπιστοι (>80%)" toggle
+   - ΣΗΜΕΙΩΣΗ: αυτό φιλτράρει client-side βάσει cached scores
+   - Μπορεί να μην έχει scores για όλους τους σταθμούς — δείξε
+     μόνο αυτούς που ΕΧΟΥΝ score >80%, μην κρύψεις τους "χωρίς δεδομένα"
+
+4. i18n σε όλα τα νέα labels
+
+### TASK 7: Build + Test
+
+1. npm run dev — δοκιμή:
+   - Login button εμφανίζεται στο header
+   - Favorite toggle δουλεύει (χωρίς login → prompt)
+   - Reviews section εμφανίζεται στο station card
+   - Check-in button εμφανίζεται
+   - Reliability badge εμφανίζεται (αν υπάρχουν data)
+   - Τα API calls πηγαίνουν στο /api/... (relative URL)
+   - i18n δουλεύει σε EL και EN
+   - Mobile responsive OK
+
+2. rm -rf .next && npm run build
+   - Πρέπει να περάσει χωρίς errors
+
+3. ΣΗΜΕΙΩΣΗ: Τα API calls θα αποτυγχάνουν τοπικά (δεν τρέχει API)
+   αλλά το build πρέπει να περνάει. Τα features θα δουλέψουν
+   μόνο στο deployed version (chargegr.viralev.gr) όπου τρέχει
+   το reverse proxy.
+
+### TASK 8: Git commit
+git add -A && git commit -m "Sprint 2: Google auth, favorites, reviews, check-ins, reliability scores"
+
+## ΣΗΜΑΝΤΙΚΕΣ ΣΗΜΕΙΩΣΕΙΣ
+
+- API Base URL: '/api' (ΣΧΕΤΙΚΟ, όχι absolute — δουλεύει μέσω reverse proxy)
+- ΜΗΝ hardcode-άρεις URLs σαν https://contabo-ip:3002
+- Google Client ID: NEXT_PUBLIC_GOOGLE_CLIENT_ID στο .env.local
+  (placeholder OK — θα δουλέψει στο deploy)
+- Αν κάτι δεν δουλεύει τοπικά λόγω missing API, αυτό είναι αναμενόμενο
+- Κάθε νέο text πρέπει να έχει i18n (EL + EN)
+- Mobile-first design — δοκίμασε σε <640px
+- Χρώματα: brand green #1B7B4E, existing Tailwind classes
+- ΜΗΝ αλλάξεις existing λειτουργικότητα (χάρτης, φίλτρα, vehicle selector)
+- ΜΗΝ αλλάξεις τον API κώδικα (plugmenow-api/) — μόνο frontend
+
+## ΞΕΚΙΝΑ ΑΠΟ ΤΟ TASK 1
+Διάβασε πρώτα τα spec files και μετά ξεκίνα.

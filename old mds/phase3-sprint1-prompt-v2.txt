@@ -1,0 +1,188 @@
+# PlugMeNow — Phase 3 Sprint 1: Backend Foundation
+# Οδηγίες για Claude Code (νέο session)
+
+## CONTEXT — Διάβασε πρώτα:
+- README.md
+- PHASE-3-COMMUNITY.md (ΑΝΑΘΕΩΡΗΜΕΝΟ — v2)
+- CLAUDE-CODE-GUIDE.md
+
+## ΚΑΤΑΣΤΑΣΗ PROJECT
+- Phase 1 ✅ — PWA live στο chargegr.viralev.gr
+- Phase 2 ✅ — Android TWA built, APK tested, Play Store pending
+- 3.810 σταθμοί, 1.321 EV μοντέλα, 74 brands
+- Working directory (frontend): /media/eleftheria/DataSSD/Projects/ChargeGr/chargegr
+- Specs: /media/eleftheria/DataSSD/Projects/ChargeGr/
+
+## ΑΡΧΙΤΕΚΤΟΝΙΚΗ
+- Frontend: Next.js 14 static export → Plesk (chargegr.viralev.gr)
+- Backend API: Node.js σε Docker → Contabo VPS
+- Database: MariaDB → Contabo VPS (ήδη τρέχει)
+- Cache: Redis → Contabo VPS (ήδη τρέχει)
+- Automation: n8n → Contabo VPS (ήδη τρέχει)
+- Auth: Google Sign-In (client-side) + JWT
+
+## ΤΙ ΚΑΝΟΥΜΕ ΣΕ ΑΥΤΟ ΤΟ SPRINT
+
+### TASK 1: MariaDB Schema
+Δημιούργησε αρχείο scripts/db-schema.sql με:
+- Database: plugmenow (utf8mb4)
+- Tables: users, reviews, photos, check_ins, favorites,
+  station_corrections, vehicle_suggestions
+- Views: station_reliability, station_ratings
+- Indexes σε station_id, user_id, created_at
+- ΠΡΟΣΟΧΗ: MariaDB syntax (όχι PostgreSQL)
+  - UUID() αντί gen_random_uuid()
+  - TINYINT αντί BOOLEAN (στα checks)
+  - DATE_SUB αντί INTERVAL syntax
+  - Δες PHASE-3-COMMUNITY.md για πλήρες schema
+Το SQL θα τρέξει χειροκίνητα στον Contabo server.
+
+### TASK 2: API Project Setup
+Δημιούργησε φάκελο plugmenow-api/ στο PARENT directory
+(/media/eleftheria/DataSSD/Projects/ChargeGr/plugmenow-api/):
+
+1. npm init + dependencies:
+   - express (ή fastify)
+   - mysql2 (MariaDB driver)
+   - jsonwebtoken
+   - google-auth-library
+   - multer (photo upload)
+   - sharp (image resize)
+   - cors
+   - helmet
+   - express-rate-limit
+   - ioredis
+   - dotenv
+   - uuid
+
+2. Project structure:
+   ```
+   plugmenow-api/
+   ├── src/
+   │   ├── index.js          # App entry
+   │   ├── config/
+   │   │   └── db.js         # MariaDB connection pool
+   │   ├── middleware/
+   │   │   ├── auth.js        # JWT verify middleware
+   │   │   └── rateLimit.js   # Redis rate limiter
+   │   ├── routes/
+   │   │   ├── auth.js        # POST /auth/google, GET /auth/me
+   │   │   ├── reviews.js     # GET/POST /stations/:id/reviews
+   │   │   ├── checkins.js    # GET/POST /stations/:id/checkins
+   │   │   ├── photos.js      # GET/POST /stations/:id/photos
+   │   │   ├── favorites.js   # GET/POST/DELETE /user/favorites
+   │   │   └── scores.js      # GET /stations/:id/score
+   │   └── utils/
+   │       └── photo.js       # Sharp resize helper
+   ├── Dockerfile
+   ├── docker-compose.yml
+   ├── .env.example
+   ├── .gitignore
+   └── package.json
+   ```
+
+3. Environment variables (.env.example):
+   ```
+   PORT=3002
+   DB_HOST=localhost
+   DB_PORT=3306
+   DB_NAME=plugmenow
+   DB_USER=plugmenow
+   DB_PASS=
+   REDIS_URL=redis://localhost:6379
+   JWT_SECRET=change-me-to-random-string
+   GOOGLE_CLIENT_ID=your-google-client-id
+   PHOTO_DIR=/var/data/plugmenow/photos
+   CORS_ORIGIN=https://chargegr.viralev.gr
+   ```
+
+4. Dockerfile:
+   - Node 20 alpine
+   - Install sharp dependencies
+   - Expose 3002
+
+5. docker-compose.yml:
+   - Service: plugmenow-api
+   - Port: 3002:3002
+   - Volume: photos directory
+   - Environment from .env
+   - restart: unless-stopped
+   - ΣΗΜΕΙΩΣΗ: MariaDB και Redis τρέχουν ήδη στο host,
+     ΔΕΝ χρειάζονται σαν services στο compose
+
+### TASK 3: Auth Endpoints
+Υλοποίησε:
+1. POST /auth/google
+   - Body: { token: "google-id-token" }
+   - Verify token με google-auth-library
+   - Αν ο χρήστης δεν υπάρχει → create στο users table
+   - Αν υπάρχει → update last_login
+   - Return: { jwt: "...", user: { id, email, displayName, avatar } }
+
+2. GET /auth/me
+   - Header: Authorization: Bearer <jwt>
+   - Return: current user profile
+
+3. Auth middleware (middleware/auth.js):
+   - Verify JWT
+   - Attach user to req.user
+   - 401 αν invalid/expired
+
+### TASK 4: Reviews Endpoints
+Υλοποίησε:
+1. GET /stations/:id/reviews
+   - Return: reviews array + avg_rating + count
+   - Join με users για display_name, avatar
+   - Sorted by created_at DESC
+
+2. POST /stations/:id/reviews (auth required)
+   - Body: { rating, comment, wasWorking, waitTimeMinutes }
+   - Validation: rating 1-5, comment max 1000 chars
+   - Upsert: ένα review ανά user ανά station
+
+### TASK 5: Check-ins Endpoints
+Υλοποίησε:
+1. GET /stations/:id/checkins
+   - Return: recent check-ins (last 30 days)
+   - Join με users
+
+2. POST /stations/:id/checkins (auth required)
+   - Body: { wasWorking, connectorUsed, chargingSpeedKw, comment }
+   - Rate limit: max 1 per user per station per 4 hours
+
+### TASK 6: Favorites Endpoints
+Υλοποίησε:
+1. GET /user/favorites (auth required)
+   - Return: array of station_ids
+
+2. POST /user/favorites/:stationId (auth required)
+   - Toggle: add αν δεν υπάρχει, remove αν υπάρχει
+   - Return: { isFavorite: true/false }
+
+### TASK 7: Score Endpoint
+Υλοποίησε:
+1. GET /stations/:id/score
+   - Return: { reliability_pct, total_checkins, avg_rating,
+     total_reviews, last_checkin }
+   - Από τα views station_reliability + station_ratings
+   - Cache result σε Redis (TTL 5 λεπτά)
+
+### TASK 8: Test locally
+1. Δημιούργησε test script (scripts/test-api.sh) με curl commands
+   που δοκιμάζουν κάθε endpoint
+2. npm start — verify ότι τρέχει στο port 3002
+3. docker build + docker-compose up — verify Docker
+
+### TASK 9: Git
+git init (νέο repo plugmenow-api)
+git add -A && git commit -m "Phase 3 Sprint 1: API foundation"
+
+## ΣΗΜΑΝΤΙΚΕΣ ΣΗΜΕΙΩΣΕΙΣ
+- ΜΗΝ βάλεις actual passwords ή secrets στον κώδικα
+- Χρησιμοποίησε .env + .env.example pattern
+- ΜΗΝ αγγίξεις τον κώδικα του frontend (chargegr/) σε αυτό το sprint
+- Το frontend integration γίνεται στο Sprint 2
+- MariaDB, ΟΧΙ PostgreSQL
+- Τα photos αποθηκεύονται στο filesystem, ΟΧΙ σε DB
+
+## ΞΕΚΙΝΑ ΑΠΟ ΤΟ TASK 1

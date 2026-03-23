@@ -1,9 +1,23 @@
-# ChargeGR - Εφαρμογή Εύρεσης Σταθμών Φόρτισης EV
+# PlugMeNow - Βρες φορτιστή, τώρα!
 
 ## Σύνοψη Project
 
 Ελληνική cross-network εφαρμογή εύρεσης σταθμών φόρτισης ηλεκτρικών αυτοκινήτων.
 PWA-first, deployed στο `chargegr.viralev.gr`, με μετατροπή σε Android app μέσω TWA.
+
+**Live:** https://chargegr.viralev.gr
+**GitHub:** https://github.com/eleftheria74/chargegr
+
+## Τρέχουσα Κατάσταση (Μάρτιος 2026)
+
+| Μετρική | Τιμή |
+|---------|------|
+| Σταθμοί φόρτισης | 3.810 (ΜΥΦΑΗ) |
+| Με διεύθυνση | 3.810 (100%) |
+| Λειτουργικοί | 3.596 (94%) |
+| Μοντέλα EV | 119 από 34 brands |
+| Δίκτυα | 16 (NRG 901, DEI Blue 883, Blink 313, Joltie 389...) |
+| Γλώσσες | Ελληνικά + Αγγλικά |
 
 ## Tech Stack
 
@@ -14,92 +28,64 @@ PWA-first, deployed στο `chargegr.viralev.gr`, με μετατροπή σε A
 | Data | ΜΥΦΑΗ API + OpenChargeMap API | Δωρεάν, ανοιχτά δεδομένα |
 | Styling | Tailwind CSS | Utility-first, responsive |
 | Icons | Lucide React | Ελαφρύ, consistent |
-| State | Zustand | Minimal, απλό, χωρίς boilerplate |
-| i18n | next-intl | EL/EN support |
+| State | Zustand | Minimal, χωρίς boilerplate |
+| i18n | Custom I18nProvider | EL/EN support, localStorage |
 | Hosting | Plesk (static files) | Ήδη υπάρχει για viralev.gr |
 | Android | Bubblewrap (TWA) | Ίδιο PWA → Play Store |
 | Backend (Phase 3) | Supabase | Free tier, auth, PostgreSQL, storage |
 
 ## Φάσεις Ανάπτυξης
 
-| Φάση | Αρχείο | Χρόνος | Κόστος |
-|------|--------|--------|--------|
-| Phase 1 | [PHASE-1-MVP.md](./PHASE-1-MVP.md) | 4-6 εβδομάδες | 0€ |
-| Phase 2 | [PHASE-2-ANDROID.md](./PHASE-2-ANDROID.md) | 1-2 εβδομάδες | 25$ |
-| Phase 3 | [PHASE-3-COMMUNITY.md](./PHASE-3-COMMUNITY.md) | 4-6 εβδομάδες | 10-20€/μήνα |
-| Phase 4 | [PHASE-4-SCALE.md](./PHASE-4-SCALE.md) | Ongoing | Variable |
+| Φάση | Αρχείο | Κατάσταση | Κόστος |
+|------|--------|-----------|--------|
+| Phase 1 MVP | [PHASE-1-MVP.md](./PHASE-1-MVP.md) | ✅ Ολοκληρώθηκε | 0€ |
+| Phase 1 Status | [PHASE-1-STATUS.md](./PHASE-1-STATUS.md) | 📋 Αναφορά | - |
+| Phase 2 Android | [PHASE-2-ANDROID.md](./PHASE-2-ANDROID.md) | 🔜 Επόμενο | 25$ |
+| Phase 3 Community | [PHASE-3-COMMUNITY.md](./PHASE-3-COMMUNITY.md) | ⏳ Μελλοντικό | 10-20€/μήνα |
+| Phase 4 Scale | [PHASE-4-SCALE.md](./PHASE-4-SCALE.md) | ⏳ Μελλοντικό | Variable |
 
-## Οδηγίες χρήσης με Claude Code
+## Οδηγίες Claude Code
 
-Κάθε φάση περιέχει tasks σε σειρά. Δώσε στο Claude Code ένα task τη φορά:
+Βλέπε [CLAUDE-CODE-GUIDE.md](./CLAUDE-CODE-GUIDE.md) για αναλυτικές οδηγίες.
 
 ```bash
-# Παράδειγμα: ξεκινάς Phase 1, Task 1
-claude "Read the file PHASE-1-MVP.md and execute Task 1.1: Project Setup"
+# Πάντα δίνε context στο Claude Code
+claude "Διάβασε τα αρχεία README.md και PHASE-X-YYY.md. Εκτέλεσε το Task X.Y"
+
+# Για μεγάλα prompts αποθήκευσε σε αρχείο
+nano fix-prompt.txt
+# Στο Claude Code: "Διάβασε το fix-prompt.txt και εκτέλεσε τις οδηγίες"
 ```
 
-Μην τρέχεις πολλά tasks μαζί. Κάθε task πρέπει να ολοκληρωθεί και να δοκιμαστεί
-πριν προχωρήσεις στο επόμενο.
+## Quick Commands
 
-## Δομή φακέλων (τελικό αποτέλεσμα Phase 1)
+```bash
+# Development
+cd /media/eleftheria/DataSSD/Projects/ChargeGr/chargegr
+npm run dev
+
+# Update data
+node scripts/fetch-stations.js
+
+# Build & deploy
+npm run build
+# Upload /out/* στο Plesk
+
+# Git
+cd /media/eleftheria/DataSSD/Projects/ChargeGr
+git add -A && git commit -m "message" && git push
+```
+
+## Project Structure
 
 ```
-chargegr/
-├── public/
-│   ├── manifest.json          # PWA manifest
-│   ├── sw.js                  # Service worker
-│   ├── icons/                 # App icons (192, 512)
-│   └── locales/
-│       ├── el.json            # Ελληνικά
-│       └── en.json            # English
-├── src/
-│   ├── app/
-│   │   ├── layout.tsx
-│   │   ├── page.tsx           # Main map page
-│   │   └── globals.css
-│   ├── components/
-│   │   ├── Map/
-│   │   │   ├── MapContainer.tsx
-│   │   │   ├── ChargerMarker.tsx
-│   │   │   ├── ChargerPopup.tsx
-│   │   │   ├── ClusterLayer.tsx
-│   │   │   └── UserLocation.tsx
-│   │   ├── Filters/
-│   │   │   ├── FilterPanel.tsx
-│   │   │   ├── ConnectorFilter.tsx
-│   │   │   ├── PowerFilter.tsx
-│   │   │   └── NetworkFilter.tsx
-│   │   ├── Vehicle/
-│   │   │   ├── VehicleSelector.tsx
-│   │   │   └── VehicleProfiles.ts
-│   │   ├── Search/
-│   │   │   └── SearchBar.tsx
-│   │   ├── StationDetail/
-│   │   │   ├── StationCard.tsx
-│   │   │   ├── ConnectorInfo.tsx
-│   │   │   └── NavigateButton.tsx
-│   │   └── UI/
-│   │       ├── BottomSheet.tsx
-│   │       ├── Chip.tsx
-│   │       └── LoadingSpinner.tsx
-│   ├── hooks/
-│   │   ├── useChargers.ts
-│   │   ├── useGeolocation.ts
-│   │   ├── useVehicle.ts
-│   │   └── useFilters.ts
-│   ├── lib/
-│   │   ├── api/
-│   │   │   ├── myfahi.ts      # ΜΥΦΑΗ API client
-│   │   │   ├── ocm.ts         # OpenChargeMap API client
-│   │   │   └── merge.ts       # Merge & deduplicate data
-│   │   ├── types.ts           # TypeScript interfaces
-│   │   ├── constants.ts       # Connector types, networks etc
-│   │   ├── vehicles.ts        # Vehicle database
-│   │   └── utils.ts           # Distance calc, formatting
-│   └── store/
-│       └── appStore.ts        # Zustand store
-├── next.config.js
-├── tailwind.config.js
-├── tsconfig.json
-└── package.json
+ChargeGr/                          # Root folder
+├── *.md                            # Spec files
+└── chargegr/                       # Next.js project
+    ├── public/data/stations.json   # 3.810 σταθμοί (1.77 MB)
+    ├── public/data/vehicles.json   # 119 μοντέλα EV
+    ├── scripts/fetch-stations.js   # Data fetcher (ΜΥΦΑΗ + OCM)
+    ├── src/components/             # React components
+    ├── src/lib/                    # Types, utils, i18n
+    └── src/store/appStore.ts       # Zustand state
 ```

@@ -22,12 +22,11 @@ export default function ReviewsSection({ stationId }: Props) {
     fetchReviews();
   }, [fetchReviews]);
 
-  const displayed = showAll ? reviews : reviews.slice(0, 3);
+  const displayed = showAll ? (reviews ?? []) : (reviews ?? []).slice(0, 3);
 
   const handleSubmit = async (data: { rating: number; comment: string; wasWorking: boolean; waitTimeMinutes?: number }) => {
     await submitReview(data);
     setShowForm(false);
-    await fetchReviews();
   };
 
   return (

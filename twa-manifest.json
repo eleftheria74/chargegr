@@ -1,0 +1,51 @@
+{
+  "packageId": "gr.viralev.plugmenow",
+  "host": "chargegr.viralev.gr",
+  "name": "PlugMeNow - Σταθμοί Φόρτισης EV",
+  "launcherName": "PlugMeNow",
+  "display": "standalone",
+  "themeColor": "#1B7B4E",
+  "themeColorDark": "#000000",
+  "navigationColor": "#000000",
+  "navigationColorDark": "#000000",
+  "navigationDividerColor": "#000000",
+  "navigationDividerColorDark": "#000000",
+  "backgroundColor": "#1B7B4E",
+  "enableNotifications": true,
+  "startUrl": "/",
+  "iconUrl": "https://chargegr.viralev.gr/icons/icon-512.png",
+  "maskableIconUrl": "https://chargegr.viralev.gr/icons/icon-512-maskable.png",
+  "splashScreenFadeOutDuration": 300,
+  "signingKey": {
+    "path": "/media/eleftheria/DataSSD/Projects/ChargeGr/android.keystore",
+    "alias": "android"
+  },
+  "appVersionName": "1",
+  "appVersionCode": 1,
+  "shortcuts": [],
+  "generatorApp": "bubblewrap-cli",
+  "webManifestUrl": "https://chargegr.viralev.gr/manifest.json",
+  "fallbackType": "customtabs",
+  "features": {
+    "locationDelegation": {
+      "enabled": true
+    }
+  },
+  "alphaDependencies": {
+    "enabled": false
+  },
+  "enableSiteSettingsShortcut": true,
+  "isChromeOSOnly": false,
+  "isMetaQuest": false,
+  "fullScopeUrl": "https://chargegr.viralev.gr/",
+  "minSdkVersion": 21,
+  "orientation": "portrait",
+  "fingerprints": [],
+  "additionalTrustedOrigins": [],
+  "retainedBundles": [],
+  "protocolHandlers": [],
+  "fileHandlers": [],
+  "launchHandlerClientMode": "",
+  "displayOverride": [],
+  "appVersion": "1"
+}

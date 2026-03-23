@@ -27,7 +27,6 @@ export default function CheckinSection({ stationId, connectors }: Props) {
   const handleSubmit = async (data: { wasWorking: boolean; connectorUsed?: string; chargingSpeedKw?: number; comment?: string }) => {
     await submitCheckin(data);
     setShowForm(false);
-    await fetchCheckins();
   };
 
   return (

@@ -23,7 +23,12 @@ export function useStationScore(stationId: string) {
     setLoading(true);
     try {
       const data = await apiGet<StationScore>(`/stations/${stationId}/score`);
-      setStationScore(stationId, data);
+      setStationScore(stationId, {
+        reliabilityPct: data.reliabilityPct ?? 0,
+        totalCheckins: data.totalCheckins ?? 0,
+        avgRating: data.avgRating ?? 0,
+        totalReviews: data.totalReviews ?? 0,
+      });
     } catch {
       // API not available
     } finally {

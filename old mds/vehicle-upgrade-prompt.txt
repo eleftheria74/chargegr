@@ -1,0 +1,93 @@
+# PlugMeNow — Vehicle Data Upgrade + Cascading Selector
+# Οδηγίες για Claude Code
+
+## CONTEXT — Διάβασε πρώτα:
+- README.md (project overview)
+- CLAUDE-CODE-GUIDE.md (μαθήματα Phase 1)
+
+## Working directory: /media/eleftheria/DataSSD/Projects/ChargeGr/chargegr
+
+## ΤΙ ΚΑΝΟΥΜΕ
+Αναβάθμιση λίστας οχημάτων: από 119 μοντέλα → 1.321 μοντέλα (74 brands).
+Αλλαγή vehicle selector UI: αντί flat λίστα, cascading Brand → Model.
+Νέο αρχείο vehicles_new.json ήδη υπάρχει στο parent folder.
+
+## TASK 1: Αντικατάσταση vehicles.json
+
+1. Αντέγραψε το αρχείο:
+   cp ../vehicles_new.json public/data/vehicles.json
+
+2. Επιβεβαίωσε:
+   - 1.321 entries
+   - Κάθε entry έχει: id, brand, model, batteryCapacity, maxChargingPower, connectors
+   - Δομή παράδειγμα:
+     {
+       "id": "tesla_model_3_60kwh",
+       "brand": "Tesla",
+       "model": "Model 3",
+       "batteryCapacity": 60.0,
+       "maxChargingPower": 170.0,
+       "connectors": ["Type 2", "CCS2"]
+     }
+
+## TASK 2: Αλλαγή Vehicle Selector UI
+
+Τώρα ο vehicle selector είναι ΜΙΑ dropdown λίστα με 119 μοντέλα.
+Με 1.321 μοντέλα αυτό δεν δουλεύει. Αλλαγή σε CASCADING selector:
+
+### Βήμα 1: Επιλογή Brand
+- Dropdown (ή searchable list) με τα 74 brands, ταξινομημένα αλφαβητικά
+- Δείχνει: "BMW (52)", "Tesla (105)", κλπ — αριθμός μοντέλων σε παρένθεση
+- Searchable: ο χρήστης μπορεί να πληκτρολογήσει για φιλτράρισμα
+
+### Βήμα 2: Επιλογή Model
+- Μόλις ο χρήστης επιλέξει brand, εμφανίζονται τα μοντέλα ΜΟΝΟ αυτού του brand
+- Κάθε μοντέλο δείχνει: "Model 3 — 60 kWh, 170 kW DC"
+  (δηλαδή model name + battery + max charging power)
+- Ταξινόμηση αλφαβητικά
+
+### Βήμα 3: Επιλεγμένο όχημα
+- Μετά την επιλογή, εμφανίζεται στο header/top bar:
+  "Tesla Model 3 (60 kWh)" — compact format
+- Κουμπί "✕" ή "Αλλαγή" για reset
+
+### Τεχνικές σημειώσεις:
+- Τα vehicles φορτώνονται από public/data/vehicles.json (runtime, όχι build-time)
+- Αποθήκευση επιλογής σε localStorage (ίδια λογική με τώρα)
+- Αποθήκευση σε Zustand store (ίδια λογική με τώρα)
+- Η υπόλοιπη λογική (charging time estimation, compatibility) 
+  ΔΕΝ αλλάζει — χρησιμοποιεί ήδη batteryCapacity + maxChargingPower
+- Connector matching ΔΕΝ αλλάζει — χρησιμοποιεί ήδη connectors array
+
+### UI/UX Guidelines:
+- Mobile-first: τα dropdowns πρέπει να δουλεύουν καλά σε touch
+- Αν ο χρήστης δεν έχει επιλέξει brand, δείχνε placeholder "Επιλέξτε μάρκα"
+- Αν ο χρήστης δεν έχει επιλέξει model, δείχνε placeholder "Επιλέξτε μοντέλο"  
+- Brand dropdown: max-height με scroll, searchable input στο πάνω μέρος
+- Χρώματα + style: ίδια με τα υπάρχοντα components (Tailwind)
+- i18n: "Μάρκα"/"Brand", "Μοντέλο"/"Model" στα translations
+
+## TASK 3: Test & Build
+
+1. npm run dev — δοκιμή:
+   - Ο selector δείχνει 74 brands
+   - Επιλέγοντας brand φιλτράρονται τα μοντέλα
+   - Η επιλογή αποθηκεύεται σωστά
+   - Η εκτίμηση χρόνου φόρτισης δουλεύει σωστά
+   - Ο compatibility indicator δουλεύει σωστά
+2. rm -rf .next && npm run build — πρέπει να περάσει χωρίς errors
+3. Βεβαιώσου ότι vehicles.json φορτώνεται σωστά (runtime fetch)
+
+## TASK 4: Git commit
+
+git add -A && git commit -m "Upgrade vehicles: 119 → 1321 models, cascading brand/model selector"
+
+## ΣΗΜΑΝΤΙΚΕΣ ΣΗΜΕΙΩΣΕΙΣ
+- ΜΗΝ αλλάξεις τη λογική charging time estimation (src/lib/charging.ts)
+- ΜΗΝ αλλάξεις τη λογική connector compatibility
+- ΜΟΝΟ αντικατάσταση data + νέο UI selector
+- Τα connector types στο νέο JSON είναι: "Type 2", "CCS2", "CHAdeMO"
+  Βεβαιώσου ότι ταιριάζουν με αυτά που χρησιμοποιεί ήδη το app
+- Πρόσεξε το i18n — ό,τι νέο text μπαίνει πρέπει να είναι και στα δύο locales
+
+## ΞΕΚΙΝΑ ΑΠΟ ΤΟ TASK 1

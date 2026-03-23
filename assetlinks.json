@@ -1,0 +1,8 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "gr.viralev.plugmenow",
+    "sha256_cert_fingerprints": ["F2:22:7F:1A:C2:9C:1E:B5:70:3D:EA:A3:56:65:18:1B:24:B9:68:2F:1E:A8:82:C0:78:DB:DA:50:69:34:5C:86"]
+  }
+}]

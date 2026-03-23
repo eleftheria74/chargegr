@@ -1,0 +1,87 @@
+# PlugMeNow — Phase 2: Remaining Tasks
+# Οδηγίες για Claude Code (νέο session)
+
+## CONTEXT — Διάβασε πρώτα αυτά τα αρχεία:
+- README.md (project overview)
+- PHASE-1-STATUS.md (τι ολοκληρώθηκε)
+- PHASE-2-ANDROID.md (αναλυτικό spec)
+- CLAUDE-CODE-GUIDE.md (μαθήματα Phase 1)
+
+## ΚΑΤΑΣΤΑΣΗ PROJECT
+- Phase 1 ολοκληρώθηκε ✅
+- Live URL: https://chargegr.viralev.gr
+- GitHub: github.com/eleftheria74/chargegr
+- Working directory: /media/eleftheria/DataSSD/Projects/ChargeGr/chargegr
+- Specs directory: /media/eleftheria/DataSSD/Projects/ChargeGr/ (parent)
+- Framework: Next.js 14 static export, MapLibre, Zustand, Tailwind
+
+## ΤΙ ΕΧΕΙ ΟΛΟΚΛΗΡΩΘΕΙ ΗΔΗ ΣΤΟ PHASE 2
+- ✅ Bubblewrap TWA build (APK + AAB) — φάκελος: /media/eleftheria/DataSSD/Projects/ChargeGr/
+- ✅ assetlinks.json deployed στο Plesk (server: /var/www/vhosts/viralev.gr/chargegr.viralev.gr/.well-known/)
+- ✅ TWA verified — fullscreen χωρίς browser bar
+- ✅ Tested σε φυσική Android συσκευή (OxygenOS 16 / Android 16)
+- ✅ Signing keystore: /media/eleftheria/DataSSD/Projects/ChargeGr/android.keystore
+
+## ΤΙ ΜΕΝΕΙ — Tasks με σειρά, ένα-ένα:
+
+### TASK 1: Branding rename → "PlugMeNow"
+Άλλαξε παντού "ChargeGR" / "chargegr" (ως app name) σε "PlugMeNow":
+- public/manifest.json: name "PlugMeNow", short_name "PlugMeNow"
+- HTML <title> + meta description + og tags
+- Splash screen text αν υπάρχει
+- Οπουδήποτε αλλού εμφανίζεται ως UI text
+ΣΗΜΕΙΩΣΗ: ΜΗΝ αλλάξεις filenames, URLs, ή folder names — μόνο display text.
+Μετά κάνε: npm run build για έλεγχο.
+
+### TASK 2: assetlinks.json στο Next.js project
+Δημιούργησε public/.well-known/assetlinks.json με περιεχόμενο:
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "gr.viralev.plugmenow",
+    "sha256_cert_fingerprints": ["F2:22:7F:1A:C2:9C:1E:B5:70:3D:EA:A3:56:65:18:1B:24:B9:68:2F:1E:A8:82:C0:78:DB:DA:50:69:34:5C:86"]
+  }
+}]
+Βεβαιώσου ότι η Next.js static export σερβίρει σωστά τον φάκελο .well-known
+(μπορεί να χρειαστεί next.config.js tweak).
+
+### TASK 3: Privacy policy page
+Δημιούργησε public/privacy/index.html:
+- Responsive HTML page, styled σαν το app (brand color #1B7B4E)
+- Ελληνικά + Αγγλικά (toggle)
+- Η εφαρμογή: χρησιμοποιεί geolocation (αν ο χρήστης δώσει permission),
+  αποθηκεύει selected vehicle + language σε localStorage
+- ΔΕΝ συλλέγει: personal data, email, cookies tracking, analytics
+- App name: PlugMeNow
+- Developer: ViralEV (viralev.gr)
+- Contact email: info@viralev.gr (ή ό,τι θέλει η developer)
+
+### TASK 4: Play Store listing texts
+Δημιούργησε δύο αρχεία στο parent ChargeGr/ folder:
+playstore-el.md και playstore-en.md με:
+- Title (≤30 χαρακτήρες)
+- Short description (≤80 χαρακτήρες)
+- Full description (≤4000 χαρακτήρες)
+- Keywords
+Χρησιμοποίησε τα πραγματικά στατιστικά: 3.810 σταθμοί, 16 δίκτυα,
+119 μοντέλα EV, φίλτρα, vehicle compatibility, εκτίμηση χρόνου φόρτισης,
+πλοήγηση Google Maps, i18n EL/EN.
+
+### TASK 5: Ενημέρωση PHASE-1-STATUS.md και PHASE-2-ANDROID.md
+Ενημέρωσε τα spec files:
+- PHASE-1-STATUS: σημείωσε ότι branding rename ολοκληρώθηκε
+- PHASE-2-ANDROID: σημείωσε ποια tasks ολοκληρώθηκαν (checkmarks)
+  TWA build ✅, assetlinks ✅, privacy policy ✅, listing texts ✅
+  Εκκρεμεί: Google Play Developer account, screenshots, upload
+
+## ΣΗΜΑΝΤΙΚΕΣ ΣΗΜΕΙΩΣΕΙΣ
+- Κάνε git commit μετά από κάθε task
+- Αν κάτι αποτύχει, πες μου τι error πήρες πριν προχωρήσεις
+- Ο parent φάκελος ChargeGr (κεφαλαία) έχει τα specs
+- Ο φάκελος chargegr (μικρά) έχει τον κώδικα — cd εκεί για npm commands
+- Μετά αλλαγές: rm -rf .next && npm run build
+- ΜΗΝ κάνεις push API keys ή keystore passwords στο GitHub
+
+## ΞΕΚΙΝΑ ΑΠΟ ΤΟ TASK 1
+Διάβασε πρώτα τα 4 αρχεία specs και μετά ξεκίνα το Task 1.

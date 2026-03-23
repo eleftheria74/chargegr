@@ -24,12 +24,12 @@ export function useCheckins(stationId: string) {
   const [loading, setLoading] = useState(false);
   const [loaded, setLoaded] = useState(false);
 
-  const fetchCheckins = useCallback(async () => {
-    if (loaded) return;
+  const fetchCheckins = useCallback(async (force = false) => {
+    if (loaded && !force) return;
     setLoading(true);
     try {
       const data = await apiGet<{ checkins: Checkin[] }>(`/stations/${stationId}/checkins`);
-      setCheckins(data.checkins);
+      setCheckins(data.checkins ?? []);
       setLoaded(true);
     } catch {
       // API not available
@@ -39,10 +39,10 @@ export function useCheckins(stationId: string) {
   }, [stationId, loaded]);
 
   const submitCheckin = useCallback(async (data: SubmitData) => {
-    const result = await apiPost<{ checkin: Checkin }>(`/stations/${stationId}/checkins`, data);
-    setLoaded(false);
-    return result.checkin;
-  }, [stationId]);
+    await apiPost(`/stations/${stationId}/checkins`, data);
+    // Force refetch checkins from server
+    await fetchCheckins(true);
+  }, [stationId, fetchCheckins]);
 
   const lastCheckin = checkins.length > 0 ? checkins[0] : null;
 

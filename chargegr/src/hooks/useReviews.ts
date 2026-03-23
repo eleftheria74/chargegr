@@ -33,14 +33,14 @@ export function useReviews(stationId: string) {
   const [loading, setLoading] = useState(false);
   const [loaded, setLoaded] = useState(false);
 
-  const fetchReviews = useCallback(async () => {
-    if (loaded) return;
+  const fetchReviews = useCallback(async (force = false) => {
+    if (loaded && !force) return;
     setLoading(true);
     try {
       const data = await apiGet<ReviewsData>(`/stations/${stationId}/reviews`);
-      setReviews(data.reviews);
-      setAvgRating(data.avgRating);
-      setCount(data.count);
+      setReviews(data.reviews ?? []);
+      setAvgRating(data.avgRating ?? 0);
+      setCount(data.count ?? 0);
       setLoaded(true);
     } catch {
       // API not available — no reviews to show
@@ -50,11 +50,10 @@ export function useReviews(stationId: string) {
   }, [stationId, loaded]);
 
   const submitReview = useCallback(async (data: SubmitData) => {
-    const result = await apiPost<{ review: Review }>(`/stations/${stationId}/reviews`, data);
-    // Refresh
-    setLoaded(false);
-    return result.review;
-  }, [stationId]);
+    await apiPost(`/stations/${stationId}/reviews`, data);
+    // Force refetch reviews from server
+    await fetchReviews(true);
+  }, [stationId, fetchReviews]);
 
   return { reviews, avgRating, count, loading, loaded, fetchReviews, submitReview };
 }
