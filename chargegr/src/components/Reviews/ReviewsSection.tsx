@@ -61,10 +61,10 @@ export default function ReviewsSection({ stationId }: Props) {
               <img src={review.userAvatar} alt="" className="w-6 h-6 rounded-full" referrerPolicy="no-referrer" />
             ) : (
               <div className="w-6 h-6 rounded-full bg-gray-300 flex items-center justify-center text-[10px] font-bold text-gray-600">
-                {review.userName[0]?.toUpperCase()}
+                {(review.userName ?? '?')[0]?.toUpperCase()}
               </div>
             )}
-            <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{review.userName}</span>
+            <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{review.userName ?? '?'}</span>
             <StarRating rating={review.rating} size="sm" />
           </div>
           {review.comment && (
