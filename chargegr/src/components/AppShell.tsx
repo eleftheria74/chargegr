@@ -81,7 +81,7 @@ export default function AppShell() {
 
       {/* Loading overlay */}
       {isLoading && (
-        <div className="absolute top-20 left-1/2 -translate-x-1/2 z-30
+        <div className="absolute top-16 sm:top-20 left-1/2 -translate-x-1/2 z-30
                         bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-xl shadow-lg px-4 py-2
                         flex items-center gap-2">
           <LoadingSpinner size={18} className="text-[#1B7B4E]" />
@@ -91,7 +91,7 @@ export default function AppShell() {
 
       {/* Error banner */}
       {error && (
-        <div className="absolute top-20 left-1/2 -translate-x-1/2 z-30
+        <div className="absolute top-16 sm:top-20 left-1/2 -translate-x-1/2 z-30
                         bg-red-50 dark:bg-red-900/80 border border-red-200 dark:border-red-700 rounded-xl shadow-lg px-4 py-2
                         flex items-center gap-2 max-w-xs">
           <AlertTriangle size={16} className="text-red-500 dark:text-red-400 shrink-0" />
@@ -107,19 +107,20 @@ export default function AppShell() {
 
       {/* No results message */}
       {!isLoading && !error && filteredStations.length === 0 && hasActiveFilters && (
-        <div className="absolute top-20 left-1/2 -translate-x-1/2 z-30
+        <div className="absolute top-16 sm:top-20 left-1/2 -translate-x-1/2 z-30
                         bg-yellow-50 dark:bg-yellow-900/80 border border-yellow-200 dark:border-yellow-700 rounded-xl shadow-lg px-4 py-2
                         flex items-center gap-2">
           <span className="text-sm text-yellow-700 dark:text-yellow-200">{t('common.noStations')}</span>
         </div>
       )}
 
-      {/* Top bar: mobile = Filter + Search only | desktop = all controls */}
-      <div className="absolute top-4 left-4 right-4 z-30 flex items-center gap-2">
+      {/* Top bar */}
+      <div className="topbar absolute top-2 left-2 right-2 sm:top-4 sm:left-4 sm:right-4 z-30
+                      flex items-center gap-1.5 sm:gap-2">
         <button
           onClick={() => setFilterOpen(true)}
-          className="flex items-center gap-1.5 px-3 py-2 min-h-[44px]
-                     bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm rounded-xl shadow-lg
+          className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 sm:py-2 min-h-[40px] sm:min-h-[44px]
+                     bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-xl shadow-lg
                      border border-gray-200 dark:border-gray-600
                      hover:bg-gray-50 dark:hover:bg-gray-700 active:scale-95 transition-all shrink-0"
         >
@@ -132,8 +133,8 @@ export default function AppShell() {
 
         <SearchBar onSelectLocation={(lat, lng) => setFlyTo({ lat, lng })} />
 
-        {/* Desktop only: Vehicle + Language + Auth */}
-        <div className="hidden sm:flex items-center gap-2">
+        {/* Vehicle + Language + Auth — always visible, icon-only on mobile */}
+        <div className="flex items-center gap-1.5 sm:gap-2">
           <VehicleSelector
             selectedVehicle={selectedVehicle}
             onSelect={selectVehicle}
@@ -141,23 +142,18 @@ export default function AppShell() {
 
           <button
             onClick={toggleLocale}
-            className="flex items-center gap-1.5 px-3 py-2 min-h-[44px]
-                       bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm rounded-xl shadow-lg
+            className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 sm:py-2 min-h-[40px] sm:min-h-[44px]
+                       bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-xl shadow-lg
                        border border-gray-200 dark:border-gray-600
                        hover:bg-gray-50 dark:hover:bg-gray-700 active:scale-95 transition-all shrink-0"
             aria-label={locale === 'el' ? 'Switch to English' : 'Αλλαγή σε Ελληνικά'}
           >
             <Globe size={16} className="text-[#1B7B4E]" />
-            <span className="text-sm font-medium text-gray-800 dark:text-gray-200">
+            <span className="text-xs sm:text-sm font-bold text-gray-800 dark:text-gray-200">
               {locale === 'el' ? 'EN' : 'EL'}
             </span>
           </button>
 
-          {user ? <UserMenu /> : <LoginButton />}
-        </div>
-
-        {/* Mobile only: Auth button */}
-        <div className="sm:hidden">
           {user ? <UserMenu /> : <LoginButton />}
         </div>
       </div>
@@ -174,29 +170,35 @@ export default function AppShell() {
         onToggleLocale={toggleLocale}
       />
 
-      {/* Desktop: sidebar | Mobile: bottom sheet */}
+      {/* Desktop + landscape: sidebar | Mobile portrait: bottom sheet */}
       {selectedStation && (
         <>
-          {/* Desktop sidebar */}
-          <div className="hidden md:block fixed top-0 right-0 bottom-0 w-[380px] z-40
-                          bg-white shadow-2xl overflow-y-auto
-                          border-l border-gray-200">
-            <div className="px-5 py-4">
+          {/* Sidebar (desktop always, mobile landscape via CSS) */}
+          <div className="station-sidebar fixed top-0 right-0 bottom-0
+                          w-[350px] md:w-[380px] z-40
+                          bg-white dark:bg-gray-900 shadow-2xl overflow-y-auto
+                          border-l border-gray-200 dark:border-gray-700">
+            <div className="relative px-4 py-3 md:px-5 md:py-4">
               <button
                 onClick={() => selectStation(null)}
-                className="mb-3 text-sm text-gray-500 hover:text-gray-700 font-medium"
+                className="absolute top-2 right-3 z-10 p-2 rounded-full
+                           hover:bg-gray-100 dark:hover:bg-gray-700
+                           min-h-[44px] min-w-[44px] flex items-center justify-center"
+                aria-label={t('common.close')}
               >
-                &times; {t('common.close')}
+                <span className="text-xl text-gray-400 hover:text-gray-600">&times;</span>
               </button>
-              <StationCard
-                station={selectedStation}
-                vehicle={selectedVehicle}
-              />
+              <div className="pr-12">
+                <StationCard
+                  station={selectedStation}
+                  vehicle={selectedVehicle}
+                />
+              </div>
             </div>
           </div>
 
-          {/* Mobile bottom sheet */}
-          <div className="md:hidden">
+          {/* Mobile portrait bottom sheet */}
+          <div className="station-bottomsheet">
             <BottomSheet
               isOpen={true}
               onClose={() => selectStation(null)}

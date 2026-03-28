@@ -1,0 +1,271 @@
+# PlugMeNow — Phase 3 Sprint 3+4: Photos, Automation, Admin, WordPress
+# Οδηγίες για Claude Code (νέο session)
+
+## CONTEXT — Διάβασε πρώτα:
+- README.md
+- CLAUDE-CODE-GUIDE.md
+
+## ΚΑΤΑΣΤΑΣΗ PROJECT
+- Phase 1 ✅ — PWA live στο chargegr.viralev.gr
+- Phase 2 ✅ — Android TWA ready (Play Store pending)
+- Phase 3 Sprint 1 ✅ — API deployed στον Contabo (Docker, port 3002)
+- Phase 3 Sprint 2 ✅ — Google + Email auth, favorites, reviews, check-ins, reliability scores
+- 3.810 σταθμοί, 1.321 EV μοντέλα, 74 brands
+- Frontend: /media/eleftheria/DataSSD/Projects/ChargeGr/chargegr (Next.js 14)
+- API: /media/eleftheria/DataSSD/Projects/ChargeGr/plugmenow-api (Node.js Express, Docker)
+- API live: https://chargegr.viralev.gr/api/ (reverse proxy → Contabo:3002)
+- DB: MariaDB στον Contabo (database: plugmenow)
+- Photos directory στον Contabo: /var/data/plugmenow/photos/
+
+## ΑΡΧΙΤΕΚΤΟΝΙΚΗ
+- Frontend: Next.js 14 static export → deployed στο Plesk (chargegr.viralev.gr)
+- Backend API: Node.js Express σε Docker → Contabo VPS (port 3002)
+- Reverse proxy: Plesk nginx → /api/* → Contabo:3002
+- Database: MariaDB στον Contabo host
+- Cache: Redis στον Contabo host (ή in-memory fallback)
+- Auth: Google OAuth2 popup + Email/Password + JWT
+- n8n: ήδη τρέχει στον Contabo (port 5678)
+
+## ΤΙ ΚΑΝΟΥΜΕ — ΣΕΙΡΑ TASKS:
+
+---
+
+### TASK 1: Photo Upload API endpoints (plugmenow-api)
+
+Στο plugmenow-api/ πρόσθεσε photo upload + serving:
+
+1. Εγκατέστησε (αν δεν υπάρχει ήδη): multer, sharp
+
+2. Στο src/routes/photos.js πρόσθεσε/ενημέρωσε:
+   - POST /stations/:id/photos (auth required)
+     * Accept: multipart/form-data, field name "photo"
+     * Max file size: 5MB
+     * Accept: image/jpeg, image/png, image/webp
+     * Resize με sharp: max width 1200px, quality 85%
+     * Δημιούργησε thumbnail: 300px width
+     * Αποθήκευση: /data/photos/{station_id}/{uuid}.jpg + {uuid}_thumb.jpg
+     * Insert στο photos table
+     * Return: { id, url, thumbnailUrl, caption }
+
+   - GET /stations/:id/photos
+     * Return: array of { id, url, thumbnailUrl, caption, userName, createdAt }
+     * Join με users table
+     * Sorted by createdAt DESC
+
+   - DELETE /photos/:id (auth required, only own photos)
+
+3. Πρόσθεσε static file serving για photos:
+   - GET /photos/{station_id}/{filename}
+   - Serve από /data/photos/
+   - Τα photos θα είναι accessible μέσω: /api/photos/{station_id}/{filename}
+
+4. Validation: max 10 photos ανά user ανά station
+
+5. Δοκίμασε τοπικά: npm start, test upload με curl
+
+---
+
+### TASK 2: Photo Gallery Frontend (chargegr)
+
+Στο chargegr/ frontend πρόσθεσε:
+
+1. Δημιούργησε src/hooks/usePhotos.ts:
+   - fetchPhotos(stationId) — GET /api/stations/:id/photos
+   - uploadPhoto(stationId, file, caption) — POST multipart/form-data
+   - deletePhoto(photoId) — DELETE /api/photos/:id
+   - Cache per station σε Zustand
+
+2. Δημιούργησε src/components/Photos/PhotoGallery.tsx:
+   - Horizontal scroll gallery με thumbnails
+   - Tap thumbnail → lightbox full-size view
+   - Empty state: "Καμία φωτογραφία ακόμα"
+   - Counter: "3 φωτογραφίες"
+   - i18n σε όλα
+
+3. Δημιούργησε src/components/Photos/PhotoUpload.tsx:
+   - Κουμπί "Πρόσθεσε φωτογραφία" (μόνο logged in)
+   - File input: accept="image/*" (opens camera on mobile)
+   - Preview πριν upload
+   - Caption input (optional, max 200 chars)
+   - Upload progress indicator
+   - Success message μετά upload + auto-refresh gallery
+
+4. Πρόσθεσε PhotoGallery + PhotoUpload στο StationCard:
+   - Section "ΦΩΤΟΓΡΑΦΙΕΣ" μετά τα ΒΥΣΜΑΤΑ
+   - Gallery πάνω, upload button κάτω
+
+5. i18n: "Φωτογραφίες"/"Photos", "Πρόσθεσε φωτογραφία"/"Add photo",
+   "Λεζάντα"/"Caption"
+
+---
+
+### TASK 3: Station Data Refresh Script (n8n-ready)
+
+Δημιούργησε ένα self-contained script που μπορεί να τρέξει στον Contabo
+χωρίς εξάρτηση από το dev machine:
+
+1. Αντέγραψε/προσάρμοσε scripts/fetch-stations.js → scripts/refresh-stations.js
+   - Πρέπει να τρέχει standalone (χωρίς npm run dev)
+   - Fetch ΜΥΦΑΗ data
+   - Merge με address-cache.json
+   - Output: stations.json
+   - ΣΗΜΕΙΩΣΗ: Μην αλλάξεις τον υπάρχοντα fetch-stations.js
+
+2. Δημιούργησε scripts/deploy-to-plesk.sh:
+   ```
+   #!/bin/bash
+   # Build + deploy stations data to Plesk
+   cd /path/to/project
+   node scripts/refresh-stations.js
+   # rsync ή scp μόνο τα data αρχεία στο Plesk
+   rsync -avz public/data/stations.json user@plesk-server:/path/to/chargegr.viralev.gr/data/
+   ```
+
+3. Δημιούργησε n8n workflow JSON (scripts/n8n-refresh-workflow.json):
+   - Trigger: Cron κάθε 6 ώρες (0 */6 * * *)
+   - Execute: bash scripts/deploy-to-plesk.sh
+   - On error: HTTP webhook notification ή email
+   - ΣΗΜΑΝΤΙΚΟ: Δομή JSON συμβατή με n8n import
+
+---
+
+### TASK 4: Vehicle Admin Panel (API endpoints)
+
+Στο plugmenow-api/ πρόσθεσε admin endpoints:
+
+1. Middleware: isAdmin check (role='admin' στο users table)
+
+2. Endpoints:
+   - GET /admin/vehicles — λίστα vehicles (pagination, search)
+   - POST /admin/vehicles — add vehicle
+     body: { brand, model, batteryCapacity, maxChargingPower, connectors }
+   - PUT /admin/vehicles/:id — edit vehicle
+   - DELETE /admin/vehicles/:id — delete vehicle
+
+3. Vehicle suggestions (community):
+   - GET /admin/suggestions — pending suggestions
+   - POST /admin/suggestions/:id/approve — approve → add to vehicles
+   - POST /admin/suggestions/:id/reject — reject
+
+4. Endpoints για users (non-admin):
+   - POST /vehicles/suggest — submit vehicle suggestion
+     body: { brand, model, batteryKwh, maxChargingKw, connectorType }
+   - GET /vehicles — get all vehicles (public, cached)
+   - GET /vehicles/brands — get brands list (public, cached)
+
+5. Export endpoint:
+   - GET /admin/vehicles/export — download JSON (format compatible
+     με public/data/vehicles.json)
+
+ΣΗΜΕΙΩΣΗ: Τα vehicles τώρα φορτώνονται από static JSON.
+Στο μέλλον θα φορτώνονται από το API, αλλά αυτή η αλλαγή
+στο frontend ΔΕΝ γίνεται τώρα — μόνο τα API endpoints.
+
+---
+
+### TASK 5: Simple Admin UI
+
+Δημιούργησε minimal admin web interface:
+
+1. Στο plugmenow-api/ δημιούργησε src/admin/index.html:
+   - Single-page app (vanilla HTML + JS, no framework)
+   - Login with JWT (same auth system)
+   - Tabs: Vehicles | Suggestions | Users
+
+2. Vehicles tab:
+   - Table: brand, model, battery, maxCharging, connectors, actions
+   - Search/filter by brand
+   - Add vehicle form (modal)
+   - Edit button → inline edit ή modal
+   - Delete button (with confirmation)
+   - Export JSON button
+
+3. Suggestions tab:
+   - Table: brand, model, battery, charging, submitted by, date
+   - Approve button → adds to vehicles
+   - Reject button
+
+4. Users tab:
+   - Table: email, displayName, provider (google/email), role, lastLogin
+   - Change role dropdown (user/admin)
+   - ΣΗΜΕΙΩΣΗ: Μόνο admin μπορεί να δει αυτήν τη σελίδα
+
+5. Serve στο: GET /admin (μόνο για logged-in admin users)
+
+---
+
+### TASK 6: Vehicle Suggest UI (Frontend)
+
+Στο chargegr/ frontend:
+
+1. Δημιούργησε "Suggest Vehicle" feature:
+   - Στο vehicle selector, αν δεν βρει ο χρήστης το όχημά του:
+     link "Δεν βρίσκεις το όχημά σου; Πρότεινέ το!"
+   - Modal form: brand, model, battery (kWh), max charging (kW), connector
+   - POST /api/vehicles/suggest
+   - Success message: "Ευχαριστούμε! Θα εξεταστεί σύντομα."
+   - Μόνο logged in users
+
+2. i18n: "Πρότεινε όχημα"/"Suggest vehicle", κλπ
+
+---
+
+### TASK 7: WordPress Embed Plugin
+
+Δημιούργησε WordPress plugin σε ξεχωριστό φάκελο:
+/media/eleftheria/DataSSD/Projects/ChargeGr/plugmenow-embed/
+
+1. plugmenow-embed.php:
+   - Plugin Name: PlugMeNow Embed
+   - Shortcode: [plugmenow]
+   - Optional params: [plugmenow height="600" width="100%"]
+   - Output: responsive iframe pointing to https://chargegr.viralev.gr
+   - Mobile: full viewport height
+   - Desktop: iframe σε WordPress layout
+
+2. readme.txt: standard WordPress plugin readme
+
+3. Δομή:
+   ```
+   plugmenow-embed/
+   ├── plugmenow-embed.php
+   ├── readme.txt
+   └── assets/
+       └── plugmenow-embed.css
+   ```
+
+---
+
+### TASK 8: Build + Test + Git
+
+1. API (plugmenow-api/):
+   - npm start → test photo upload, admin endpoints, vehicle suggest
+   - Docker build test
+   - git add -A && git commit -m "Sprint 3+4: photos, admin, vehicle suggest, n8n scripts"
+
+2. Frontend (chargegr/):
+   - npm run dev → test photo gallery, vehicle suggest
+   - rm -rf .next && npm run build
+   - git add -A && git commit -m "Sprint 3+4: photo gallery, vehicle suggest UI"
+
+3. WordPress plugin:
+   - git init στο plugmenow-embed/ (ξεχωριστό repo)
+   - git add -A && git commit -m "Initial: PlugMeNow WordPress embed plugin"
+
+## ΣΗΜΑΝΤΙΚΕΣ ΣΗΜΕΙΩΣΕΙΣ
+
+- ΔΥΟ PROJECTS: Αυτό το sprint αγγίζει ΚΑΙ plugmenow-api (backend)
+  ΚΑΙ chargegr (frontend). Ξεκίνα από backend (Tasks 1,4,5),
+  μετά frontend (Tasks 2,6), μετά τα υπόλοιπα (Tasks 3,7,8).
+- Photo storage: filesystem /data/photos/ (Docker volume → /var/data/plugmenow/photos/)
+- Photos serve μέσω API: /api/photos/{station_id}/{filename}
+- Admin panel: vanilla HTML, serve μέσω Express static
+- n8n: JSON workflow για import, ΟΧΙ n8n API calls
+- WordPress plugin: ξεχωριστός φάκελος + repo
+- i18n σε ΟΛΑ τα νέα UI texts (EL + EN)
+- Mobile-first design
+- ΜΗΝ αλλάξεις existing λειτουργικότητα
+- ΜΗΝ βάζεις secrets στον κώδικα
+
+## ΞΕΚΙΝΑ ΑΠΟ ΤΟ TASK 1
+Διάβασε πρώτα τα spec files και μετά ξεκίνα.

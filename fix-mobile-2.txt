@@ -1,0 +1,11 @@
+1. ΚΕΝΟ ΠΑΝΩ: Η εφαρμογή ανοίγει με μεγάλο κενό στο πάνω μέρος στο κινητό. Ο χάρτης πρέπει να ξεκινάει αμέσως από πάνω (top:0), τα controls floating πάνω στο χάρτη.
+
+2. ΓΛΩΣΣΑ ICON: Η υδρόγειος χωρίς text (EN/EL) μπερδεύει. Στο mobile δείξε "EL" ή "EN" μέσα στο κουμπί αντί για globe icon. Ή δείξε globe + "EL"/"EN" δίπλα.
+
+3. LOGIN ICON OVERLAP: Το εικονίδιο login/avatar πέφτει πάνω στα zoom controls (+/-) δεξιά. Βάλε τα controls (Φίλτρα, Search αριστερά, Vehicle, Language, Login δεξιά) σε μία γραμμή πάνω. Τα zoom controls του MapLibre πρέπει να είναι πιο κάτω (top offset μεγαλύτερο) ώστε να μην συμπίπτουν.
+
+4. STATION CARD CLOSE vs HEART: Το κουμπί κλεισίματος (×) πέφτει πάνω στην καρδιά favorite. Βάλε τα σε σαφή απόσταση — close button δεξιά, heart αριστερά δίπλα στο station name, ή heart κάτω από τον τίτλο.
+
+5. DEBUG TEXT: Στο station card εμφανίζονται debug strings "station.atPower", "station.chargerGives", "station.butVehicleAccepts". Αυτά πρέπει να ΑΦΑΙΡΕΘΟΥΝ ή να μετατραπούν σε σωστό UI. Η εκτίμηση χρόνου φόρτισης πρέπει να δείχνει μόνο: "10% → 80%: ~35 λεπτά (στα 22 kW)" χωρίς debug text.
+
+Δοκίμασε σε Chrome DevTools Device mode iPhone SE (375px) και Pixel 7 (412px). Build.

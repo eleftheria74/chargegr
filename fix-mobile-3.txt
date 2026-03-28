@@ -1,0 +1,7 @@
+Δύο fixes:
+
+1. CLOSE BUTTON POSITION: Το × κουμπί κλεισίματος στο station card κολλάει στον τίτλο. Μετακίνησέ το πάνω δεξιά του card (absolute position, top-2 right-3) με σαφές padding. Ο τίτλος πρέπει να έχει padding-right ώστε να μην πέφτει κάτω από το ×. Η καρδιά (favorite) να είναι δίπλα στο × ή κάτω από τον τίτλο.
+
+2. LANDSCAPE MOBILE: Το landscape δεν δουλεύει σε πραγματικό κινητό (Android). Τα Tailwind landscape: classes μπορεί να μην εφαρμόζονται σωστά. Χρησιμοποίησε CSS media query @media (orientation: landscape) αντί για Tailwind landscape: prefix. Σε landscape: η top bar πρέπει να είναι πιο compact (height 40px), ο χάρτης 100% width/height, και αν είναι ανοιχτό station card να εμφανίζεται ως sidebar δεξιά (width 350px, height 100%) αντί bottom sheet.
+
+Δοκίμασε σε Chrome DevTools Device mode: Pixel 7 landscape (846x412). Build.

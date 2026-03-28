@@ -34,6 +34,16 @@ body {
   }
 }
 
+/* Push MapLibre controls below the top bar */
+.maplibregl-ctrl-top-right {
+  top: 56px !important;
+}
+@media (min-width: 640px) {
+  .maplibregl-ctrl-top-right {
+    top: 64px !important;
+  }
+}
+
 /* MapLibre overrides for dark mode */
 @media (prefers-color-scheme: dark) {
   .maplibregl-ctrl-group {
@@ -52,4 +62,50 @@ body {
 .hide-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+
+/* Station card: sidebar vs bottom sheet visibility */
+/* Default (mobile portrait): sidebar hidden, bottom sheet visible */
+.station-sidebar {
+  display: none;
+}
+.station-bottomsheet {
+  display: block;
+}
+
+/* Desktop (md: 768px+): always sidebar */
+@media (min-width: 768px) {
+  .station-sidebar {
+    display: block;
+  }
+  .station-bottomsheet {
+    display: none;
+  }
+}
+
+/* Mobile landscape: sidebar instead of bottom sheet */
+@media (orientation: landscape) and (max-width: 767px) {
+  .station-sidebar {
+    display: block;
+  }
+  .station-bottomsheet {
+    display: none;
+  }
+  /* Compact top bar */
+  .topbar {
+    top: 4px;
+    left: 4px;
+    right: 4px;
+    gap: 4px;
+  }
+  .topbar button,
+  .topbar [class*="min-h-"] {
+    min-height: 36px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+  }
+  /* Adjust MapLibre controls */
+  .maplibregl-ctrl-top-right {
+    top: 48px !important;
+  }
 }

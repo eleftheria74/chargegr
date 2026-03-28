@@ -10,7 +10,7 @@ const AppShell = dynamic(() => import('@/components/AppShell'), {
 export default function Home() {
   return (
     <I18nProvider>
-      <main className="h-screen w-screen overflow-hidden relative">
+      <main className="h-[100dvh] w-screen overflow-hidden relative">
         <AppShell />
       </main>
     </I18nProvider>

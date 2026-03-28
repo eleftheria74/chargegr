@@ -243,7 +243,7 @@ export default function MapContainer({ stations, favoriteIds = [], onStationClic
     <div
       ref={mapContainerRef}
       className="w-full"
-      style={{ height: '100vh' }}
+      style={{ height: '100dvh' }}
     />
   );
 }

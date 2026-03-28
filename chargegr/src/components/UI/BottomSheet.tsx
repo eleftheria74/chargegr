@@ -69,18 +69,18 @@ export default function BottomSheet({ isOpen, onClose, children }: Props) {
           <div className="w-10 h-1 bg-gray-300 rounded-full" />
         </div>
 
-        {/* Close button */}
+        {/* Close button — positioned left to avoid overlap with favorite heart */}
         <button
           onClick={onClose}
-          className="absolute top-3 right-3 p-1.5 rounded-full hover:bg-gray-100
+          className="absolute top-3 left-3 p-1.5 rounded-full hover:bg-gray-100
                      min-h-[44px] min-w-[44px] flex items-center justify-center"
           aria-label={t('common.close')}
         >
           <X size={20} className="text-gray-500" />
         </button>
 
-        {/* Content — tighter padding on mobile */}
-        <div className="px-4 pb-6">
+        {/* Content — tighter padding on mobile, extra top padding to clear close button */}
+        <div className="px-4 pt-2 pb-6">
           {children}
         </div>
       </div>
