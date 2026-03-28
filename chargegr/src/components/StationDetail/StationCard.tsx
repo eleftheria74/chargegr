@@ -10,6 +10,7 @@ import NavigateButton from './NavigateButton';
 import ReviewsSection from '@/components/Reviews/ReviewsSection';
 import CheckinSection from '@/components/Checkin/CheckinSection';
 import ReliabilityBadge from '@/components/Reliability/ReliabilityBadge';
+import PhotosSection from '@/components/Photos/PhotosSection';
 
 interface Props {
   station: ChargingStation;
@@ -181,6 +182,9 @@ export default function StationCard({ station, userLocation, vehicle }: Props) {
           </div>
         </div>
       )}
+
+      {/* Photos */}
+      <PhotosSection stationId={station.id} />
 
       {/* Reliability badge */}
       <ReliabilityBadge stationId={station.id} />

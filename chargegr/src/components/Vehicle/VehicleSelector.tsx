@@ -5,6 +5,7 @@ import { Car, Search, X, ChevronDown, ChevronRight } from 'lucide-react';
 import type { VehicleProfile } from '@/lib/types';
 import { loadVehicleDatabase } from '@/lib/vehicles';
 import { useTranslation } from '@/lib/i18n';
+import VehicleSuggest from './VehicleSuggest';
 
 interface Props {
   selectedVehicle: VehicleProfile | null;
@@ -19,6 +20,7 @@ export default function VehicleSelector({ selectedVehicle, onSelect }: Props) {
   const [vehicles, setVehicles] = useState<VehicleProfile[]>([]);
   const [selectedBrand, setSelectedBrand] = useState<string | null>(null);
   const [brandSearch, setBrandSearch] = useState('');
+  const [suggestOpen, setSuggestOpen] = useState(false);
   const brandInputRef = useRef<HTMLInputElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
 
@@ -118,7 +120,7 @@ export default function VehicleSelector({ selectedVehicle, onSelect }: Props) {
                    transition-all max-w-[260px]"
       >
         <Car size={16} className="text-[#1B7B4E] shrink-0" />
-        <span className="text-sm font-medium text-gray-800 dark:text-gray-200 truncate">
+        <span className="text-sm font-medium text-gray-800 dark:text-gray-200 truncate hidden sm:inline">
           {selectedVehicle
             ? `${selectedVehicle.make} ${selectedVehicle.model}`
             : t('vehicle.select')
@@ -127,13 +129,13 @@ export default function VehicleSelector({ selectedVehicle, onSelect }: Props) {
         {selectedVehicle ? (
           <button
             onClick={(e) => { e.stopPropagation(); handleClear(); }}
-            className="shrink-0 p-0.5 rounded-full hover:bg-gray-200 dark:hover:bg-gray-600"
+            className="shrink-0 p-0.5 rounded-full hover:bg-gray-200 dark:hover:bg-gray-600 hidden sm:block"
             aria-label={t('vehicle.remove')}
           >
             <X size={14} className="text-gray-400" />
           </button>
         ) : (
-          <ChevronDown size={14} className="text-gray-400 shrink-0" />
+          <ChevronDown size={14} className="text-gray-400 shrink-0 hidden sm:block" />
         )}
       </button>
 
@@ -185,6 +187,14 @@ export default function VehicleSelector({ selectedVehicle, onSelect }: Props) {
                   </li>
                 ))}
               </ul>
+              <div className="border-t border-gray-200 dark:border-gray-700 px-3 py-2">
+                <button
+                  onClick={() => { setIsOpen(false); setSuggestOpen(true); }}
+                  className="text-xs text-blue-600 hover:text-blue-700 dark:text-blue-400"
+                >
+                  {t('vehicle.suggestLink')}
+                </button>
+              </div>
             </>
           ) : (
             /* ── Step 2: Model selection ── */
@@ -225,6 +235,7 @@ export default function VehicleSelector({ selectedVehicle, onSelect }: Props) {
           )}
         </div>
       )}
+      <VehicleSuggest open={suggestOpen} onClose={() => setSuggestOpen(false)} />
     </div>
   );
 }
