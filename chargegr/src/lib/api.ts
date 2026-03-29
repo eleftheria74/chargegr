@@ -22,7 +22,12 @@ async function request<T>(
     headers['Authorization'] = `Bearer ${jwt}`;
   }
 
-  const res = await fetch(`${BASE_URL}${path}`, {
+  let url = `${BASE_URL}${path}`;
+  if (method === 'GET') {
+    url += (url.includes('?') ? '&' : '?') + '_t=' + Date.now();
+  }
+
+  const res = await fetch(url, {
     method,
     headers,
     body: body ? JSON.stringify(body) : undefined,

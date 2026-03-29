@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useRef } from 'react';
 
 const BASE_URL = '/api';
 
@@ -22,25 +22,32 @@ interface PhotosResponse {
 export function usePhotos(stationId: string) {
   const [photos, setPhotos] = useState<Photo[]>([]);
   const [loading, setLoading] = useState(false);
-  const [loaded, setLoaded] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
+  // Track which stationId has been loaded (ref avoids useCallback dep issues)
+  const loadedForRef = useRef<string | null>(null);
 
   const fetchPhotos = useCallback(async (force = false) => {
-    if (loaded && !force) return;
+    if (loadedForRef.current === stationId && !force) return;
+
+    // Clear stale data only when station changed (not on force refetch after upload)
+    if (loadedForRef.current !== stationId) {
+      setPhotos([]);
+    }
+
     setLoading(true);
     try {
       const res = await fetch(`${BASE_URL}/stations/${stationId}/photos`);
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const data: PhotosResponse = await res.json();
       setPhotos(data.photos ?? []);
-      setLoaded(true);
+      loadedForRef.current = stationId;
     } catch {
       // API not available
     } finally {
       setLoading(false);
     }
-  }, [stationId, loaded]);
+  }, [stationId]);
 
   const uploadPhoto = useCallback(async (file: File, caption?: string) => {
     const jwt = getJwt();
@@ -87,5 +94,5 @@ export function usePhotos(stationId: string) {
     await fetchPhotos(true);
   }, [fetchPhotos]);
 
-  return { photos, loading, loaded, uploading, uploadProgress, fetchPhotos, uploadPhoto, deletePhoto };
+  return { photos, loading, loaded: loadedForRef.current === stationId, uploading, uploadProgress, fetchPhotos, uploadPhoto, deletePhoto };
 }

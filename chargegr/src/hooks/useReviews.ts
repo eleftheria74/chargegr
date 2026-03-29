@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useRef } from 'react';
 import { apiGet, apiPost } from '@/lib/api';
 
 export interface Review {
@@ -42,10 +42,19 @@ export function useReviews(stationId: string) {
   const [avgRating, setAvgRating] = useState(0);
   const [count, setCount] = useState(0);
   const [loading, setLoading] = useState(false);
-  const [loaded, setLoaded] = useState(false);
+  // Track which stationId has been loaded (ref avoids useCallback dep issues)
+  const loadedForRef = useRef<string | null>(null);
 
   const fetchReviews = useCallback(async (force = false) => {
-    if (loaded && !force) return;
+    if (loadedForRef.current === stationId && !force) return;
+
+    // Clear stale data only when station changed (not on force refetch after submit)
+    if (loadedForRef.current !== stationId) {
+      setReviews([]);
+      setAvgRating(0);
+      setCount(0);
+    }
+
     setLoading(true);
     try {
       const data = await apiGet<ReviewsData>(`/stations/${stationId}/reviews`);
@@ -63,13 +72,13 @@ export function useReviews(stationId: string) {
       })));
       setAvgRating(data.avgRating ?? 0);
       setCount(data.totalReviews ?? 0);
-      setLoaded(true);
+      loadedForRef.current = stationId;
     } catch {
       // API not available — no reviews to show
     } finally {
       setLoading(false);
     }
-  }, [stationId, loaded]);
+  }, [stationId]);
 
   const submitReview = useCallback(async (data: SubmitData) => {
     await apiPost(`/stations/${stationId}/reviews`, data);
@@ -77,5 +86,5 @@ export function useReviews(stationId: string) {
     await fetchReviews(true);
   }, [stationId, fetchReviews]);
 
-  return { reviews, avgRating, count, loading, loaded, fetchReviews, submitReview };
+  return { reviews, avgRating, count, loading, loaded: loadedForRef.current === stationId, fetchReviews, submitReview };
 }
