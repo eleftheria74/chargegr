@@ -140,10 +140,19 @@ export async function validateSession(): Promise<AuthUser | null> {
   try {
     const jwt = localStorage.getItem('chargegr_jwt');
     if (!jwt) return null;
-    const data = await apiGet<{ user: AuthUser }>('/auth/me');
-    return data.user;
-  } catch {
-    logout();
+    // /auth/me returns user fields directly (not wrapped in {user: ...})
+    const data = await apiGet<AuthUser & Record<string, unknown>>('/auth/me');
+    return {
+      id: data.id,
+      email: data.email,
+      displayName: data.displayName,
+      avatar: data.avatar ?? null,
+    };
+  } catch (err) {
+    // Only clear JWT on auth errors (401 is already handled by api.ts)
+    if (err instanceof Error && err.message === 'unauthorized') {
+      logout();
+    }
     return null;
   }
 }

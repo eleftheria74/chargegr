@@ -13,10 +13,21 @@ export interface Review {
   createdAt: string;
 }
 
+// API response shape (differs from frontend Review interface)
+interface ApiReview {
+  id: string;
+  rating: number;
+  comment: string;
+  wasWorking: boolean;
+  waitTimeMinutes: number | null;
+  createdAt: string;
+  user: { displayName: string; avatar: string | null };
+}
+
 interface ReviewsData {
-  reviews: Review[];
+  reviews: ApiReview[];
   avgRating: number;
-  count: number;
+  totalReviews: number;
 }
 
 interface SubmitData {
@@ -38,9 +49,20 @@ export function useReviews(stationId: string) {
     setLoading(true);
     try {
       const data = await apiGet<ReviewsData>(`/stations/${stationId}/reviews`);
-      setReviews(data.reviews ?? []);
+      // Map API response (user object) to flat Review fields
+      setReviews((data.reviews ?? []).map(r => ({
+        id: r.id,
+        userId: '',
+        userName: r.user?.displayName ?? '?',
+        userAvatar: r.user?.avatar ?? null,
+        rating: r.rating,
+        comment: r.comment,
+        wasWorking: r.wasWorking,
+        waitTimeMinutes: r.waitTimeMinutes,
+        createdAt: r.createdAt,
+      })));
       setAvgRating(data.avgRating ?? 0);
-      setCount(data.count ?? 0);
+      setCount(data.totalReviews ?? 0);
       setLoaded(true);
     } catch {
       // API not available — no reviews to show

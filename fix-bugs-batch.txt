@@ -1,0 +1,9 @@
+Τρία bugs προς διόρθωση:
+
+1. SESSION PERSISTENCE: Μετά από page refresh χάνεται η σύνδεση χρήστη. Το JWT αποθηκεύεται σε localStorage αλλά κατά το reload δεν διαβάζεται σωστά. Έλεγξε στο appStore.ts ή auth.ts: κατά το initialization πρέπει να κάνει check localStorage για jwt, και αν υπάρχει να κάνει GET /api/auth/me για restore session. Βεβαιώσου ότι αυτό γίνεται στο useEffect του AppShell ή σε Zustand persist middleware. Δοκίμασε: login, refresh page, ο χρήστης πρέπει να παραμένει logged in.
+
+2. PHOTO UPLOAD: Μετά το upload φωτογραφίας δεν εμφανίζεται μήνυμα επιτυχίας/αποτυχίας και η φωτογραφία δεν φαίνεται. Πιθανά: α) το upload URL δεν είναι σωστό (πρέπει POST /api/stations/:id/photos), β) η gallery δεν κάνει refetch μετά upload, γ) το photo serving URL δεν είναι σωστό (πρέπει /api/photos/{station_id}/{filename}). Πρόσθεσε success/error toast message μετά upload. Μετά successful upload κάνε force refetch photos. Έλεγξε ότι τα photo URLs στο gallery δείχνουν σωστά στο /api/photos/...
+
+3. REVIEW PERSISTENCE: Μετά υποβολή κριτικής και refresh δεν φαίνεται η κριτική. Πιθανά: α) η κριτική δεν αποθηκεύεται στη βάση (check API response), β) το fetch reviews δεν φέρνει τα σωστά δεδομένα, γ) το station_id δεν ταιριάζει. Έλεγξε τα useReviews.ts: μετά POST /api/stations/:id/reviews πρέπει να κάνει GET /api/stations/:id/reviews και να δείχνει τα αποτελέσματα. Βεβαιώσου ότι το station_id που στέλνεται ταιριάζει με αυτό στο stations.json.
+
+Δοκίμασε build.
