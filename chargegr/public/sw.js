@@ -14,16 +14,19 @@ self.addEventListener('install', (event) => {
   self.skipWaiting();
 });
 
-// Activate — clean ALL old caches
+// Activate — clean ALL old caches, then force-reload all open tabs
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((keys) =>
       Promise.all(
         keys.filter((key) => key !== CACHE_NAME).map((key) => caches.delete(key))
       )
-    )
+    ).then(() => self.clients.claim())
+      .then(() => self.clients.matchAll({ type: 'window' }))
+      .then((clients) => {
+        clients.forEach((client) => client.postMessage({ type: 'SW_UPDATED' }));
+      })
   );
-  self.clients.claim();
 });
 
 // Fetch strategy

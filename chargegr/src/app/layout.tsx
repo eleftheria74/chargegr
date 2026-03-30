@@ -55,8 +55,20 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{
             __html: `
               if ('serviceWorker' in navigator) {
-                window.addEventListener('load', () => {
+                window.addEventListener('load', function() {
                   navigator.serviceWorker.register('/sw.js');
+                });
+                var refreshing = false;
+                navigator.serviceWorker.addEventListener('controllerchange', function() {
+                  if (refreshing) return;
+                  refreshing = true;
+                  window.location.reload();
+                });
+                navigator.serviceWorker.addEventListener('message', function(e) {
+                  if (e.data && e.data.type === 'SW_UPDATED' && !refreshing) {
+                    refreshing = true;
+                    window.location.reload();
+                  }
                 });
               }
             `,
