@@ -12,6 +12,7 @@ import VehicleSelector from '@/components/Vehicle/VehicleSelector';
 import SearchBar from '@/components/Search/SearchBar';
 import LoadingSpinner from '@/components/UI/LoadingSpinner';
 import Legend from '@/components/UI/Legend';
+import LegalLinks from '@/components/UI/LegalLinks';
 import SplashScreen from '@/components/UI/SplashScreen';
 import LoginButton from '@/components/Auth/LoginButton';
 import UserMenu from '@/components/Auth/UserMenu';
@@ -218,6 +219,7 @@ export default function AppShell() {
       )}
 
       <Legend />
+      <LegalLinks />
     </>
   );
 }

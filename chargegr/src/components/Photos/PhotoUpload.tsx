@@ -77,13 +77,18 @@ export default function PhotoUpload({ onUpload, uploading }: Props) {
       />
 
       {!preview ? (
-        <button
-          onClick={() => fileRef.current?.click()}
-          className="flex items-center gap-2 text-sm text-blue-600 hover:text-blue-700 font-medium py-1.5"
-        >
-          <Camera size={16} />
-          {t('photos.addPhoto')}
-        </button>
+        <div>
+          <button
+            onClick={() => fileRef.current?.click()}
+            className="flex items-center gap-2 text-sm text-blue-600 hover:text-blue-700 font-medium py-1.5"
+          >
+            <Camera size={16} />
+            {t('photos.addPhoto')}
+          </button>
+          <p className="text-[11px] text-gray-400 dark:text-gray-500 mt-0.5 leading-tight">
+            {t('photoConsent.notice')}
+          </p>
+        </div>
       ) : (
         <div className="bg-gray-50 rounded-lg p-3 space-y-3">
           {/* Preview */}

@@ -26,8 +26,15 @@ export default function AuthModal({ onClose }: Props) {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [displayName, setDisplayName] = useState('');
+  const [consentChecked, setConsentChecked] = useState(false);
+  const [showGoogleConsent, setShowGoogleConsent] = useState(false);
 
   const handleGoogleLogin = async () => {
+    setShowGoogleConsent(true);
+  };
+
+  const handleGoogleConsentAccept = async () => {
+    setShowGoogleConsent(false);
     setLoading(true);
     setError('');
     try {
@@ -62,6 +69,10 @@ export default function AuthModal({ onClose }: Props) {
       }
       if (password !== confirmPassword) {
         setError(t('auth.errorMatch'));
+        return;
+      }
+      if (!consentChecked) {
+        setError(t('consent.required'));
         return;
       }
     }
@@ -214,9 +225,27 @@ export default function AuthModal({ onClose }: Props) {
                   />
                 )}
 
+                {/* Consent checkbox (register only) */}
+                {emailMode === 'register' && (
+                  <label className="flex items-start gap-2 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={consentChecked}
+                      onChange={e => setConsentChecked(e.target.checked)}
+                      className="mt-1 w-4 h-4 accent-[#1B7B4E] shrink-0"
+                    />
+                    <span className="text-xs text-gray-600 dark:text-gray-400">
+                      {t('consent.agreeTerms')}{' '}
+                      <a href="/privacy/" target="_blank" className="text-[#1B7B4E] underline">{t('consent.privacyPolicy')}</a>
+                      {' '}{t('consent.and')}{' '}
+                      <a href="/terms/" target="_blank" className="text-[#1B7B4E] underline">{t('consent.termsOfService')}</a>
+                    </span>
+                  </label>
+                )}
+
                 <button
                   onClick={handleEmailSubmit}
-                  disabled={loading}
+                  disabled={loading || (emailMode === 'register' && !consentChecked)}
                   className="w-full flex items-center justify-center gap-2 py-3 rounded-lg text-sm font-medium
                              text-white bg-[#1B7B4E] hover:bg-[#166640] disabled:opacity-50 transition-colors min-h-[48px]"
                 >
@@ -231,6 +260,33 @@ export default function AuthModal({ onClose }: Props) {
               </div>
             )}
           </div>
+
+          {/* Google consent dialog */}
+          {showGoogleConsent && (
+            <div className="px-5 py-4 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/50">
+              <p className="text-sm text-gray-700 dark:text-gray-300 mb-3">
+                {t('consent.googleConsent')}{' '}
+                <a href="/privacy/" target="_blank" className="text-[#1B7B4E] underline">{t('consent.privacyPolicy')}</a>
+                {' '}{t('consent.and')}{' '}
+                <a href="/terms/" target="_blank" className="text-[#1B7B4E] underline">{t('consent.termsOfService')}</a>.
+              </p>
+              <div className="flex gap-2">
+                <button
+                  onClick={() => setShowGoogleConsent(false)}
+                  className="flex-1 px-3 py-2.5 rounded-lg text-sm border border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 min-h-[44px]"
+                >
+                  {t('consent.cancel')}
+                </button>
+                <button
+                  onClick={handleGoogleConsentAccept}
+                  disabled={loading}
+                  className="flex-1 px-3 py-2.5 rounded-lg text-sm font-medium text-white bg-[#1B7B4E] hover:bg-[#166640] disabled:opacity-50 min-h-[44px]"
+                >
+                  {loading ? t('common.loading') : t('consent.accept')}
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </>

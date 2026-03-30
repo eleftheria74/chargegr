@@ -1,10 +1,11 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { Heart, LogOut, ChevronDown } from 'lucide-react';
+import { Heart, LogOut, ChevronDown, Settings } from 'lucide-react';
 import { useTranslation } from '@/lib/i18n';
 import { useAppStore } from '@/store/appStore';
 import { logout as authLogout } from '@/lib/auth';
+import AccountSettings from './AccountSettings';
 
 export default function UserMenu() {
   const { t } = useTranslation();
@@ -12,6 +13,7 @@ export default function UserMenu() {
   const logoutStore = useAppStore(s => s.logout);
   const setFavoritesOpen = useAppStore(s => s.setFavoritesOpen);
   const [open, setOpen] = useState(false);
+  const [settingsOpen, setSettingsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -42,6 +44,11 @@ export default function UserMenu() {
 
   const handleFavorites = () => {
     setFavoritesOpen(true);
+    setOpen(false);
+  };
+
+  const handleSettings = () => {
+    setSettingsOpen(true);
     setOpen(false);
   };
 
@@ -83,6 +90,13 @@ export default function UserMenu() {
             {t('favorites.myFavorites')}
           </button>
           <button
+            onClick={handleSettings}
+            className="w-full flex items-center gap-2 px-3 py-2.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 min-h-[44px]"
+          >
+            <Settings size={16} className="text-gray-500" />
+            {t('settings.title')}
+          </button>
+          <button
             onClick={handleLogout}
             className="w-full flex items-center gap-2 px-3 py-2.5 text-sm text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 min-h-[44px] border-t border-gray-100 dark:border-gray-700"
           >
@@ -91,6 +105,8 @@ export default function UserMenu() {
           </button>
         </div>
       )}
+
+      {settingsOpen && <AccountSettings onClose={() => setSettingsOpen(false)} />}
     </div>
   );
 }

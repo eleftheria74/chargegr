@@ -52,6 +52,7 @@
     }
     p, li { font-size: 0.95rem; margin-bottom: 0.5rem; }
     ul { padding-left: 1.25rem; margin-bottom: 0.75rem; }
+    a { color: #1B7B4E; }
     .footer {
       text-align: center;
       padding: 1.5rem;
@@ -78,78 +79,132 @@
 <div class="content">
   <!-- GREEK -->
   <div id="content-el">
-    <p><strong>Τελευταία ενημέρωση:</strong> 20 Μαρτίου 2026</p>
+    <p><strong>Τελευταία ενημέρωση:</strong> 30 Μαρτίου 2026</p>
 
-    <h2>1. Γενικές Πληροφορίες</h2>
-    <p>Η εφαρμογή <strong>PlugMeNow</strong> αναπτύχθηκε από την <strong>ViralEV</strong> (viralev.gr) και παρέχει πληροφορίες για σταθμούς φόρτισης ηλεκτρικών οχημάτων στην Ελλάδα. Σεβόμαστε την ιδιωτικότητά σας και δεσμευόμαστε να προστατεύουμε τα δεδομένα σας.</p>
+    <h2>1. Ποιοι Είμαστε</h2>
+    <p>Η εφαρμογή <strong>PlugMeNow</strong> αναπτύχθηκε από την <strong>ViralEV</strong> (<a href="https://viralev.gr" target="_blank">viralev.gr</a>) και παρέχει πληροφορίες για σταθμούς φόρτισης ηλεκτρικών οχημάτων στην Ελλάδα. Σεβόμαστε την ιδιωτικότητά σας και δεσμευόμαστε να προστατεύουμε τα προσωπικά σας δεδομένα σύμφωνα με τον Γενικό Κανονισμό Προστασίας Δεδομένων (GDPR).</p>
+    <p><strong>Επικοινωνία:</strong> <a href="mailto:info@viralev.gr">info@viralev.gr</a></p>
 
-    <h2>2. Δεδομένα που Συλλέγουμε</h2>
-    <p>Η εφαρμογή <strong>δεν συλλέγει προσωπικά δεδομένα</strong>. Συγκεκριμένα:</p>
+    <h2>2. Τι Δεδομένα Συλλέγουμε</h2>
+    <p>Ανάλογα με τον τρόπο χρήσης της εφαρμογής, ενδέχεται να συλλέξουμε τα εξής:</p>
     <ul>
-      <li><strong>Τοποθεσία (Geolocation):</strong> Χρησιμοποιείται αποκλειστικά για να εμφανίσει κοντινούς σταθμούς φόρτισης στον χάρτη. Η τοποθεσία σας δεν αποθηκεύεται, δεν αποστέλλεται σε servers, και ζητείται μόνο με τη ρητή συγκατάθεσή σας μέσω του browser.</li>
-      <li><strong>Επιλεγμένο όχημα:</strong> Αποθηκεύεται τοπικά στη συσκευή σας (localStorage) για να θυμάται την προτίμησή σας. Δεν αποστέλλεται πουθενά.</li>
-      <li><strong>Γλώσσα:</strong> Η επιλογή γλώσσας (Ελληνικά/Αγγλικά) αποθηκεύεται τοπικά στη συσκευή σας (localStorage).</li>
+      <li><strong>Στοιχεία λογαριασμού:</strong> Διεύθυνση email, εμφανιζόμενο όνομα (display name) και εικόνα προφίλ (avatar). Αυτά παρέχονται κατά την εγγραφή σας (μέσω email ή μέσω Google Sign-In).</li>
+      <li><strong>Τοποθεσία:</strong> Χρησιμοποιείται αποκλειστικά για να εμφανίσει κοντινούς σταθμούς φόρτισης στον χάρτη. Η τοποθεσία σας ζητείται μόνο με τη ρητή συγκατάθεσή σας μέσω του browser και <strong>δεν αποθηκεύεται στον server</strong>.</li>
+      <li><strong>Αξιολογήσεις (Reviews):</strong> Κείμενο αξιολόγησης, βαθμολογία, ημερομηνία υποβολής και ο σταθμός στον οποίο αναφέρεται.</li>
+      <li><strong>Φωτογραφίες:</strong> Εικόνες σταθμών φόρτισης που ανεβάζετε, μαζί με τυχόν λεζάντα.</li>
+      <li><strong>Check-ins:</strong> Κατάσταση σταθμού, τύπος connector και ταχύτητα φόρτισης που αναφέρετε.</li>
+      <li><strong>Αγαπημένα (Favorites):</strong> Η λίστα σταθμών που έχετε αποθηκεύσει ως αγαπημένα.</li>
+      <li><strong>Προτιμήσεις:</strong> Το επιλεγμένο όχημά σας και η γλώσσα προτίμησης αποθηκεύονται τοπικά στη συσκευή σας (localStorage).</li>
     </ul>
 
-    <h2>3. Δεδομένα που ΔΕΝ Συλλέγουμε</h2>
+    <h2>3. Πώς Χρησιμοποιούμε τα Δεδομένα</h2>
     <ul>
-      <li>Δεν συλλέγουμε ονόματα, email, τηλέφωνα ή άλλα προσωπικά στοιχεία</li>
-      <li>Δεν χρησιμοποιούμε cookies tracking</li>
-      <li>Δεν χρησιμοποιούμε analytics ή εργαλεία παρακολούθησης</li>
-      <li>Δεν εμφανίζουμε διαφημίσεις</li>
-      <li>Δεν μοιραζόμαστε δεδομένα με τρίτους</li>
+      <li><strong>Παροχή υπηρεσίας:</strong> Εμφάνιση αξιολογήσεων, φωτογραφιών, αγαπημένων και check-ins στην εφαρμογή.</li>
+      <li><strong>Βελτίωση ακρίβειας:</strong> Τα δεδομένα κοινότητας χρησιμοποιούνται για τον υπολογισμό βαθμολογίας αξιοπιστίας σταθμών (reliability scores).</li>
+      <li><strong>ΔΕΝ πουλάμε</strong> τα δεδομένα σας σε τρίτους.</li>
+      <li><strong>ΔΕΝ χρησιμοποιούμε</strong> cookies παρακολούθησης ή εργαλεία analytics.</li>
+      <li><strong>ΔΕΝ στέλνουμε</strong> διαφημιστικά ή marketing emails.</li>
     </ul>
 
     <h2>4. Αποθήκευση Δεδομένων</h2>
-    <p>Όλα τα δεδομένα αποθηκεύονται αποκλειστικά στη συσκευή σας μέσω localStorage. Μπορείτε να τα διαγράψετε ανά πάσα στιγμή μέσω των ρυθμίσεων του browser σας.</p>
+    <ul>
+      <li><strong>Server:</strong> Τα δεδομένα αποθηκεύονται σε server εντός ΕΕ (Contabo, Γερμανία).</li>
+      <li><strong>Κωδικοί πρόσβασης:</strong> Αποθηκεύονται κρυπτογραφημένοι με bcrypt — δεν αποθηκεύονται ποτέ σε μορφή plain text.</li>
+      <li><strong>Φωτογραφίες:</strong> Αποθηκεύονται στον server και σερβίρονται μέσω HTTPS.</li>
+      <li><strong>Διατήρηση:</strong> Τα δεδομένα σας διατηρούνται όσο υπάρχει ο λογαριασμός σας. Σε περίπτωση διαγραφής λογαριασμού, όλα τα δεδομένα διαγράφονται οριστικά.</li>
+    </ul>
 
-    <h2>5. Πηγές Δεδομένων</h2>
-    <p>Τα δεδομένα σταθμών φόρτισης προέρχονται από το Μητρώο Υποδομών Φόρτισης Ηλεκτρικών Αυτοκινήτων (ΜΥΦΑΗ) του Υπουργείου Μεταφορών και από το OpenChargeMap.</p>
+    <h2>5. Δικαιώματα Χρήστη (GDPR)</h2>
+    <p>Σύμφωνα με τον GDPR, έχετε τα εξής δικαιώματα:</p>
+    <ul>
+      <li><strong>Πρόσβαση:</strong> Δικαίωμα να ζητήσετε αντίγραφο όλων των δεδομένων σας.</li>
+      <li><strong>Διόρθωση:</strong> Δικαίωμα να διορθώσετε λανθασμένα ή ελλιπή στοιχεία.</li>
+      <li><strong>Διαγραφή:</strong> Δικαίωμα πλήρους διαγραφής του λογαριασμού σας και όλων των συσχετισμένων δεδομένων (Δικαίωμα στη Λήθη).</li>
+      <li><strong>Φορητότητα:</strong> Δικαίωμα εξαγωγής των δεδομένων σας σε μηχαναγνώσιμη μορφή (JSON).</li>
+    </ul>
+    <p>Μπορείτε να ασκήσετε τα δικαιώματά σας μέσω των ρυθμίσεων λογαριασμού στην εφαρμογή ή στέλνοντας email στο <a href="mailto:info@viralev.gr">info@viralev.gr</a>.</p>
 
-    <h2>6. Δικαιώματα Χρηστών</h2>
-    <p>Δεδομένου ότι δεν συλλέγουμε προσωπικά δεδομένα, δεν υπάρχουν δεδομένα προς πρόσβαση, διόρθωση ή διαγραφή σε servers μας.</p>
+    <h2>6. Cookies & localStorage</h2>
+    <ul>
+      <li><strong>ΔΕΝ χρησιμοποιούμε</strong> cookies παρακολούθησης (tracking cookies).</li>
+      <li>Χρησιμοποιούμε <strong>localStorage</strong> αποκλειστικά για: JWT token σύνδεσης, επιλεγμένο όχημα και γλώσσα προτίμησης.</li>
+      <li><strong>Κανένα</strong> third-party tracking ή analytics.</li>
+    </ul>
 
-    <h2>7. Επικοινωνία</h2>
-    <p>Για ερωτήσεις σχετικά με την πολιτική απορρήτου, επικοινωνήστε μαζί μας:</p>
-    <p><strong>ViralEV</strong><br>Email: <a href="mailto:info@viralev.gr">info@viralev.gr</a><br>Website: <a href="https://viralev.gr">viralev.gr</a></p>
+    <h2>7. Ανήλικοι</h2>
+    <p>Η εφαρμογή PlugMeNow δεν απευθύνεται σε ανηλίκους κάτω των 16 ετών. Δεν συλλέγουμε εν γνώσει μας δεδομένα από ανηλίκους. Εάν πιστεύετε ότι ένα παιδί μας έχει παράσχει προσωπικά δεδομένα, παρακαλούμε επικοινωνήστε μαζί μας στο <a href="mailto:info@viralev.gr">info@viralev.gr</a> για να τα διαγράψουμε.</p>
+
+    <h2>8. Αλλαγές στην Πολιτική</h2>
+    <p>Ενδέχεται να ενημερώνουμε την παρούσα πολιτική κατά καιρούς. Σε περίπτωση ουσιαστικών αλλαγών, θα ενημερώνεται η ημερομηνία τελευταίας ενημέρωσης στην αρχή αυτής της σελίδας. Σας ενθαρρύνουμε να ελέγχετε περιοδικά αυτή τη σελίδα.</p>
+
+    <h2>9. Επικοινωνία</h2>
+    <p>Για οποιαδήποτε ερώτηση σχετικά με την πολιτική απορρήτου ή τα δεδομένα σας, επικοινωνήστε μαζί μας:</p>
+    <p><strong>ViralEV</strong><br>Email: <a href="mailto:info@viralev.gr">info@viralev.gr</a><br>Website: <a href="https://viralev.gr" target="_blank">viralev.gr</a></p>
   </div>
 
   <!-- ENGLISH -->
   <div id="content-en" class="hidden">
-    <p><strong>Last updated:</strong> March 20, 2026</p>
+    <p><strong>Last updated:</strong> March 30, 2026</p>
 
-    <h2>1. General Information</h2>
-    <p><strong>PlugMeNow</strong> is developed by <strong>ViralEV</strong> (viralev.gr) and provides information about electric vehicle charging stations in Greece. We respect your privacy and are committed to protecting your data.</p>
+    <h2>1. Who We Are</h2>
+    <p><strong>PlugMeNow</strong> is developed by <strong>ViralEV</strong> (<a href="https://viralev.gr" target="_blank">viralev.gr</a>) and provides information about electric vehicle charging stations in Greece. We respect your privacy and are committed to protecting your personal data in accordance with the General Data Protection Regulation (GDPR).</p>
+    <p><strong>Contact:</strong> <a href="mailto:info@viralev.gr">info@viralev.gr</a></p>
 
     <h2>2. Data We Collect</h2>
-    <p>The app <strong>does not collect personal data</strong>. Specifically:</p>
+    <p>Depending on how you use the app, we may collect the following:</p>
     <ul>
-      <li><strong>Location (Geolocation):</strong> Used solely to show nearby charging stations on the map. Your location is not stored, not sent to any server, and is requested only with your explicit consent via the browser.</li>
-      <li><strong>Selected vehicle:</strong> Stored locally on your device (localStorage) to remember your preference. It is not sent anywhere.</li>
-      <li><strong>Language:</strong> Your language choice (Greek/English) is stored locally on your device (localStorage).</li>
+      <li><strong>Account information:</strong> Email address, display name, and profile picture (avatar). These are provided when you register (via email or Google Sign-In).</li>
+      <li><strong>Location:</strong> Used solely to show nearby charging stations on the map. Your location is requested only with your explicit consent via the browser and is <strong>not stored on our server</strong>.</li>
+      <li><strong>Reviews:</strong> Review text, rating, submission date, and the station it refers to.</li>
+      <li><strong>Photos:</strong> Charging station images you upload, along with any caption.</li>
+      <li><strong>Check-ins:</strong> Station status, connector type, and charging speed you report.</li>
+      <li><strong>Favorites:</strong> Your list of saved favorite stations.</li>
+      <li><strong>Preferences:</strong> Your selected vehicle and language preference are stored locally on your device (localStorage).</li>
     </ul>
 
-    <h2>3. Data We Do NOT Collect</h2>
+    <h2>3. How We Use Your Data</h2>
     <ul>
-      <li>We do not collect names, emails, phone numbers, or other personal information</li>
-      <li>We do not use tracking cookies</li>
-      <li>We do not use analytics or tracking tools</li>
-      <li>We do not display advertisements</li>
-      <li>We do not share data with third parties</li>
+      <li><strong>Service delivery:</strong> Displaying reviews, photos, favorites, and check-ins within the app.</li>
+      <li><strong>Accuracy improvement:</strong> Community data is used to calculate station reliability scores.</li>
+      <li>We <strong>do NOT sell</strong> your data to third parties.</li>
+      <li>We <strong>do NOT use</strong> tracking cookies or analytics tools.</li>
+      <li>We <strong>do NOT send</strong> advertising or marketing emails.</li>
     </ul>
 
     <h2>4. Data Storage</h2>
-    <p>All data is stored exclusively on your device via localStorage. You can delete it at any time through your browser settings.</p>
+    <ul>
+      <li><strong>Server:</strong> Data is stored on an EU-based server (Contabo, Germany).</li>
+      <li><strong>Passwords:</strong> Stored encrypted using bcrypt — never stored in plain text.</li>
+      <li><strong>Photos:</strong> Stored on the server and served over HTTPS.</li>
+      <li><strong>Retention:</strong> Your data is retained for as long as your account exists. If you delete your account, all data is permanently removed.</li>
+    </ul>
 
-    <h2>5. Data Sources</h2>
-    <p>Charging station data comes from the Greek Ministry of Transport's EV Charging Infrastructure Registry (MYFAI) and OpenChargeMap.</p>
+    <h2>5. Your Rights (GDPR)</h2>
+    <p>Under the GDPR, you have the following rights:</p>
+    <ul>
+      <li><strong>Access:</strong> The right to request a copy of all your data.</li>
+      <li><strong>Rectification:</strong> The right to correct inaccurate or incomplete information.</li>
+      <li><strong>Erasure:</strong> The right to have your account and all associated data permanently deleted (Right to be Forgotten).</li>
+      <li><strong>Portability:</strong> The right to export your data in a machine-readable format (JSON).</li>
+    </ul>
+    <p>You can exercise your rights through the account settings in the app or by emailing <a href="mailto:info@viralev.gr">info@viralev.gr</a>.</p>
 
-    <h2>6. User Rights</h2>
-    <p>Since we do not collect personal data, there is no data to access, correct, or delete on our servers.</p>
+    <h2>6. Cookies & localStorage</h2>
+    <ul>
+      <li>We <strong>do NOT use</strong> tracking cookies.</li>
+      <li>We use <strong>localStorage</strong> exclusively for: login JWT token, selected vehicle, and language preference.</li>
+      <li><strong>No</strong> third-party tracking or analytics.</li>
+    </ul>
 
-    <h2>7. Contact</h2>
-    <p>For questions about this privacy policy, contact us:</p>
-    <p><strong>ViralEV</strong><br>Email: <a href="mailto:info@viralev.gr">info@viralev.gr</a><br>Website: <a href="https://viralev.gr">viralev.gr</a></p>
+    <h2>7. Minors</h2>
+    <p>PlugMeNow is not intended for use by minors under the age of 16. We do not knowingly collect data from minors. If you believe a child has provided us with personal data, please contact us at <a href="mailto:info@viralev.gr">info@viralev.gr</a> so we can delete it.</p>
+
+    <h2>8. Changes to This Policy</h2>
+    <p>We may update this policy from time to time. If significant changes are made, the "Last updated" date at the top of this page will be revised. We encourage you to review this page periodically.</p>
+
+    <h2>9. Contact</h2>
+    <p>For any questions about this privacy policy or your data, contact us:</p>
+    <p><strong>ViralEV</strong><br>Email: <a href="mailto:info@viralev.gr">info@viralev.gr</a><br>Website: <a href="https://viralev.gr" target="_blank">viralev.gr</a></p>
   </div>
 </div>
 
