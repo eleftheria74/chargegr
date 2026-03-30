@@ -236,9 +236,9 @@ export default function AuthModal({ onClose }: Props) {
                     />
                     <span className="text-xs text-gray-600 dark:text-gray-400">
                       {t('consent.agreeTerms')}{' '}
-                      <a href="/privacy/" target="_blank" className="text-[#1B7B4E] underline">{t('consent.privacyPolicy')}</a>
+                      <a href="/privacy/" target="_blank" rel="noopener noreferrer" className="text-[#1B7B4E] underline">{t('consent.privacyPolicy')}</a>
                       {' '}{t('consent.and')}{' '}
-                      <a href="/terms/" target="_blank" className="text-[#1B7B4E] underline">{t('consent.termsOfService')}</a>
+                      <a href="/terms/" target="_blank" rel="noopener noreferrer" className="text-[#1B7B4E] underline">{t('consent.termsOfService')}</a>
                     </span>
                   </label>
                 )}
@@ -266,9 +266,9 @@ export default function AuthModal({ onClose }: Props) {
             <div className="px-5 py-4 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/50">
               <p className="text-sm text-gray-700 dark:text-gray-300 mb-3">
                 {t('consent.googleConsent')}{' '}
-                <a href="/privacy/" target="_blank" className="text-[#1B7B4E] underline">{t('consent.privacyPolicy')}</a>
+                <a href="/privacy/" target="_blank" rel="noopener noreferrer" className="text-[#1B7B4E] underline">{t('consent.privacyPolicy')}</a>
                 {' '}{t('consent.and')}{' '}
-                <a href="/terms/" target="_blank" className="text-[#1B7B4E] underline">{t('consent.termsOfService')}</a>.
+                <a href="/terms/" target="_blank" rel="noopener noreferrer" className="text-[#1B7B4E] underline">{t('consent.termsOfService')}</a>.
               </p>
               <div className="flex gap-2">
                 <button

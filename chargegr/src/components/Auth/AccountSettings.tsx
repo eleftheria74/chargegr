@@ -33,19 +33,30 @@ export default function AccountSettings({ onClose }: Props) {
     setExporting(true);
     setError('');
     try {
+      let jwt: string | null = null;
+      try { jwt = localStorage.getItem('chargegr_jwt'); } catch { /* WebView guard */ }
+
       const res = await fetch('/api/auth/export', {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('chargegr_jwt')}`,
-        },
+        headers: jwt ? { Authorization: `Bearer ${jwt}` } : {},
       });
       if (!res.ok) throw new Error('Export failed');
       const blob = await res.blob();
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'plugmenow-data-export.json';
-      a.click();
-      URL.revokeObjectURL(url);
+
+      if (typeof URL.createObjectURL === 'function') {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'plugmenow-data-export.json';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      } else {
+        // Fallback: open as data URL for WebViews without createObjectURL
+        const text = await blob.text();
+        const w = window.open('', '_blank');
+        if (w) { w.document.write('<pre>' + text + '</pre>'); }
+      }
     } catch {
       setError(t('common.error'));
     } finally {
