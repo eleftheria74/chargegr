@@ -138,7 +138,8 @@ export function logout(): void {
 
 export async function validateSession(): Promise<AuthUser | null> {
   try {
-    const jwt = localStorage.getItem('chargegr_jwt');
+    let jwt: string | null = null;
+    try { jwt = localStorage.getItem('chargegr_jwt'); } catch { /* WebView/incognito guard */ }
     if (!jwt) return null;
     // /auth/me returns user fields directly (not wrapped in {user: ...})
     const data = await apiGet<AuthUser & Record<string, unknown>>('/auth/me');

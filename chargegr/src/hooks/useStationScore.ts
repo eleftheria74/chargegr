@@ -29,8 +29,8 @@ export function useStationScore(stationId: string) {
         avgRating: data.avgRating ?? 0,
         totalReviews: data.totalReviews ?? 0,
       });
-    } catch {
-      // API not available
+    } catch (err) {
+      console.warn('[useStationScore] fetch failed:', err);
     } finally {
       setLoading(false);
     }

@@ -13,9 +13,12 @@ async function request<T>(
   path: string,
   body?: unknown,
 ): Promise<T> {
-  const headers: Record<string, string> = {
-    'Content-Type': 'application/json',
-  };
+  const headers: Record<string, string> = {};
+
+  // Only set Content-Type for requests with a body (POST/PUT/PATCH)
+  if (body !== undefined) {
+    headers['Content-Type'] = 'application/json';
+  }
 
   const jwt = getJwt();
   if (jwt) {

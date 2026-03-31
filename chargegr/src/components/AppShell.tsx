@@ -50,10 +50,11 @@ export default function AppShell() {
   useEffect(() => {
     validateSession().then(u => {
       if (u) {
-        const jwt = localStorage.getItem('chargegr_jwt');
+        let jwt: string | null = null;
+        try { jwt = localStorage.getItem('chargegr_jwt'); } catch { /* WebView/incognito guard */ }
         setUser(u, jwt);
       }
-    });
+    }).catch(() => { /* session validation failed — user stays anonymous */ });
   }, [setUser]);
 
   const hasActiveFilters =

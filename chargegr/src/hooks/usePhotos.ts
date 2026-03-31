@@ -1,4 +1,5 @@
 import { useState, useCallback, useRef } from 'react';
+import { apiGet } from '@/lib/api';
 
 const BASE_URL = '/api';
 
@@ -37,13 +38,11 @@ export function usePhotos(stationId: string) {
 
     setLoading(true);
     try {
-      const res = await fetch(`${BASE_URL}/stations/${stationId}/photos`);
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const data: PhotosResponse = await res.json();
+      const data = await apiGet<PhotosResponse>(`/stations/${stationId}/photos`);
       setPhotos(data.photos ?? []);
       loadedForRef.current = stationId;
-    } catch {
-      // API not available
+    } catch (err) {
+      console.warn('[usePhotos] fetch failed:', err);
     } finally {
       setLoading(false);
     }

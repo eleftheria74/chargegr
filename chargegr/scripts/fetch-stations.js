@@ -321,7 +321,7 @@ function convertMyfahi(feature, detail) {
   const maxPowerKw = Math.max(...connectors.map(c => c.powerKw));
 
   return {
-    id: `myfahi-${props.location_id}`,
+    id: `myfahi-${lat.toFixed(5)}_${lng.toFixed(5)}`,
     source: 'myfahi',
     name, operator: network, address, city, lat, lng, connectors,
     isOperational, isFreeCharging: false, is24h, maxPowerKw,
@@ -466,6 +466,20 @@ async function main() {
     } catch (err) {
       console.warn('Could not read existing stations.json for OCM fallback:', err.message);
     }
+  }
+
+  // Deduplicate by stable ID (same coords = same station)
+  const seenIds = new Set();
+  const beforeDedup = stations.length;
+  for (let i = stations.length - 1; i >= 0; i--) {
+    if (seenIds.has(stations[i].id)) {
+      stations.splice(i, 1);
+    } else {
+      seenIds.add(stations[i].id);
+    }
+  }
+  if (beforeDedup !== stations.length) {
+    console.log(`  Deduplicated: ${beforeDedup} → ${stations.length} (removed ${beforeDedup - stations.length} duplicates)`);
   }
 
   // Stats

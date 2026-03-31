@@ -38,8 +38,8 @@ export function useCheckins(stationId: string) {
       const data = await apiGet<{ checkins: Checkin[] }>(`/stations/${stationId}/checkins`);
       setCheckins(data.checkins ?? []);
       loadedForRef.current = stationId;
-    } catch {
-      // API not available
+    } catch (err) {
+      console.warn('[useCheckins] fetch failed:', err);
     } finally {
       setLoading(false);
     }

@@ -45,6 +45,10 @@ export default function PhotoGallery({ photos, loading }: Props) {
     );
   }
 
+  const MAX_VISIBLE = 3;
+  const visiblePhotos = photos.slice(0, MAX_VISIBLE);
+  const remainingCount = photos.length - MAX_VISIBLE;
+
   return (
     <>
       {/* Counter */}
@@ -52,9 +56,9 @@ export default function PhotoGallery({ photos, loading }: Props) {
         {photos.length} {t('photos.count')}
       </p>
 
-      {/* Horizontal scroll gallery */}
-      <div className="flex gap-2 overflow-x-auto pb-2 -mx-1 px-1 scrollbar-thin">
-        {photos.map((photo, idx) => (
+      {/* Thumbnail grid — max 3 visible */}
+      <div className="flex gap-2">
+        {visiblePhotos.map((photo, idx) => (
           <button
             key={photo.id}
             onClick={() => setLightboxIndex(idx)}
@@ -68,6 +72,17 @@ export default function PhotoGallery({ photos, loading }: Props) {
             />
           </button>
         ))}
+        {remainingCount > 0 && (
+          <button
+            onClick={() => setLightboxIndex(MAX_VISIBLE - 1)}
+            className="shrink-0 w-20 h-20 rounded-lg overflow-hidden bg-gray-200 dark:bg-gray-700
+                       flex items-center justify-center hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+          >
+            <span className="text-sm font-semibold text-gray-600 dark:text-gray-300">
+              +{remainingCount}
+            </span>
+          </button>
+        )}
       </div>
 
       {/* Lightbox */}

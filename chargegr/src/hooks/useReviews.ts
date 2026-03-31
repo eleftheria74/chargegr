@@ -73,8 +73,8 @@ export function useReviews(stationId: string) {
       setAvgRating(data.avgRating ?? 0);
       setCount(data.totalReviews ?? 0);
       loadedForRef.current = stationId;
-    } catch {
-      // API not available — no reviews to show
+    } catch (err) {
+      console.warn('[useReviews] fetch failed:', err);
     } finally {
       setLoading(false);
     }
