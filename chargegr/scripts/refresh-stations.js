@@ -285,7 +285,7 @@ function convertMyfahi(feature, detail) {
   const maxPowerKw = Math.max(...connectors.map(c => c.powerKw));
 
   return {
-    id: `myfahi-${props.location_id}`, source: 'myfahi',
+    id: `myfahi-${lat.toFixed(5)}_${lng.toFixed(5)}`, source: 'myfahi',
     name, operator: network, address, city, lat, lng, connectors,
     isOperational, isFreeCharging: false, is24h, maxPowerKw,
     powerCategory: getPowerCategory(maxPowerKw),
