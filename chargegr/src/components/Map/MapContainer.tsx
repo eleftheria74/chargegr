@@ -68,8 +68,10 @@ export default function MapContainer({ stations, favoriteIds = [], onStationClic
       style: STYLE_URL,
       center: GREECE_CENTER,
       zoom: DEFAULT_ZOOM,
+      attributionControl: false,
     });
 
+    map.addControl(new maplibregl.AttributionControl({ compact: true }), 'bottom-right');
     map.addControl(new maplibregl.NavigationControl(), 'top-right');
     map.addControl(
       new maplibregl.GeolocateControl({

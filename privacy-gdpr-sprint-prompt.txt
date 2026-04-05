@@ -1,0 +1,248 @@
+# PlugMeNow — Privacy & GDPR Compliance Sprint
+# Οδηγίες για Claude Code (νέο session)
+
+## CONTEXT — Διάβασε πρώτα:
+- README.md
+- CLAUDE-CODE-GUIDE.md
+
+## ΚΑΤΑΣΤΑΣΗ
+- Frontend: /media/eleftheria/DataSSD/Projects/ChargeGr/chargegr (Next.js 14)
+- API: /media/eleftheria/DataSSD/Projects/ChargeGr/plugmenow-api (Node.js Express)
+- API live: https://chargegr.viralev.gr/api/
+- DB: MariaDB στον Contabo (database: plugmenow)
+- Auth: Google OAuth2 + Email/Password + JWT
+- Υπάρχουσα privacy page: public/privacy/index.html (βασική, χωρίς community features)
+- Η εφαρμογή συλλέγει: email, display name, avatar (Google), geolocation (permission),
+  reviews, photos, check-ins, favorites, selected vehicle, language preference
+
+## ΤΙ ΚΑΝΟΥΜΕ — ΣΕΙΡΑ TASKS:
+
+---
+
+### TASK 1: Ενημέρωση Privacy Policy Page
+
+Ενημέρωσε public/privacy/index.html με αναλυτική privacy policy:
+
+ΓΛΩΣΣΕΣ: Ελληνικά + Αγγλικά (toggle, ήδη υπάρχει)
+
+ΠΕΡΙΕΧΟΜΕΝΟ (πρέπει να καλύπτει):
+
+1. Ποιοι είμαστε
+   - App name: PlugMeNow
+   - Developer: ViralEV (viralev.gr)
+   - Contact: info@viralev.gr
+
+2. Τι δεδομένα συλλέγουμε
+   - Στοιχεία λογαριασμού: email, display name, avatar (μέσω Google ή εγγραφή)
+   - Τοποθεσία: μόνο αν ο χρήστης δώσει permission, δεν αποθηκεύεται στον server
+   - Reviews: κείμενο, βαθμολογία, ημερομηνία, station_id
+   - Photos: εικόνες σταθμών, λεζάντα
+   - Check-ins: κατάσταση σταθμού, connector, ταχύτητα φόρτισης
+   - Favorites: λίστα αγαπημένων σταθμών
+   - Preferences: επιλεγμένο όχημα, γλώσσα (localStorage)
+
+3. Πώς χρησιμοποιούμε τα δεδομένα
+   - Παροχή υπηρεσίας (εμφάνιση reviews, photos, favorites)
+   - Βελτίωση ακρίβειας δεδομένων σταθμών (reliability scores)
+   - ΔΕΝ πουλάμε δεδομένα σε τρίτους
+   - ΔΕΝ χρησιμοποιούμε analytics/tracking cookies
+   - ΔΕΝ στέλνουμε marketing emails
+
+4. Αποθήκευση δεδομένων
+   - Server: EU (Contabo, Γερμανία)
+   - Passwords: hashed με bcrypt (δεν αποθηκεύονται σε plain text)
+   - Photos: αποθηκεύονται στον server, σερβίρονται μέσω HTTPS
+   - Retention: δεδομένα διατηρούνται όσο υπάρχει ο λογαριασμός
+
+5. Δικαιώματα χρήστη (GDPR)
+   - Πρόσβαση: δικαίωμα λήψης αντιγράφου των δεδομένων σου
+   - Διόρθωση: δικαίωμα διόρθωσης λανθασμένων στοιχείων
+   - Διαγραφή: δικαίωμα πλήρους διαγραφής λογαριασμού και δεδομένων
+   - Φορητότητα: δικαίωμα εξαγωγής δεδομένων σε μηχαναγνώσιμο format (JSON)
+   - Για αιτήματα: email στο info@viralev.gr ή μέσω της εφαρμογής
+
+6. Cookies & localStorage
+   - ΔΕΝ χρησιμοποιούμε cookies tracking
+   - localStorage: JWT token, selected vehicle, language preference
+   - Κανένα third-party tracking
+
+7. Ανήλικοι
+   - Η εφαρμογή δεν απευθύνεται σε ανηλίκους κάτω των 16 ετών
+   - Δεν συλλέγουμε εν γνώσει μας δεδομένα ανηλίκων
+
+8. Αλλαγές στην πολιτική
+   - Θα ενημερώνουμε αυτή τη σελίδα αν αλλάξει η πολιτική
+   - Τελευταία ενημέρωση: [σημερινή ημερομηνία]
+
+DESIGN: Ίδιο style με το υπάρχον, responsive, brand color #1B7B4E
+
+---
+
+### TASK 2: Terms of Service Page
+
+Δημιούργησε public/terms/index.html:
+
+ΓΛΩΣΣΕΣ: Ελληνικά + Αγγλικά (toggle)
+
+ΠΕΡΙΕΧΟΜΕΝΟ:
+
+1. Αποδοχή όρων
+   - Χρησιμοποιώντας την εφαρμογή αποδέχεστε τους παρόντες όρους
+
+2. Περιγραφή υπηρεσίας
+   - Δωρεάν εφαρμογή εύρεσης σταθμών φόρτισης EV στην Ελλάδα
+   - Πληροφορίες από ΜΥΦΑΗ (επίσημο μητρώο) + community contributions
+   - Η ακρίβεια των πληροφοριών δεν εγγυάται
+
+3. Λογαριασμός χρήστη
+   - Υπεύθυνος για τη διατήρηση ασφάλειας του λογαριασμού
+   - Ακριβή στοιχεία εγγραφής
+
+4. Περιεχόμενο χρηστών (UGC)
+   - Reviews, photos, check-ins παραμένουν ιδιοκτησία του χρήστη
+   - Παραχωρείται license χρήσης στο PlugMeNow για εμφάνιση
+   - Απαγορεύεται: spam, προσβλητικό περιεχόμενο, ψευδείς πληροφορίες,
+     φωτογραφίες χωρίς δικαίωμα, ακατάλληλο υλικό
+   - Δικαίωμα αφαίρεσης ακατάλληλου περιεχομένου
+
+5. Αποποίηση ευθυνών
+   - Πληροφορίες σταθμών "ως έχουν" χωρίς εγγύηση
+   - Δεν ευθυνόμαστε για μη διαθεσιμότητα σταθμού
+   - Δεν ευθυνόμαστε για τιμές φόρτισης
+
+6. Τερματισμός
+   - Δικαίωμα αναστολής λογαριασμού σε παραβίαση όρων
+   - Ο χρήστης μπορεί να διαγράψει τον λογαριασμό ανά πάσα στιγμή
+
+7. Εφαρμοστέο δίκαιο
+   - Ελληνικό δίκαιο
+   - Δικαστήρια Αθηνών
+
+DESIGN: Ίδιο style με privacy page
+
+---
+
+### TASK 3: Account Deletion (API)
+
+Στο plugmenow-api/ πρόσθεσε:
+
+1. DELETE /auth/account (auth required)
+   - Διαγράφει πλήρως:
+     * Τον χρήστη από users table
+     * Όλα τα reviews του
+     * Όλα τα photos του (+ αρχεία από filesystem)
+     * Όλα τα check-ins του
+     * Όλα τα favorites του
+     * Όλα τα vehicle suggestions του
+     * Όλα τα station corrections του
+   - Χρησιμοποίησε transaction (BEGIN/COMMIT)
+   - Return: { success: true, message: "Account deleted" }
+   - ΣΗΜΑΝΤΙΚΟ: ON DELETE CASCADE στα foreign keys θα βοηθήσει,
+     αλλά τα photo files πρέπει να σβηστούν χειροκίνητα
+
+2. GET /auth/export (auth required)
+   - Εξαγωγή ΟΛΩΝ των δεδομένων χρήστη σε JSON:
+     { user: {...}, reviews: [...], photos: [...], checkIns: [...],
+       favorites: [...], suggestions: [...] }
+   - Content-Type: application/json
+   - Content-Disposition: attachment; filename="plugmenow-data-export.json"
+
+---
+
+### TASK 4: Account Settings UI (Frontend)
+
+Στο chargegr/ frontend:
+
+1. Δημιούργησε Settings/AccountSettings component:
+   - Accessible από UserMenu → "Ρυθμίσεις" / "Settings"
+   - Εμφανίζει: email, display name, ημ/νία εγγραφής
+   - Κουμπί "Εξαγωγή δεδομένων" → GET /api/auth/export → download JSON
+   - Κουμπί "Διαγραφή λογαριασμού" (κόκκινο, danger style)
+     → Confirmation dialog: "Είστε σίγουροι; Θα διαγραφούν ΟΛΑ τα δεδομένά σας."
+     → Δεύτερο confirmation: πληκτρολογήστε "DELETE" για επιβεβαίωση
+     → DELETE /api/auth/account → logout → redirect to home
+
+2. Πρόσθεσε "Ρυθμίσεις" option στο UserMenu (πριν το "Αποσύνδεση")
+
+3. i18n σε όλα: "Ρυθμίσεις"/"Settings", "Εξαγωγή δεδομένων"/"Export data",
+   "Διαγραφή λογαριασμού"/"Delete account", κλπ
+
+---
+
+### TASK 5: Consent κατά την εγγραφή
+
+1. Στο AuthModal (Email tab, Register mode):
+   - Πρόσθεσε checkbox: "Αποδέχομαι την [Πολιτική Απορρήτου] και τους [Όρους Χρήσης]"
+   - Links σε /privacy/ και /terms/ (ανοίγουν σε νέο tab)
+   - Το checkbox είναι ΥΠΟΧΡΕΩΤΙΚΟ — disabled submit χωρίς αυτό
+   - Αποθήκευση consent timestamp στο users table
+
+2. Στο Google Sign-In:
+   - Μετά το πρώτο login (νέος χρήστης), εμφάνιση consent dialog:
+     "Συνεχίζοντας αποδέχεστε την Πολιτική Απορρήτου και τους Όρους Χρήσης"
+   - Links σε /privacy/ και /terms/
+   - Κουμπί "Αποδέχομαι" / "Ακύρωση"
+
+3. API: Πρόσθεσε consent_given_at TIMESTAMP column στο users table
+
+---
+
+### TASK 6: Photo Upload Consent
+
+1. Στο PhotoUpload component:
+   - Πρόσθεσε text κάτω από το upload button:
+     "Ανεβάζοντας φωτογραφία επιβεβαιώνετε ότι έχετε δικαίωμα χρήσης
+     και δεν περιέχει ακατάλληλο ή προσωπικό περιεχόμενο τρίτων"
+   - Small text, color: muted/secondary
+
+---
+
+### TASK 7: Footer Links
+
+1. Πρόσθεσε minimal footer ή links στο bottom:
+   - Στο station card ή στο menu: links "Πολιτική Απορρήτου" + "Όροι Χρήσης"
+   - Ή info icon (ℹ) κάτω δεξιά στο χάρτη → dropdown με links
+   - ΜΗΝ βάζεις μεγάλο footer — είναι map app
+
+---
+
+### TASK 8: Google Play Data Safety Info
+
+Δημιούργησε αρχείο playstore-data-safety.md στο parent ChargeGr/ folder:
+
+Πληροφορίες για το Data Safety form του Play Store:
+
+- Data collected:
+  * Email address (account creation)
+  * Name (display name, optional)
+  * Photos (station photos, user-uploaded)
+  * Location (approximate, only with permission, not stored)
+  * App interactions (reviews, check-ins, favorites)
+
+- Data shared: None
+- Data encrypted in transit: Yes (HTTPS)
+- Data deletion: Users can request account deletion
+- Data retention: Until account deletion
+
+Format: structured text ready to copy-paste στο Play Console
+
+---
+
+### TASK 9: Build + Test + Git
+
+1. API: npm start → test DELETE /auth/account, GET /auth/export
+2. Frontend: npm run build → test settings page, consent checkboxes
+3. Git commits ξεχωριστά:
+   - plugmenow-api: "GDPR: account deletion, data export, consent"
+   - chargegr: "GDPR: privacy policy, terms, settings, consent UI"
+
+## ΣΗΜΑΝΤΙΚΕΣ ΣΗΜΕΙΩΣΕΙΣ
+- Privacy policy + Terms of Service πρέπει να είναι ΠΛΗΡΗ — όχι placeholders
+- Account deletion πρέπει να σβήνει ΟΛΟΚΛΗΡΩΤΙΚΑ — GDPR Article 17
+- Data export πρέπει να περιλαμβάνει ΟΛΑ τα δεδομένα — GDPR Article 20
+- Consent πρέπει να είναι explicit, not pre-checked — GDPR Article 7
+- Τα texts πρέπει να είναι κατανοητά, όχι νομικά jargon
+- i18n σε ΟΛΑ (EL + EN)
+- ΜΗΝ αλλάξεις existing λειτουργικότητα
+
+## ΞΕΚΙΝΑ ΑΠΟ ΤΟ TASK 1

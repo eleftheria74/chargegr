@@ -1,12 +1,10 @@
 'use client';
 
-import { SlidersHorizontal, X, Globe } from 'lucide-react';
-import type { ConnectorType, PowerCategory, GreekNetwork, FilterState, VehicleProfile } from '@/lib/types';
-import type { Locale } from '@/lib/i18n';
+import { SlidersHorizontal, X } from 'lucide-react';
+import type { ConnectorType, PowerCategory, GreekNetwork, FilterState } from '@/lib/types';
 import { useTranslation } from '@/lib/i18n';
 import Chip from '@/components/UI/Chip';
 import { CONNECTOR_LABELS } from '@/lib/charging';
-import VehicleSelector from '@/components/Vehicle/VehicleSelector';
 
 interface Props {
   isOpen: boolean;
@@ -14,10 +12,6 @@ interface Props {
   filters: FilterState;
   onFiltersChange: (filters: FilterState) => void;
   stationCount: number;
-  selectedVehicle: VehicleProfile | null;
-  onSelectVehicle: (vehicle: VehicleProfile | null) => void;
-  locale: Locale;
-  onToggleLocale: () => void;
 }
 
 const CONNECTOR_OPTIONS: { value: ConnectorType; label: string }[] = [
@@ -67,10 +61,6 @@ export default function FilterPanel({
   filters,
   onFiltersChange,
   stationCount,
-  selectedVehicle,
-  onSelectVehicle,
-  locale,
-  onToggleLocale,
 }: Props) {
   const { t } = useTranslation();
 
@@ -123,31 +113,6 @@ export default function FilterPanel({
         </div>
 
         <div className="px-4 py-4 space-y-5">
-          {/* Mobile only: Vehicle selector + Language toggle */}
-          <section className="sm:hidden space-y-3">
-            <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
-              {t('vehicle.select')} &amp; {t('filters.title')}
-            </h3>
-            <VehicleSelector
-              selectedVehicle={selectedVehicle}
-              onSelect={onSelectVehicle}
-            />
-            <button
-              onClick={onToggleLocale}
-              className="flex items-center gap-2 px-3 py-2 min-h-[44px] w-full
-                         bg-gray-50 dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700
-                         hover:bg-gray-100 active:scale-[0.98] transition-all"
-            >
-              <Globe size={16} className="text-[#1B7B4E]" />
-              <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                {locale === 'el' ? 'English' : 'Ελληνικά'}
-              </span>
-              <span className="ml-auto text-xs text-gray-400">
-                {locale === 'el' ? 'EL → EN' : 'EN → EL'}
-              </span>
-            </button>
-          </section>
-
           {/* Connector Type */}
           <section>
             <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">

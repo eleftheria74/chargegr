@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { SlidersHorizontal, Globe, AlertTriangle, RefreshCw } from 'lucide-react';
 import { useTranslation } from '@/lib/i18n';
 import { useAppStore } from '@/store/appStore';
@@ -41,6 +41,9 @@ export default function AppShell() {
   const fetchStations = useAppStore(s => s.fetchStations);
   const isLoading = useAppStore(s => s.isLoading);
   const error = useAppStore(s => s.error);
+
+  // Mobile: when search is expanded, hide the other header controls
+  const [searchExpanded, setSearchExpanded] = useState(false);
 
   useEffect(() => {
     fetchStations();
@@ -116,15 +119,15 @@ export default function AppShell() {
         </div>
       )}
 
-      {/* Top bar */}
-      <div className="topbar absolute top-2 left-2 right-2 sm:top-4 sm:left-4 sm:right-4 z-30
+      {/* Top bar (z-40: above Legend/Layers button at z-30, below modals at z-50) */}
+      <div className="topbar absolute top-2 left-2 right-2 sm:top-4 sm:left-4 sm:right-4 z-40
                       flex items-center gap-1.5 sm:gap-2">
         <button
           onClick={() => setFilterOpen(true)}
-          className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 sm:py-2 min-h-[40px] sm:min-h-[44px]
+          className={`${searchExpanded ? 'hidden sm:flex' : 'flex'} items-center gap-1.5 px-2.5 sm:px-3 py-1.5 sm:py-2 min-h-[40px] sm:min-h-[44px]
                      bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-xl shadow-lg
                      border border-gray-200 dark:border-gray-600
-                     hover:bg-gray-50 dark:hover:bg-gray-700 active:scale-95 transition-all shrink-0"
+                     hover:bg-gray-50 dark:hover:bg-gray-700 active:scale-95 transition-all shrink-0`}
         >
           <SlidersHorizontal size={16} className="text-[#1B7B4E]" />
           <span className="text-sm font-medium text-gray-800 dark:text-gray-200 hidden sm:inline">{t('filters.title')}</span>
@@ -133,10 +136,13 @@ export default function AppShell() {
           )}
         </button>
 
-        <SearchBar onSelectLocation={(lat, lng) => setFlyTo({ lat, lng })} />
+        <SearchBar
+          onSelectLocation={(lat, lng) => setFlyTo({ lat, lng })}
+          onExpandedChange={setSearchExpanded}
+        />
 
-        {/* Vehicle + Language + Auth — always visible, icon-only on mobile */}
-        <div className="flex items-center gap-1.5 sm:gap-2">
+        {/* Vehicle + Language + Auth — hidden in mobile when search is expanded */}
+        <div className={`${searchExpanded ? 'hidden sm:flex' : 'flex'} items-center gap-1.5 sm:gap-2`}>
           <VehicleSelector
             selectedVehicle={selectedVehicle}
             onSelect={selectVehicle}
@@ -166,10 +172,6 @@ export default function AppShell() {
         filters={filters}
         onFiltersChange={setFilters}
         stationCount={filteredStations.length}
-        selectedVehicle={selectedVehicle}
-        onSelectVehicle={selectVehicle}
-        locale={locale}
-        onToggleLocale={toggleLocale}
       />
 
       {/* Desktop + landscape: sidebar | Mobile portrait: bottom sheet */}
@@ -190,12 +192,10 @@ export default function AppShell() {
               >
                 <span className="text-xl text-gray-400 hover:text-gray-600">&times;</span>
               </button>
-              <div className="pr-12">
-                <StationCard
-                  station={selectedStation}
-                  vehicle={selectedVehicle}
-                />
-              </div>
+              <StationCard
+                station={selectedStation}
+                vehicle={selectedVehicle}
+              />
             </div>
           </div>
 

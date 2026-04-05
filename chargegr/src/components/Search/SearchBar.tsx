@@ -13,13 +13,14 @@ interface NominatimResult {
 
 interface Props {
   onSelectLocation: (lat: number, lng: number) => void;
+  onExpandedChange?: (expanded: boolean) => void;
 }
 
 const NOMINATIM_URL = 'https://nominatim.openstreetmap.org/search';
 const DEBOUNCE_MS = 300;
 const MIN_QUERY_LENGTH = 3;
 
-export default function SearchBar({ onSelectLocation }: Props) {
+export default function SearchBar({ onSelectLocation, onExpandedChange }: Props) {
   const { t } = useTranslation();
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<NominatimResult[]>([]);
@@ -41,6 +42,11 @@ export default function SearchBar({ onSelectLocation }: Props) {
     document.addEventListener('mousedown', handler);
     return () => document.removeEventListener('mousedown', handler);
   }, [query]);
+
+  // Notify parent when mobile expanded state changes
+  useEffect(() => {
+    onExpandedChange?.(expanded);
+  }, [expanded, onExpandedChange]);
 
   const search = useCallback(async (q: string) => {
     abortRef.current?.abort();

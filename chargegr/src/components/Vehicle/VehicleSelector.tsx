@@ -141,7 +141,8 @@ export default function VehicleSelector({ selectedVehicle, onSelect }: Props) {
 
       {/* Dropdown panel */}
       {isOpen && (
-        <div className="absolute top-full left-0 mt-1 w-80
+        <div className="fixed top-14 left-2 right-2
+                        sm:absolute sm:top-full sm:left-0 sm:right-auto sm:mt-1 sm:w-80
                         bg-white dark:bg-gray-800 rounded-xl shadow-2xl
                         border border-gray-200 dark:border-gray-600 z-50 overflow-hidden">
 

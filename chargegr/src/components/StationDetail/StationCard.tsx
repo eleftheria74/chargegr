@@ -61,8 +61,8 @@ export default function StationCard({ station, userLocation, vehicle }: Props) {
 
   return (
     <div className="max-w-full overflow-hidden">
-      {/* Header: name + operator + favorite */}
-      <div className="mt-1 flex items-start justify-between gap-2">
+      {/* Header: name + operator + favorite (pr-14 clears the close X top-right with spacing) */}
+      <div className="mt-1 flex items-start justify-between gap-3 pr-14">
         <div className="min-w-0">
           <h2 className="text-lg font-semibold text-gray-900 leading-tight break-words">
             {station.name}

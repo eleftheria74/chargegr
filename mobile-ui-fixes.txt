@@ -1,0 +1,74 @@
+# PlugMeNow — Mobile UI Fixes Sprint
+
+## CONTEXT
+Διάβασε τα: README.md, CLAUDE-CODE-GUIDE.md
+Working directory: /media/eleftheria/DataSSD/Projects/ChargeGr/chargegr
+
+## ΠΡΟΒΛΗΜΑΤΑ ΠΡΟΣ ΔΙΟΡΘΩΣΗ (mobile Android, Samsung)
+
+### Fix 1: StationCard — το X (close) επικαλύπτει τον τίτλο
+**Component:** StationCard (bottom sheet σε mobile)
+**Συμπτώματα:** Στο mobile, το X button κλεισίματος (top-left) πέφτει πάνω στο όνομα του 
+σταθμού όταν ο τίτλος είναι μεγάλος (π.χ. "Paradosiako Kazani Sagia, Evia").
+**Λύση:** Πρόσθεσε padding-left στον τίτλο ώστε να μη συγκρούεται με το X, 
+ή μετακίνησε το X πάνω δεξιά (δίπλα στο ♡/heart icon) για συνέπεια.
+Προτίμησε τη δεύτερη λύση γιατί είναι πιο καθαρή.
+
+### Fix 2: FilterPanel — Αφαίρεση του Vehicle Selector
+**Component:** FilterPanel
+**Συμπτώματα:** Το vehicle selector εμφανίζεται μέσα στο FilterPanel, ενώ υπάρχει ήδη
+ξεχωριστό vehicle button στο header (το icon με το αυτοκίνητο). Είναι duplicate UX.
+**Λύση:** Αφαίρεσε το vehicle selection section από το FilterPanel. 
+Κράτα ΜΟΝΟ τα φίλτρα (connector, power, network, δωρεάν, 24ωρο, αξιοπιστία).
+Το vehicle θα επιλέγεται αποκλειστικά από το header button.
+
+### Fix 3: SearchBar — σπρώχνει τα header icons εκτός οθόνης
+**Component:** SearchBar / Header (mobile layout)
+**Συμπτώματα:** Όταν ο χρήστης πατήσει search (🔍) σε mobile <640px, το search input 
+επεκτείνεται και σπρώχνει το vehicle button, EN/EL toggle, και login button έξω από την οθόνη.
+**Λύση:** Όταν το search είναι ενεργό (focused/expanded) στο mobile:
+- Κρύψε τα άλλα header icons (vehicle, language, login)
+- Εμφάνισε μόνο το search input + X κλεισίματος search
+- Όταν κλείσει το search, τα icons επανεμφανίζονται
+Χρησιμοποίησε state στο Zustand ή local state για το "search active" mode.
+
+### Fix 4: Vehicle Selector Modal — κενή μαύρη μπάρα δεξιά
+**Component:** Vehicle Selector dropdown/modal
+**Συμπτώματα:** Όταν ανοίγει το vehicle selector από το header, εμφανίζεται ένα μεγάλο 
+κενό (μαύρη μπάρα) στα δεξιά. Μοιάζει με overflow ή width calculation bug.
+**Λύση:** Κάνε το modal full-width σε mobile (<640px) με σωστό padding. 
+Έλεγξε max-width / right positioning. Ίσως το modal έχει fixed width που δεν γεμίζει 
+τη viewport.
+
+### Fix 5: Map Attribution — να ανοίγει collapsed by default
+**Component:** MapLibre attribution (bottom-left)
+**Συμπτώματα:** Όταν ανοίγει η εφαρμογή, φαίνεται όλο το "MapLibre | OpenFreeMap © 
+OpenMapTiles Data from OpenStreetMap" — καταλαμβάνει αρκετό χώρο στο κάτω μέρος.
+**Λύση:** Configure το MapLibre attribution control να είναι **compact** by default 
+(εμφανίζει μόνο ένα "i" icon). Όταν ο χρήστης πατήσει το "i", εμφανίζεται το full 
+attribution. Αυτό είναι native option του MapLibre:
+```javascript
+map.addControl(new maplibregl.AttributionControl({ compact: true }));
+```
+Αν υπάρχει ήδη attribution control, πέρασε `compact: true` ή replace το.
+
+## TESTING
+Μετά από κάθε fix:
+1. npm run dev
+2. Chrome DevTools → Device Mode (Pixel 7 ή Samsung Galaxy S20)
+3. Test portrait + landscape
+4. Test με μεγάλα station names ("Paradosiako Kazani Sagia, Evia")
+
+## ΠΟΛΛΑΠΛΕΣ ΑΛΛΑΓΕΣ — ΠΡΟΣΟΧΗ
+- i18n: μην σπάσεις υπάρχοντα EL/EN strings
+- Μην αλλάξεις existing logic (φίλτρα, χάρτης, vehicle compatibility)
+- Mobile-first αλλά μην σπάσεις το desktop layout
+
+## FINAL STEPS
+- rm -rf .next && npm run build
+- Git commit με message: "fix(mobile): station card X overlap, search icons hiding, 
+  vehicle selector width, map attribution collapsed, filter panel dedup"
+
+## ΞΕΚΙΝΑ
+Δούλεψε ένα fix τη φορά. Πες μου τι θα αλλάξεις για κάθε fix πριν το κάνεις, 
+για να το εγκρίνω.

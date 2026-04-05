@@ -1,0 +1,42 @@
+# PlugMeNow — Debug Station ID Format Issue
+# CONTEXT:
+# - Είχαμε κάνει migration από base64-encoded ΜΥΦΑΗ location_ids σε coordinate-based IDs
+# - Format που έπρεπε να είναι: myfahi-{lat}_{lng} (π.χ. myfahi-38.65_23.85)
+# - Ο λόγος: τα ΜΥΦΑΗ location_ids είναι unstable μεταξύ fetches
+# - Έχει γίνει SQL migration στα photos, reviews, check_ins, favorites tables
+# - Έχει γίνει rename των photo directories στο filesystem
+#
+# ΠΡΟΒΛΗΜΑ:
+# Σήμερα έτρεξα το refresh-stations.js (αυτόματο cron μέσω n8n).
+# Μετά το refresh, βλέπω στο frontend φωτογραφίες που έχουν station_id σε παλιό 
+# base64 format, π.χ.: myfahi-MkYwN0RDQjcxODg4NkU1NEFDOTI1NjJBNjQ1NTI2...
+# Αυτό δεν πρέπει να υπάρχει πια!
+#
+# ΥΠΟΨΙΑ:
+# Το scripts/refresh-stations.js ίσως ΔΕΝ έχει την coordinate-based ID logic
+# που είχαμε εφαρμόσει στο scripts/fetch-stations.js.
+# Δηλαδή το production cron μπορεί να γυρίζει παλιό format IDs.
+#
+# ΑΠΟΣΤΟΛΗ:
+# 1. Διάβασε και σύγκρινε τα δύο scripts:
+#    - scripts/fetch-stations.js (dev, μάλλον έχει coordinate-based IDs)
+#    - scripts/refresh-stations.js (production, ύποπτο για παλιό format)
+#    Εστίασε στη γραμμή όπου δημιουργείται το station.id για ΜΥΦΑΗ stations.
+#    Πρέπει να είναι: `myfahi-${lat}_${lng}` ή κάτι αντίστοιχο.
+#    ΟΧΙ: `myfahi-${props.location_id}`.
+#
+# 2. Διάβασε το τρέχον public/data/stations.json και δείξε μου τα IDs των
+#    πρώτων 5 σταθμών. Τι format έχουν;
+#
+# 3. Αν το refresh-stations.js έχει λάθος format, διόρθωσέ το ώστε να χρησιμοποιεί
+#    coordinate-based IDs ακριβώς όπως το fetch-stations.js. Διατήρησε όλη την
+#    άλλη logic (cache, OCM enrichment κλπ) ίδια.
+#
+# 4. Μην το τρέξεις. Απλά κάνε build/lint αν χρειάζεται και πες μου ότι είναι έτοιμο.
+#    Θα το ανεβάσω χειροκίνητα στον Contabo (/opt/containers/plugmenow-api/cron/).
+#
+# 5. Επίσης έλεγξε: υπάρχει στο repo τεκμηρίωση για το station ID migration;
+#    Αν ναι, πες μου ποιο αρχείο και περίληψη.
+#
+# ΣΗΜΕΙΩΣΗ: Μην αλλάξεις τίποτα άλλο πέρα από το refresh-stations.js.
+# Μην τρέξεις commands που κατεβάζουν ή στέλνουν data.

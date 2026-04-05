@@ -1,0 +1,57 @@
+# PlugMeNow — Mobile UI Fixes Round 2
+
+## PROBLEMS FOUND AFTER ROUND 1
+
+### Issue A: Station Card — X και ♡ πολύ κοντά
+Στο mobile bottom sheet, το X (close, πάνω δεξιά) είναι πολύ κοντά στο ♡ (favorite).
+Η καρδιά έχει σπρωχτεί πολύ αριστερά και δεν φαίνεται ισορροπημένο.
+**Λύση:** Πρόσθεσε περισσότερο spacing μεταξύ τους.
+Το X στο BottomSheet.tsx είναι absolute right-3. Η καρδιά στο StationCard.tsx header είναι
+στο δεξί end του flex row με pr-12 wrapper.
+Άλλαξε το pr-12 σε pr-14 ή pr-16 για περισσότερο χώρο, ΚΑΙ πρόσθεσε gap μεταξύ καρδιάς 
+και τίτλου αν χρειάζεται.
+
+### Issue B: Vehicle Selector Dropdown βγαίνει εκτός οθόνης αριστερά
+Σε mobile (<640px), όταν ο χρήστης πατάει το vehicle icon στο header, το dropdown menu 
+ξεκινά από right-0 αλλά βγαίνει αριστερά εκτός viewport — το brand list κόβεται στην 
+αριστερή πλευρά ("arth" αντί "Abarth", "ways" αντί "Aiways", κλπ).
+
+**Αιτία:** Η τρέχουσα λύση `sm:absolute sm:top-full sm:left-0 sm:w-80 fixed right-0 
+w-[min(20rem,calc(100vw-1rem))]` δεν δουλεύει — το dropdown είναι absolute positioned 
+στο trigger button (που είναι στα δεξιά του header), οπότε `right-0` το κάνει να ξεκινά 
+από το δεξί edge του trigger και επεκτείνεται αριστερά εκτός οθόνης.
+
+**Λύση:** Σε mobile, άλλαξε την προσέγγιση:
+- Κάνε το dropdown **fixed positioned** στο viewport (όχι absolute στο trigger)
+- Position: `fixed top-16 left-2 right-2` (ή παρόμοιο) ώστε να κεντράρει σε όλη την οθόνη
+- Σε desktop (sm:): μείνε με το absolute positioning στο trigger
+
+Τρέχων κώδικας (VehicleSelector.tsx:144):
+`absolute top-full mt-1 right-0 w-[min(20rem,calc(100vw-1rem))] sm:left-0 sm:w-80`
+
+Πρότεινε νέο κώδικα που:
+1. Σε mobile: fixed overlay κεντραρισμένο κάτω από το header
+2. Σε desktop: absolute στο trigger, left-0 w-80 όπως πριν
+
+### Issue C: Map Attribution — ακόμα φαίνεται το text
+Ακόμα και σε compact mode, το "OpenFreeMap © OpenMapTiles Data from OpenStreetMap" 
+είναι ορατό στο bottom. Λόγω license requirements του OpenFreeMap, δεν μπορούμε 
+να το κρύψουμε τελείως, αλλά μπορούμε να το κάνουμε **πραγματικά collapsed by default**.
+
+**Έλεγξε:** Το compact mode του MapLibre AttributionControl κανονικά εμφανίζει ΜΟΝΟ ένα 
+"i" icon που ο χρήστης πατάει για να δει το attribution. Αν φαίνεται text by default,
+ίσως το MapLibre auto-expand-άρει σε μεγάλες οθόνες (>640px).
+
+**Λύση:** Βεβαιώσου ότι ο compact mode είναι enabled και ψάξε αν χρειάζεται CSS override:
+```css
+.maplibregl-ctrl-attrib:not(.maplibregl-compact-show) .maplibregl-ctrl-attrib-inner {
+  display: none;
+}
+```
+Ή χρησιμοποίησε custom config ώστε να είναι πάντα collapsed μέχρι ο χρήστης να πατήσει το "i".
+
+## TESTING
+Test σε Pixel 7 και Galaxy S20 (Chrome DevTools Device Mode), portrait.
+
+## BUILD
+rm -rf .next && npm run build
