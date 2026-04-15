@@ -1,6 +1,7 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { SlidersHorizontal, Globe, AlertTriangle, RefreshCw } from 'lucide-react';
 import { useTranslation } from '@/lib/i18n';
 import { useAppStore } from '@/store/appStore';
@@ -21,6 +22,42 @@ import { validateSession } from '@/lib/auth';
 
 export default function AppShell() {
   const { t, locale, setLocale } = useTranslation();
+  const searchParams = useSearchParams();
+
+  // Parse & validate URL params for initial map state
+  const { initialCenter, initialZoom } = useMemo(() => {
+    const latStr = searchParams.get('lat');
+    const lngStr = searchParams.get('lng');
+    const zoomStr = searchParams.get('zoom');
+
+    let center: [number, number] | undefined;
+    let zoom: number | undefined;
+
+    if (latStr && lngStr) {
+      const lat = parseFloat(latStr);
+      const lng = parseFloat(lngStr);
+      if (!isNaN(lat) && !isNaN(lng) && lat >= -90 && lat <= 90 && lng >= -180 && lng <= 180) {
+        center = [lng, lat]; // MapLibre uses [lng, lat]
+      }
+    }
+
+    if (zoomStr) {
+      const z = parseFloat(zoomStr);
+      if (!isNaN(z) && z >= 1 && z <= 18) {
+        zoom = z;
+      }
+    }
+
+    return { initialCenter: center, initialZoom: zoom };
+  }, [searchParams]);
+
+  // Override language from URL param (once on mount)
+  useEffect(() => {
+    const lang = searchParams.get('lang');
+    if (lang === 'el' || lang === 'en') {
+      setLocale(lang);
+    }
+  }, [searchParams, setLocale]);
 
   const user = useAppStore(s => s.user);
   const setUser = useAppStore(s => s.setUser);
@@ -82,6 +119,8 @@ export default function AppShell() {
         favoriteIds={favorites}
         onStationClick={selectStation}
         flyTo={flyTo}
+        initialCenter={initialCenter}
+        initialZoom={initialZoom}
       />
 
       {/* Loading overlay */}

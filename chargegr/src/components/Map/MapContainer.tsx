@@ -9,6 +9,8 @@ const STYLE_URL = 'https://tiles.openfreemap.org/styles/liberty';
 const GREECE_CENTER: [number, number] = [23.7275, 37.9838];
 const DEFAULT_ZOOM = 7;
 
+export { GREECE_CENTER, DEFAULT_ZOOM };
+
 const SOURCE_ID = 'chargers';
 const LAYER_CLUSTERS = 'clusters';
 const LAYER_CLUSTER_COUNT = 'cluster-count';
@@ -21,6 +23,8 @@ interface Props {
   favoriteIds?: string[];
   onStationClick?: (station: ChargingStation) => void;
   flyTo?: { lat: number; lng: number } | null;
+  initialCenter?: [number, number];
+  initialZoom?: number;
 }
 
 function stationsToGeoJSON(stations: ChargingStation[]): GeoJSON.FeatureCollection {
@@ -44,7 +48,7 @@ function stationsToGeoJSON(stations: ChargingStation[]): GeoJSON.FeatureCollecti
   };
 }
 
-export default function MapContainer({ stations, favoriteIds = [], onStationClick, flyTo }: Props) {
+export default function MapContainer({ stations, favoriteIds = [], onStationClick, flyTo, initialCenter, initialZoom }: Props) {
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<maplibregl.Map | null>(null);
   const allStationsRef = useRef<ChargingStation[]>([]);
@@ -66,8 +70,8 @@ export default function MapContainer({ stations, favoriteIds = [], onStationClic
     const map = new maplibregl.Map({
       container: mapContainerRef.current,
       style: STYLE_URL,
-      center: GREECE_CENTER,
-      zoom: DEFAULT_ZOOM,
+      center: initialCenter ?? GREECE_CENTER,
+      zoom: initialZoom ?? DEFAULT_ZOOM,
       attributionControl: false,
     });
 
