@@ -7,14 +7,16 @@ import { adminApi, type PhotoItem, type Pagination as P } from '@/lib/api/admin'
 import Pagination from '@/components/Admin/Pagination';
 
 const LIMIT = 24;
-const API_ORIGIN = process.env.NODE_ENV === 'development'
-  ? 'https://chargegr.viralev.gr'
-  : '';
 
+// Backend returns paths like "/photos/{stationId}/{filename}". They are
+// served by the Express static middleware at the API root, which is
+// reverse-proxied under /api in production. In dev, our next.config
+// rewrite proxies /api/* to the production origin, so the same prefix
+// works for both.
 function resolveUrl(url: string): string {
   if (!url) return '';
   if (url.startsWith('http')) return url;
-  return API_ORIGIN + url;
+  return '/api' + url;
 }
 
 export default function DashboardPhotosPage() {

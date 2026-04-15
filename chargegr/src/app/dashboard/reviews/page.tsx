@@ -86,7 +86,12 @@ export default function DashboardReviewsPage() {
                     </span>
                   )}
                   <span className="text-xs text-gray-400">
-                    {new Date(r.createdAt).toLocaleDateString(locale === 'el' ? 'el-GR' : 'en-GB')}
+                    {new Date(r.updatedAt || r.createdAt).toLocaleDateString(locale === 'el' ? 'el-GR' : 'en-GB')}
+                    {r.updatedAt && r.updatedAt !== r.createdAt && (
+                      <span className="ml-1 italic">
+                        ({locale === 'el' ? 'επεξ.' : 'edited'})
+                      </span>
+                    )}
                   </span>
                 </div>
                 {r.comment && <p className="text-sm text-gray-700 mt-1">{r.comment}</p>}
