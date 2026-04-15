@@ -99,6 +99,15 @@ export interface PhotoItem {
   createdAt: string;
 }
 
+export interface FavoriteItem {
+  userId: string;
+  stationId: string;
+  userDisplayName: string | null;
+  userEmail: string;
+  userAvatar: string | null;
+  createdAt: string;
+}
+
 export interface CheckinItem {
   id: string;
   stationId: string;
@@ -208,6 +217,18 @@ export const adminApi = {
       ),
     delete: (id: string) =>
       apiDelete<{ success: boolean }>(`/admin/checkins/${encodeURIComponent(id)}`),
+  },
+
+  favorites: {
+    list: (params: {
+      page?: number; limit?: number;
+      user_id?: string; station_id?: string; dir?: 'asc' | 'desc';
+    } = {}) =>
+      apiGet<{ favorites: FavoriteItem[]; pagination: Pagination }>(
+        `/admin/favorites${qs(params)}`
+      ),
+    delete: (userId: string, stationId: string) =>
+      apiDelete<{ success: boolean }>(`/admin/favorites`, { userId, stationId }),
   },
 
   audit: {

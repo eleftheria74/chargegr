@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import {
-  LayoutDashboard, Users, Star, Image as ImageIcon, CheckCircle2,
+  LayoutDashboard, Users, Star, Image as ImageIcon, CheckCircle2, Heart,
   ScrollText, LogOut, ArrowLeft, Menu, X,
 } from 'lucide-react';
 import { useTranslation } from '@/lib/i18n';
@@ -48,6 +48,7 @@ export default function DashboardShell({ children }: { children: React.ReactNode
     { href: '/dashboard/reviews', label: t('admin.reviews'), icon: Star },
     { href: '/dashboard/photos', label: t('admin.photos'), icon: ImageIcon },
     { href: '/dashboard/checkins', label: t('admin.checkins'), icon: CheckCircle2 },
+    { href: '/dashboard/favorites', label: locale === 'el' ? 'Αγαπημένα' : 'Favorites', icon: Heart },
     { href: '/dashboard/audit-log', label: t('admin.auditLog'), icon: ScrollText },
   ];
 
