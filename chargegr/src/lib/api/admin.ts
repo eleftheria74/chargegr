@@ -59,6 +59,7 @@ export interface Overview {
     checkins: number;
     favorites: number;
   };
+  stations: { total: number | null };
   vehicles: { total: number; suggestionsPending: number; suggestionsTotal: number };
   recentActivity: Array<{
     type: 'review' | 'photo' | 'checkin';
@@ -68,6 +69,7 @@ export interface Overview {
     userEmail: string;
     stationId: string;
   }>;
+  system: { lastStationRefresh: string | null };
 }
 
 export interface ReviewItem {

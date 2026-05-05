@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import {
   Users, UserCheck, UserX, Shield, Star, Camera, CheckCircle2, Heart,
-  Car, Lightbulb, AlertCircle, Clock,
+  Car, Lightbulb, AlertCircle, Clock, MapPin, RefreshCw,
   type LucideIcon,
 } from 'lucide-react';
 import { useTranslation } from '@/lib/i18n';
@@ -97,7 +97,7 @@ export default function DashboardIndexPage() {
     );
   }
 
-  const { users, content, vehicles, recentActivity } = data;
+  const { users, content, stations, vehicles, recentActivity, system } = data;
 
   return (
     <div className="space-y-6">
@@ -133,6 +133,36 @@ export default function DashboardIndexPage() {
           <StatCard icon={Camera} label={t('admin.photos')} value={content.photos} />
           <StatCard icon={CheckCircle2} label={t('admin.checkins')} value={content.checkins} />
           <StatCard icon={Heart} label="Favorites" value={content.favorites} />
+        </div>
+      </section>
+
+      {/* Stations + system health */}
+      <section className="space-y-3">
+        <h2 className="text-sm font-semibold text-gray-700 uppercase tracking-wide">
+          {t('admin.stations')}
+        </h2>
+        <div className="grid grid-cols-2 lg:grid-cols-3 gap-3">
+          <StatCard
+            icon={MapPin}
+            label={t('admin.total')}
+            value={stations.total != null ? stations.total : '—'}
+          />
+          <StatCard
+            icon={RefreshCw}
+            label={t('admin.lastStationRefresh')}
+            value={
+              system.lastStationRefresh
+                ? formatRelative(system.lastStationRefresh, locale)
+                : t('admin.unknown')
+            }
+            sub={
+              system.lastStationRefresh
+                ? new Date(system.lastStationRefresh).toLocaleString(
+                    locale === 'el' ? 'el-GR' : 'en-GB'
+                  )
+                : undefined
+            }
+          />
         </div>
       </section>
 
