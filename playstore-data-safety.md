@@ -42,7 +42,7 @@ Use the following information to fill out the Data Safety form in Google Play Co
 - **Users can request data deletion**: Yes
   - Account deletion available through app settings
   - Deletes ALL user data: account info, reviews, photos, check-ins, favorites
-  - Contact: info@viralev.gr
+  - Contact: dev@aismartly.gr
 
 - **Users can request data export**: Yes
   - Data export available through app settings (JSON format)
@@ -81,5 +81,6 @@ Use the following information to fill out the Data Safety form in Google Play Co
 
 - Privacy Policy: https://chargegr.viralev.gr/privacy/
 - Terms of Service: https://chargegr.viralev.gr/terms/
-- Developer contact: info@viralev.gr
+- Developer: AiSmartly (brand: ViralEV)
+- Developer contact: dev@aismartly.gr
 - Developer website: https://viralev.gr

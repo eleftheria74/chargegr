@@ -12,14 +12,14 @@ Find a charger, now!
 
 PlugMeNow is the most complete app for finding electric vehicle charging stations in Greece. One map, all networks.
 
-🔌 3,810+ CHARGING STATIONS
+🔌 ~4,000+ CHARGING STATIONS
 Full coverage of Greece with official data from the Ministry of Transport's EV Charging Infrastructure Registry (MYFAI). Up-to-date and reliable.
 
 ⚡ 16 NETWORKS IN ONE APP
 NRG incharge, DEI Blue, Blink, Joltie Way, ElpeFuture, EVziiin, Electrip, Lidl, Fortizo, eVplus, PlugQ, EV Loader, EcoCharge, Joule, Protergia, and more. No need for 10 different apps — one is enough.
 
-🚗 119 ELECTRIC VEHICLE MODELS
-Select your car from 34 brands and see:
+🚗 1,300+ ELECTRIC VEHICLE MODELS
+Select your car from 74 brands and see:
 • Which stations are compatible with your connector
 • Estimated charging time (10-80%) based on station power and vehicle battery
 • Actual charging power (min charger/vehicle kW)
@@ -46,6 +46,10 @@ No subscriptions, no ads, no tracking. The app respects your privacy — no pers
 Full support in both languages.
 
 Download PlugMeNow and find the nearest charging station in seconds!
+
+—
+PlugMeNow — developed by AiSmartly | viralev.gr
+© 2026 AiSmartly
 
 ## Keywords
 EV charging, charging station, electric vehicle, charger, Greece, NRG, DEI Blue, Blink, CCS2, Type 2, CHAdeMO, charging map, free charging, EV charging Greece
