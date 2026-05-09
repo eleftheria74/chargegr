@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useRef } from 'react';
-import { Camera, X, Loader2 } from 'lucide-react';
+import { Camera, Images, X, Loader2 } from 'lucide-react';
 import { useTranslation } from '@/lib/i18n';
 import { useAppStore } from '@/store/appStore';
 
@@ -13,7 +13,8 @@ interface Props {
 export default function PhotoUpload({ onUpload, uploading }: Props) {
   const { t } = useTranslation();
   const user = useAppStore(s => s.user);
-  const fileRef = useRef<HTMLInputElement>(null);
+  const fileGalleryRef = useRef<HTMLInputElement>(null);
+  const fileCameraRef = useRef<HTMLInputElement>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [caption, setCaption] = useState('');
@@ -50,7 +51,8 @@ export default function PhotoUpload({ onUpload, uploading }: Props) {
       setPreview(null);
       setSelectedFile(null);
       setCaption('');
-      if (fileRef.current) fileRef.current.value = '';
+      if (fileGalleryRef.current) fileGalleryRef.current.value = '';
+      if (fileCameraRef.current) fileCameraRef.current.value = '';
       setTimeout(() => setSuccess(false), 3000);
     } catch (err) {
       setError(err instanceof Error ? err.message : t('common.error'));
@@ -62,13 +64,22 @@ export default function PhotoUpload({ onUpload, uploading }: Props) {
     setSelectedFile(null);
     setCaption('');
     setError(null);
-    if (fileRef.current) fileRef.current.value = '';
+    if (fileGalleryRef.current) fileGalleryRef.current.value = '';
+    if (fileCameraRef.current) fileCameraRef.current.value = '';
   };
 
   return (
     <div className="mt-2">
       <input
-        ref={fileRef}
+        ref={fileCameraRef}
+        type="file"
+        accept="image/*"
+        capture="environment"
+        onChange={handleFileSelect}
+        className="hidden"
+      />
+      <input
+        ref={fileGalleryRef}
         type="file"
         accept="image/*"
         onChange={handleFileSelect}
@@ -77,14 +88,23 @@ export default function PhotoUpload({ onUpload, uploading }: Props) {
 
       {!preview ? (
         <div>
-          <button
-            onClick={() => fileRef.current?.click()}
-            className="flex items-center gap-2 text-sm text-blue-600 hover:text-blue-700 font-medium py-1.5"
-          >
-            <Camera size={16} />
-            {t('photos.addPhoto')}
-          </button>
-          <p className="text-[11px] text-gray-400 dark:text-gray-500 mt-0.5 leading-tight">
+          <div className="flex gap-2">
+            <button
+              onClick={() => fileCameraRef.current?.click()}
+              className="flex items-center gap-1.5 text-sm text-blue-600 hover:text-blue-700 font-medium px-3 py-1.5 rounded-lg border border-blue-200 hover:bg-blue-50"
+            >
+              <Camera size={16} />
+              {t('photos.camera')}
+            </button>
+            <button
+              onClick={() => fileGalleryRef.current?.click()}
+              className="flex items-center gap-1.5 text-sm text-blue-600 hover:text-blue-700 font-medium px-3 py-1.5 rounded-lg border border-blue-200 hover:bg-blue-50"
+            >
+              <Images size={16} />
+              {t('photos.files')}
+            </button>
+          </div>
+          <p className="text-[11px] text-gray-400 dark:text-gray-500 mt-1 leading-tight">
             {t('photoConsent.notice')}
           </p>
         </div>

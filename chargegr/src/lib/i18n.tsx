@@ -144,7 +144,8 @@ const translations: Record<Locale, Record<string, Record<string, string>>> = {
     },
     photos: {
       title: 'Φωτογραφίες',
-      addPhoto: 'Πρόσθεσε φωτογραφία',
+      camera: 'Κάμερα',
+      files: 'Αρχεία',
       caption: 'Λεζάντα',
       upload: 'Ανέβασμα',
       empty: 'Καμία φωτογραφία ακόμα',
@@ -403,7 +404,8 @@ const translations: Record<Locale, Record<string, Record<string, string>>> = {
     },
     photos: {
       title: 'Photos',
-      addPhoto: 'Add photo',
+      camera: 'Camera',
+      files: 'Files',
       caption: 'Caption',
       upload: 'Upload',
       empty: 'No photos yet',
