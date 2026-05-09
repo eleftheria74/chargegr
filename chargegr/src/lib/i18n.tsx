@@ -144,6 +144,7 @@ const translations: Record<Locale, Record<string, Record<string, string>>> = {
     },
     photos: {
       title: 'Φωτογραφίες',
+      addPrompt: 'Πρόσθεσε φωτογραφία από τον σταθμό',
       camera: 'Κάμερα',
       files: 'Αρχεία',
       caption: 'Λεζάντα',
@@ -404,6 +405,7 @@ const translations: Record<Locale, Record<string, Record<string, string>>> = {
     },
     photos: {
       title: 'Photos',
+      addPrompt: 'Add a photo from this station',
       camera: 'Camera',
       files: 'Files',
       caption: 'Caption',

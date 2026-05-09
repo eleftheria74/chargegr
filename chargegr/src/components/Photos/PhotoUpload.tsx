@@ -88,6 +88,7 @@ export default function PhotoUpload({ onUpload, uploading }: Props) {
 
       {!preview ? (
         <div>
+          <p className="text-sm text-gray-500 mb-1.5">{t('photos.addPrompt')}</p>
           <div className="flex gap-2">
             <button
               onClick={() => fileCameraRef.current?.click()}
