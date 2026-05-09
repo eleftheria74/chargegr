@@ -7,17 +7,18 @@ PWA-first, deployed στο `chargegr.viralev.gr`, με μετατροπή σε A
 
 **Live:** https://chargegr.viralev.gr
 **GitHub:** https://github.com/eleftheria74/chargegr
+**Developer:** AiSmartly (dev@aismartly.gr) — brand: ViralEV
+**Play Store:** `gr.viralev.plugmenow` — submitted to Production, pending Google review
 
-## Τρέχουσα Κατάσταση (Μάρτιος 2026)
+## Τρέχουσα Κατάσταση (Μάιος 2026)
 
 | Μετρική | Τιμή |
 |---------|------|
-| Σταθμοί φόρτισης | 3.810 (ΜΥΦΑΗ) |
-| Με διεύθυνση | 3.810 (100%) |
-| Λειτουργικοί | 3.596 (94%) |
-| Μοντέλα EV | 119 από 34 brands |
-| Δίκτυα | 16 (NRG 901, DEI Blue 883, Blink 313, Joltie 389...) |
+| Σταθμοί φόρτισης | ~4.000 (ΜΥΦΑΗ + OCM) |
+| Μοντέλα EV | 1.321 από 74 brands |
+| Δίκτυα | 16 (NRG, DEI Blue, Blink, Joltie...) |
 | Γλώσσες | Ελληνικά + Αγγλικά |
+| Platforms | PWA + Android TWA |
 
 ## Tech Stack
 
@@ -40,7 +41,7 @@ PWA-first, deployed στο `chargegr.viralev.gr`, με μετατροπή σε A
 |------|--------|-----------|--------|
 | Phase 1 MVP | [PHASE-1-MVP.md](./PHASE-1-MVP.md) | ✅ Ολοκληρώθηκε | 0€ |
 | Phase 1 Status | [PHASE-1-STATUS.md](./PHASE-1-STATUS.md) | 📋 Αναφορά | - |
-| Phase 2 Android | [PHASE-2-ANDROID.md](./PHASE-2-ANDROID.md) | 🔜 Επόμενο | 25$ |
+| Phase 2 Android | [PHASE-2-ANDROID.md](./PHASE-2-ANDROID.md) | ✅ Ολοκληρώθηκε (Play Store submitted, pending review) | 25$ |
 | Phase 3 Community | [PHASE-3-COMMUNITY.md](./PHASE-3-COMMUNITY.md) | ⏳ Μελλοντικό | 10-20€/μήνα |
 | Phase 4 Scale | [PHASE-4-SCALE.md](./PHASE-4-SCALE.md) | ⏳ Μελλοντικό | Variable |
 
@@ -67,13 +68,14 @@ npm run dev
 # Update data
 node scripts/fetch-stations.js
 
-# Build & deploy
+# Build & deploy frontend
 npm run build
-# Upload /out/* στο Plesk
+rsync -avz --delete --exclude='.well-known' --exclude='data/stations.json' \
+  out/ root@194.60.87.107:/var/www/vhosts/viralev.gr/chargegr.viralev.gr/
 
 # Git
 cd /media/eleftheria/DataSSD/Projects/ChargeGr
-git add -A && git commit -m "message" && git push
+git add <specific-files> && git commit -m "message" && git push
 ```
 
 ## Project Structure
