@@ -8,7 +8,12 @@ const STORAGE_KEY = 'chargegr_lang';
 
 const translations: Record<Locale, Record<string, Record<string, string>>> = {
   el: {
-    app: { name: 'PlugMeNow', tagline: 'Βρες φορτιστή, τώρα!' },
+    app: {
+      name: 'PlugMeNow',
+      tagline: 'Βρες φορτιστή, τώρα!',
+      share: 'Κοινοποίηση εφαρμογής',
+      shareText: 'Βρες φορτιστή, τώρα! — PlugMeNow',
+    },
     map: { findMe: 'Η τοποθεσία μου', loading: 'Φόρτωση χάρτη...' },
     filters: {
       title: 'Φίλτρα',
@@ -45,9 +50,7 @@ const translations: Record<Locale, Record<string, Record<string, string>>> = {
       connectors: 'Βύσματα',
       navigate: 'Πλοήγηση',
       share: 'Κοινοποίηση σταθμού',
-      shareApp: 'Κοινοποίηση εφαρμογής',
       shareText: 'Σταθμός φόρτισης EV:',
-      shareAppText: 'Βρες φορτιστή, τώρα! — PlugMeNow',
       linkCopied: 'Ο σύνδεσμος αντιγράφηκε',
     },
     vehicle: {
@@ -146,7 +149,7 @@ const translations: Record<Locale, Record<string, Record<string, string>>> = {
       upload: 'Ανέβασμα',
       empty: 'Καμία φωτογραφία ακόμα',
       count: 'φωτογραφίες',
-      tooLarge: 'Μέγιστο μέγεθος 5MB',
+      tooLarge: 'Μέγιστο μέγεθος 15MB',
       success: 'Η φωτογραφία ανέβηκε!',
       loginToPhoto: 'Συνδεθείτε για φωτογραφία',
     },
@@ -264,7 +267,12 @@ const translations: Record<Locale, Record<string, Record<string, string>>> = {
     },
   },
   en: {
-    app: { name: 'PlugMeNow', tagline: 'Find a charger, now!' },
+    app: {
+      name: 'PlugMeNow',
+      tagline: 'Find a charger, now!',
+      share: 'Share app',
+      shareText: 'Find a charger, now! — PlugMeNow',
+    },
     map: { findMe: 'My location', loading: 'Loading map...' },
     filters: {
       title: 'Filters',
@@ -301,9 +309,7 @@ const translations: Record<Locale, Record<string, Record<string, string>>> = {
       connectors: 'Connectors',
       navigate: 'Navigate',
       share: 'Share station',
-      shareApp: 'Share app',
       shareText: 'EV charging station:',
-      shareAppText: 'Find a charger, now! — PlugMeNow',
       linkCopied: 'Link copied to clipboard',
     },
     vehicle: {
@@ -402,7 +408,7 @@ const translations: Record<Locale, Record<string, Record<string, string>>> = {
       upload: 'Upload',
       empty: 'No photos yet',
       count: 'photos',
-      tooLarge: 'Max file size 5MB',
+      tooLarge: 'Max file size 15MB',
       success: 'Photo uploaded!',
       loginToPhoto: 'Sign in to add photos',
     },

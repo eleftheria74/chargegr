@@ -26,7 +26,7 @@ export default function PhotoUpload({ onUpload, uploading }: Props) {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    if (file.size > 5 * 1024 * 1024) {
+    if (file.size > 15 * 1024 * 1024) {
       setError(t('photos.tooLarge'));
       return;
     }
@@ -71,7 +71,6 @@ export default function PhotoUpload({ onUpload, uploading }: Props) {
         ref={fileRef}
         type="file"
         accept="image/*"
-        capture="environment"
         onChange={handleFileSelect}
         className="hidden"
       />

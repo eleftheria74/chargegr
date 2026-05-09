@@ -1,10 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { Navigation, Share2, Link2, Check } from 'lucide-react';
+import { Navigation, Share2, Check } from 'lucide-react';
 import { useTranslation } from '@/lib/i18n';
-
-const APP_URL = 'https://chargegr.viralev.gr';
 
 interface Props {
   lat: number;
@@ -47,22 +45,6 @@ export default function NavigateButton({ lat, lng, stationName }: Props) {
     await copyToClipboard(googleMapsUrl);
   };
 
-  const handleShareApp = async () => {
-    if (typeof navigator.share === 'function') {
-      try {
-        await navigator.share({
-          title: 'PlugMeNow',
-          text: t('station.shareAppText'),
-          url: APP_URL,
-        });
-        return;
-      } catch {
-        // User cancelled or failed — fall through to clipboard
-      }
-    }
-    await copyToClipboard(APP_URL);
-  };
-
   return (
     <div className="relative">
       {/* Buttons row — flex-wrap prevented, shrink navigate text if needed */}
@@ -87,16 +69,6 @@ export default function NavigateButton({ lat, lng, stationName }: Props) {
           title={t('station.share')}
         >
           <Share2 size={18} className="text-gray-700" />
-        </button>
-        <button
-          onClick={handleShareApp}
-          className="flex items-center justify-center p-3 min-h-[44px] min-w-[44px]
-                     bg-gray-100 rounded-xl hover:bg-gray-200
-                     active:scale-[0.98] transition-all shrink-0"
-          aria-label={t('station.shareApp')}
-          title={t('station.shareApp')}
-        >
-          <Link2 size={18} className="text-gray-700" />
         </button>
       </div>
 

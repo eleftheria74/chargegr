@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useMemo } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { SlidersHorizontal, Globe, AlertTriangle, RefreshCw } from 'lucide-react';
+import { SlidersHorizontal, Globe, AlertTriangle, RefreshCw, Share2, Check } from 'lucide-react';
 import { useTranslation } from '@/lib/i18n';
 import { useAppStore } from '@/store/appStore';
 import MapContainer from '@/components/Map/MapContainer';
@@ -81,6 +81,26 @@ export default function AppShell() {
 
   // Mobile: when search is expanded, hide the other header controls
   const [searchExpanded, setSearchExpanded] = useState(false);
+  const [shareToast, setShareToast] = useState(false);
+
+  const handleShareApp = async () => {
+    const APP_URL = 'https://chargegr.viralev.gr';
+    if (typeof navigator.share === 'function') {
+      try {
+        await navigator.share({ title: 'PlugMeNow', text: t('app.shareText'), url: APP_URL });
+        return;
+      } catch {
+        // User cancelled — fall through to clipboard
+      }
+    }
+    try {
+      await navigator.clipboard.writeText(APP_URL);
+      setShareToast(true);
+      setTimeout(() => setShareToast(false), 2000);
+    } catch {
+      // Clipboard API unavailable — silent
+    }
+  };
 
   useEffect(() => {
     fetchStations();
@@ -186,6 +206,28 @@ export default function AppShell() {
             selectedVehicle={selectedVehicle}
             onSelect={selectVehicle}
           />
+
+          <div className="relative shrink-0">
+            <button
+              onClick={handleShareApp}
+              className="flex items-center justify-center w-10 sm:w-11 h-10 sm:h-11
+                         bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-xl shadow-lg
+                         border border-gray-200 dark:border-gray-600
+                         hover:bg-gray-50 dark:hover:bg-gray-700 active:scale-95 transition-all"
+              aria-label={t('app.share')}
+              title={t('app.share')}
+            >
+              <Share2 size={16} className="text-[#1B7B4E]" />
+            </button>
+            {shareToast && (
+              <div className="absolute top-full mt-1 right-0 flex items-center gap-1.5 px-3 py-2
+                              bg-gray-900 text-white text-xs font-semibold rounded-lg shadow-lg
+                              animate-fade-in whitespace-nowrap z-50">
+                <Check size={14} />
+                {t('station.linkCopied')}
+              </div>
+            )}
+          </div>
 
           <button
             onClick={toggleLocale}
